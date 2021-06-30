@@ -132,7 +132,10 @@ function process(item, enchants_raw){
 
 	postMessage({
 		'msg': 'complete',
-		'path': best_path,
+		'item' : item,
+		'cost' : best_path.cost,
+		'path': best_path.steps,
+		'enchants': enchants,
 		'tried' : paths_tried,
 	});
 

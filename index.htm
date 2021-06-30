@@ -1,6 +1,7 @@
 <html>
 <head>
 <title>Enchant Order</title>
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 <script src="data.js"></script>
 <script>
 
@@ -14,7 +15,7 @@ var enchants = [
 	["Mending", 1],
 ];
 
-xenchants = [
+enchants = [
 	["Protection", 4],
 	["Thorns", 3],
 	["Unbreaking", 3],
@@ -24,27 +25,122 @@ xenchants = [
 	["Soul Speed", 3],
 ];
 
-//process(item, enchants);
+var w;
+var start;
 
-var w = new Worker('work.js');
-var start = performance.now();
+window.onload = function(){
 
-w.onmessage = function(e){
-	var x = performance.now();
-	var elapsed = x - start;
-	console.log(x, 'msg back to master', e.data);
-};
+	w = new Worker('work.js');
 
-w.postMessage({
-	'msg' : 'set_data',
-	'data' : data,
-});
+	w.onmessage = function(e){
+		var x = performance.now();
+		var elapsed = x - start;
+		console.log(x, 'msg back to master', e.data);
 
-w.postMessage({
-	'msg' : 'process',
-	'item' : item,
-	'enchants' : enchants,
-});
+		if (e.data.msg == 'complete'){
+			completed(e.data);
+		}
+	};
+
+	w.postMessage({
+		'msg' : 'set_data',
+		'data' : data,
+	});
+
+	for (var i in data.items){
+		$('<option/>', { value : i }).text(data.items[i]).appendTo('select#item');
+	}
+
+	$('select#item').change(function(){
+		var opt = $('select#item option:selected').val();
+		if (opt){
+			build_enchant_list(opt);
+		}else{
+			$('#enchants').html('');
+			$('#calculate').hide();
+		}
+	});
+
+
+	if (1){
+		start = performance.now();
+		w.postMessage({
+			'msg' : 'process',
+			'item' : item,
+			'enchants' : enchants,
+		});
+	}
+
+}
+
+function build_enchant_list(item){
+
+	//console.log('build list of enchants for '+item);
+
+	$('#enchants').html('');
+	for (var i in data.enchants){
+
+		var enchant = data.enchants[i];
+		var allow = false;
+
+		for (var j=0; j<enchant.items.length; j++){
+			if (enchant.items[j] == item){
+				allow = true;
+				break;
+			}
+		}
+
+		if (allow){
+			//console.log('show '+i);
+			$('#enchants').append($('<p>').append(i));
+		}
+	}
+
+	$('#calculate').show();
+}
+
+function completed(msg){
+
+	var names = {};
+	for (var i in msg.enchants){
+		var e = msg.enchants[i];
+		var e_info = data.enchants[msg.enchants[i].enchant];
+
+		names[i] = e_info.levelMax == "1" ? e.enchant : e.enchant + ' ' + e.level;
+	}
+	names['ITEM'] = data.items[msg.item];
+
+	//console.log(names);
+
+	console.log('Found optimal solution with cost', msg.cost);
+	for (var i=0; i<msg.path.length; i++){
+
+		var n = i+1;
+		var left = expand_name(msg.path[i][0], names);
+		var right = expand_name(msg.path[i][1], names);
+
+		console.log('step '+n+': combine '+left+' with '+right);
+	}
+}
+
+function expand_name(k, names){
+
+	var bits = k.split('|');
+	var parts = [];
+
+	for (var i=0; i<bits.length; i++){
+		parts.push(names[bits[i]]);
+	}
+	if (parts.length == 1) return parts[0];
+	return '(' + parts.join(' + ') + ')';
+
+}
+
+
+
+
+
+
 
 
 
@@ -55,6 +151,16 @@ w.postMessage({
 <body>
 
 <h1>Hello World</h1>
+
+<select id="item">
+	<option value="">Choose an item</option>
+</select>
+
+<div id="enchants">
+</div>
+
+<button id="calculate" style="display: none">Calculate</button>
+
 
 </body>
 </html>
