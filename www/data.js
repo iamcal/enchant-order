@@ -62,7 +62,6 @@ var data = {
                 "boots",
                 "elytra",
                 "pumpkin",
-                "helmet",
                 "turtle_shell"
             ]
         },
