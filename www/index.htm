@@ -11,43 +11,43 @@ var enchants = [
 	["Mending", 1]
 ];
 
-//process(item, enchants);
 
-function process(item, enchants){
+// TODO: calculate the score as we expand out our options.
+// after each step, cull any paths where the remaining list is the same, keeping the best scores only
 
-	// turn list of desired enchantments into pairs of [enchant, weight*level]
+process(item, enchants);
 
-	var enchantment_list = [];
-	for (var i=0; i<enchants.length; i++){
-		var e_info = data.enchants[enchants[i][0]];
-		var score = parseInt(e_info.weight) * enchants[i][1];
+function process(item, enchants_raw){
 
-		enchantment_list.push([enchants[i][0], score]);
+	// turn list of desired enchantments into objects including their weight & score, keyed by character.
+	// also create an array of characters we'll use to build the paths.
+
+	var enchants = {};
+	var items = ['ITEM'];
+
+	for (var i=0; i<enchants_raw.length; i++){
+		var e_info = data.enchants[enchants_raw[i][0]];
+		var weight = parseInt(e_info.weight);
+		var score = weight * enchants_raw[i][1];
+
+		var key = String.fromCharCode(i + 97);
+
+		enchants[key] = {
+			'enchant'	: enchants_raw[i][0],
+			'level'		: enchants_raw[i][1],
+			'weight'	: weight,
+			'score'		: score
+		};
+
+		items.push(key);
 	}
 
-	console.log(enchantment_list);
-}
 
-// TODO: figure out the actual maximum possible enchants, when combining level and weight
-// (theory: if there are multiple with the same score, we can probably cull a bunch of options)
-
-
-
-var items = ['1','2','3','4','5'];
-
-combinations(items);
-
-function combinations(items){
-	items.push('ITEM');
-
-	// first, we will build a list of all possible paths, which will look like:
-	// [
-	// 	[step-1, step-2, step-3]
-	// ]
-	// then, we will calculate the score for each path, and pick the best score
+	// now we have the list of items, start to expand them
 
 	var paths = explode_paths(items);
 
+	console.log(enchants);
 	console.log(items);
 	console.log(paths);
 }
@@ -57,6 +57,7 @@ function explode_paths(items){
 	// start by creating a single (incomplete) path
 	var incomplete_paths = [
 		{
+			'cost' : 0,
 			'remaining' : items,
 			'steps' : []
 		}
@@ -79,7 +80,7 @@ function explode_paths(items){
 				if (paths[j].remaining.length > 1){
 					new_incomplete_paths.push(paths[j]);
 				}else{
-					delete paths[j].remaining;
+					//delete paths[j].remaining;
 					complete_paths.push(paths[j]);
 				}
 			}
@@ -112,6 +113,7 @@ function explode_path(path){
 			if (path.remaining[b].substr(0, 4) == 'ITEM') continue;
 
 			var new_path = {
+				'cost' : 0,
 				'remaining' : [],
 				'steps' : [],
 			};
