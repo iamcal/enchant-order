@@ -6,143 +6,47 @@
 
 var item = "helmet";
 var enchants = [
+	["Protection", 4],
+	["Respiration", 3],
 	["Aqua Affinity", 1],
-	["Blast Protection", 3],
-	["Mending", 1]
+	["Thorns", 3],
+	["Unbreaking", 3],
+	["Mending", 1],
 ];
 
+xenchants = [
+	["Protection", 4],
+	["Thorns", 3],
+	["Unbreaking", 3],
+	["Mending", 1],
+	["Feather Falling", 4],
+	["Depth Strider", 3],
+	["Soul Speed", 3],
+];
 
-// TODO: calculate the score as we expand out our options.
-// after each step, cull any paths where the remaining list is the same, keeping the best scores only
+//process(item, enchants);
 
-process(item, enchants);
+var w = new Worker('work.js');
+var start = performance.now();
 
-function process(item, enchants_raw){
+w.onmessage = function(e){
+	var x = performance.now();
+	var elapsed = x - start;
+	console.log(x, 'msg back to master', e.data);
+};
 
-	// turn list of desired enchantments into objects including their weight & score, keyed by character.
-	// also create an array of characters we'll use to build the paths.
+w.postMessage({
+	'msg' : 'set_data',
+	'data' : data,
+});
 
-	var enchants = {};
-	var items = ['ITEM'];
-
-	for (var i=0; i<enchants_raw.length; i++){
-		var e_info = data.enchants[enchants_raw[i][0]];
-		var weight = parseInt(e_info.weight);
-		var score = weight * enchants_raw[i][1];
-
-		var key = String.fromCharCode(i + 97);
-
-		enchants[key] = {
-			'enchant'	: enchants_raw[i][0],
-			'level'		: enchants_raw[i][1],
-			'weight'	: weight,
-			'score'		: score
-		};
-
-		items.push(key);
-	}
+w.postMessage({
+	'msg' : 'process',
+	'item' : item,
+	'enchants' : enchants,
+});
 
 
-	// now we have the list of items, start to expand them
-
-	var paths = explode_paths(items);
-
-	console.log(enchants);
-	console.log(items);
-	console.log(paths);
-}
-
-function explode_paths(items){
-
-	// start by creating a single (incomplete) path
-	var incomplete_paths = [
-		{
-			'cost' : 0,
-			'remaining' : items,
-			'steps' : []
-		}
-	];
-	var complete_paths = [];
-
-	// while we have incomplete paths, iterate over each one, and fine every possible next step.
-	// for each next step, create a new path, either on the incomplete_paths list (is remaining.length > 1),
-	// or the complete_paths list.
-
-	while (incomplete_paths.length > 0){
-
-		var new_incomplete_paths = [];
-
-		for (var i=0; i<incomplete_paths.length; i++){
-
-			var paths = explode_path(incomplete_paths[i]);
-
-			for (var j=0; j<paths.length; j++){
-				if (paths[j].remaining.length > 1){
-					new_incomplete_paths.push(paths[j]);
-				}else{
-					//delete paths[j].remaining;
-					complete_paths.push(paths[j]);
-				}
-			}
-		}
-
-		incomplete_paths = new_incomplete_paths;
-
-		//console.log("completed one step");
-		//console.log("COMPLETE", complete_paths);
-		//console.log("INCOMPLETE", JSON.stringify(incomplete_paths));
-		//console.log("INCOMPLETE", incomplete_paths);
-		//return;
-	}
-
-	//console.log("ALL DONE");
-	//console.log(complete_paths);
-
-	return complete_paths;
-}
-
-function explode_path(path){
-
-	var out = [];
-
-	var len = path.remaining.length;
-	for (var a=0; a<len; a++){
-		for (var b=0; b<len; b++){
-			if (b == a) continue;
-			if (path.remaining[b] == 'ITEM') continue;
-			if (path.remaining[b].substr(0, 4) == 'ITEM') continue;
-
-			var new_path = {
-				'cost' : 0,
-				'remaining' : [],
-				'steps' : [],
-			};
-
-			for (var i=0; i<len; i++){
-				if (i != a && i != b){
-					new_path.remaining.push(path.remaining[i]);
-				}
-			}
-
-			var a_item = path.remaining[a];
-			var b_item = path.remaining[b];
-			new_path.remaining.push(a_item+'|'+b_item);
-
-			for (var i=0; i<path.steps.length; i++){
-				new_path.steps.push(path.steps[i]);;
-			}
-
-			new_path.steps.push([a_item, b_item]);
-
-			//console.log(JSON.stringify(new_path));
-
-			out.push(new_path);
-		}
-	}
-
-	return out;
-
-}
 
 
 
