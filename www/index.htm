@@ -1,0 +1,154 @@
+<html>
+<head>
+<title>Enchant Order</title>
+<script src="data.js"></script>
+<script>
+
+var item = "helmet";
+var enchants = [
+	["Aqua Affinity", 1],
+	["Blast Protection", 3],
+	["Mending", 1]
+];
+
+//process(item, enchants);
+
+function process(item, enchants){
+
+	// turn list of desired enchantments into pairs of [enchant, weight*level]
+
+	var enchantment_list = [];
+	for (var i=0; i<enchants.length; i++){
+		var e_info = data.enchants[enchants[i][0]];
+		var score = parseInt(e_info.weight) * enchants[i][1];
+
+		enchantment_list.push([enchants[i][0], score]);
+	}
+
+	console.log(enchantment_list);
+}
+
+// TODO: figure out the actual maximum possible enchants, when combining level and weight
+// (theory: if there are multiple with the same score, we can probably cull a bunch of options)
+
+
+
+var items = ['1','2','3','4','5'];
+
+combinations(items);
+
+function combinations(items){
+	items.push('ITEM');
+
+	// first, we will build a list of all possible paths, which will look like:
+	// [
+	// 	[step-1, step-2, step-3]
+	// ]
+	// then, we will calculate the score for each path, and pick the best score
+
+	var paths = explode_paths(items);
+
+	console.log(items);
+	console.log(paths);
+}
+
+function explode_paths(items){
+
+	// start by creating a single (incomplete) path
+	var incomplete_paths = [
+		{
+			'remaining' : items,
+			'steps' : []
+		}
+	];
+	var complete_paths = [];
+
+	// while we have incomplete paths, iterate over each one, and fine every possible next step.
+	// for each next step, create a new path, either on the incomplete_paths list (is remaining.length > 1),
+	// or the complete_paths list.
+
+	while (incomplete_paths.length > 0){
+
+		var new_incomplete_paths = [];
+
+		for (var i=0; i<incomplete_paths.length; i++){
+
+			var paths = explode_path(incomplete_paths[i]);
+
+			for (var j=0; j<paths.length; j++){
+				if (paths[j].remaining.length > 1){
+					new_incomplete_paths.push(paths[j]);
+				}else{
+					delete paths[j].remaining;
+					complete_paths.push(paths[j]);
+				}
+			}
+		}
+
+		incomplete_paths = new_incomplete_paths;
+
+		//console.log("completed one step");
+		//console.log("COMPLETE", complete_paths);
+		//console.log("INCOMPLETE", JSON.stringify(incomplete_paths));
+		//console.log("INCOMPLETE", incomplete_paths);
+		//return;
+	}
+
+	//console.log("ALL DONE");
+	//console.log(complete_paths);
+
+	return complete_paths;
+}
+
+function explode_path(path){
+
+	var out = [];
+
+	var len = path.remaining.length;
+	for (var a=0; a<len; a++){
+		for (var b=0; b<len; b++){
+			if (b == a) continue;
+			if (path.remaining[b] == 'ITEM') continue;
+			if (path.remaining[b].substr(0, 4) == 'ITEM') continue;
+
+			var new_path = {
+				'remaining' : [],
+				'steps' : [],
+			};
+
+			for (var i=0; i<len; i++){
+				if (i != a && i != b){
+					new_path.remaining.push(path.remaining[i]);
+				}
+			}
+
+			var a_item = path.remaining[a];
+			var b_item = path.remaining[b];
+			new_path.remaining.push(a_item+'|'+b_item);
+
+			for (var i=0; i<path.steps.length; i++){
+				new_path.steps.push(path.steps[i]);;
+			}
+
+			new_path.steps.push([a_item, b_item]);
+
+			//console.log(JSON.stringify(new_path));
+
+			out.push(new_path);
+		}
+	}
+
+	return out;
+
+}
+
+
+
+</script>
+</head>
+<body>
+
+<h1>Hello World</h1>
+
+</body>
+</html>
