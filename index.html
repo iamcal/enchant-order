@@ -265,8 +265,18 @@ function button_clicked(elm){
 		$("#enchants button").filter(function(){ return $(this).data("enchant") == b_data.enchant && $(this).data("level") != b_data.level; }).attr('class', 'off');
 		var e_info = data.enchants[b_data.enchant];
 
-		for (var i=0; i<e_info.incompatible.length; i++){
-			$("#enchants button").filter(function(){ return $(this).data("enchant") == e_info.incompatible[i]; }).attr('class', 'off');
+
+		// Treat these special: Channeling and Loyalty can be used together but neither can be used with Riptide
+
+		if (b_data.enchant == 'Channeling' || b_data.enchant == 'Loyalty'){
+			$("#enchants button").filter(function(){ return $(this).data("enchant") == 'Riptide'; }).attr('class', 'off');
+		}else if (b_data.enchant == 'Riptide'){
+			$("#enchants button").filter(function(){ return $(this).data("enchant") == 'Channeling' || $(this).data("enchant") == 'Loyalty'; }).attr('class', 'off');
+
+		}else{
+			for (var i=0; i<e_info.incompatible.length; i++){
+				$("#enchants button").filter(function(){ return $(this).data("enchant") == e_info.incompatible[i]; }).attr('class', 'off');
+			}
 		}
 	}
 }

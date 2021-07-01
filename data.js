@@ -60,7 +60,8 @@ var data = {
             "levelMax": "1",
             "weight": "4",
             "incompatible": [
-                "Riptide"
+                "Riptide",
+		"Loyalty"
             ],
             "items": [
                 "trident"
@@ -203,7 +204,8 @@ var data = {
             "levelMax": "3",
             "weight": "1",
             "incompatible": [
-                "Riptide"
+                "Riptide",
+		"Channeling"
             ],
             "items": [
                 "trident"
@@ -340,7 +342,7 @@ var data = {
             "levelMax": "3",
             "weight": "2",
             "incompatible": [
-                "Channelling",
+                "Channeling",
                 "Loyalty"
             ],
             "items": [
