@@ -29,6 +29,7 @@ var w;
 var start;
 var in_progress = false;
 var total_steps;
+var total_tries;
 
 window.onload = function(){
 
@@ -202,7 +203,11 @@ function completed(msg){
 	var elapsed = Math.round((x - start) / 1000);
 
 	var lines = [];
-	lines.push('Completed in '+elapsed+' seconds');
+	if (elapsed <= 1){
+		lines.push('Completed in under a second, trying '+total_tries+' combinations');
+	}else{
+		lines.push('Completed in '+elapsed+' seconds, trying '+total_tries+' combinations');
+	}
 
 	in_progress = false;
 
@@ -290,6 +295,7 @@ function start_job(item, enchants){
 
 	in_progress = true;
 	total_steps = enchants.length;
+	total_tries = 0;
 	start = performance.now();
 
 	$('#solution').hide();
@@ -305,6 +311,8 @@ function start_job(item, enchants){
 }
 
 function stage_complete(data){
+
+	total_tries = Math.max(total_tries, data.tries);
 
 	if (data.num < total_steps){
 		$('#progress .lbl').text("Calculating stage "+(data.num+1)+" of "+total_steps+" ("+data.tries+" paths explored)");
