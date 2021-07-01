@@ -227,7 +227,8 @@ function completed(msg){
 		lines.push('step '+n+': combine '+left+' with '+right);
 	}
 
-	$('#solution').val(lines.join("\n")).show();
+	$('#solutiontext').val(lines.join("\n"));
+	$('#solution').show();
 }
 
 function expand_name(k, names){
@@ -290,6 +291,8 @@ function start_job(item, enchants){
 	in_progress = true;
 	total_steps = enchants.length;
 	start = performance.now();
+
+	$('#solution').hide();
 
 	$('#progress .lbl').text("Calculating stage 1 of "+total_steps);
 	$('#progress').show();
@@ -361,7 +364,7 @@ function stage_complete(data){
 	xbackground-color: pink;
 }
 
-#solution {
+#solutiontext {
 	width: 450px;
 	height: 200px;
 }
@@ -403,7 +406,9 @@ function stage_complete(data){
 		<span class="lbl"></span>
 	</div>
 
-	<textarea id="solution" style="display: none"></textarea>
+	<div id="solution" style="display: none">
+		<textarea id="solutiontext"></textarea>
+	</div>
 
 </div>
 
