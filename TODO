@@ -1,5 +1,4 @@
 change solution to be nice HTML instead of a text area
-add real spinner to progress
 set nice fonts
 fix trident enchants (weird combo of excludes)
 add credits and github link

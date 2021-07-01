@@ -335,7 +335,7 @@ function number_format(x){
 }
 
 #enchants table {
-	border-spacing: 1px;
+	border-spacing: 0px;
 }
 
 #enchants td {
@@ -381,6 +381,14 @@ function number_format(x){
 	height: 200px;
 }
 
+#progress {
+	line-height: 20px;
+}
+
+#progress img {
+	vertical-align: middle;
+}
+
 </style>
 </head>
 <body>
@@ -414,8 +422,8 @@ function number_format(x){
 <div id="right">
 
 	<div id="progress" style="display: none">
-		[SPIN]
-		<span class="lbl"></span>
+		<img src="spin.svg" width="20" height="20">
+		<span class="lbl">Text here</span>
 	</div>
 
 	<div id="solution" style="display: none">
