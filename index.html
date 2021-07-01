@@ -204,9 +204,9 @@ function completed(msg){
 
 	var lines = [];
 	if (elapsed <= 1){
-		lines.push('Completed in under a second, trying '+total_tries+' combinations');
+		lines.push('Completed in under a second, trying '+number_format(total_tries)+' combinations');
 	}else{
-		lines.push('Completed in '+elapsed+' seconds, trying '+total_tries+' combinations');
+		lines.push('Completed in '+elapsed+' seconds, trying '+number_format(total_tries)+' combinations');
 	}
 
 	in_progress = false;
@@ -315,10 +315,14 @@ function stage_complete(data){
 	total_tries = Math.max(total_tries, data.tries);
 
 	if (data.num < total_steps){
-		$('#progress .lbl').text("Calculating stage "+(data.num+1)+" of "+total_steps+" ("+data.tries+" paths explored)");
+		$('#progress .lbl').text("Calculating stage "+(data.num+1)+" of "+total_steps+" ("+number_format(data.tries)+" paths explored)");
 	}else{
 		$('#progress').hide();
 	}
+}
+
+function number_format(x){
+	return Number(x).toLocaleString();
 }
 
 
