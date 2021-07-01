@@ -188,6 +188,17 @@ function build_enchant_list(item){
 			$('#enchants table').append(row);
 
 			//console.log(enchant, g_toggle);
+
+			if (enchant == 'Riptide'){
+
+				row = $('<tr>');
+				row.addClass(g_toggle ? 'group1' : 'group2');
+
+				row.append($('<td>'));
+				row.append($('<td>').attr('colspan', max_max).append($('<i>').append("Channeling and Loyalty can be used together but neither can be used with Riptide")));
+
+				$('#enchants table').append(row);
+			}
 		}
 
 		g_toggle = !g_toggle;
@@ -367,6 +378,10 @@ body {
 
 #enchants tr.group2 td {
 	background-color: #ddd;
+}
+
+#enchants td i {
+	font-size: 12px;
 }
 
 #enchants button {
