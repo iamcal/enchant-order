@@ -27,6 +27,8 @@ enchants = [
 
 var w;
 var start;
+var in_progress = false;
+var total_steps;
 
 window.onload = function(){
 
@@ -36,6 +38,10 @@ window.onload = function(){
 		var x = performance.now();
 		var elapsed = x - start;
 		console.log(x, 'msg back to master', e.data);
+
+		if (e.data.msg == 'stage_complete'){
+			stage_complete(e.data);
+		}
 
 		if (e.data.msg == 'complete'){
 			completed(e.data);
@@ -61,8 +67,13 @@ window.onload = function(){
 		}
 	});
 
+	$('#enchants').on('click', 'button', function() {
+		button_clicked($(this));
+	});
 
-	if (1){
+	$('#calculate').click(calculate);
+
+	if (0){
 		start = performance.now();
 		w.postMessage({
 			'msg' : 'process',
@@ -77,7 +88,16 @@ function build_enchant_list(item){
 
 	//console.log('build list of enchants for '+item);
 
-	$('#enchants').html('');
+	$('#enchants table').html('');
+
+
+	//
+	// first, filter out which enchants apply to this item
+	//
+
+	var enchants = [];
+	var max_max = 0;
+
 	for (var i in data.enchants){
 
 		var enchant = data.enchants[i];
@@ -91,15 +111,98 @@ function build_enchant_list(item){
 		}
 
 		if (allow){
-			//console.log('show '+i);
-			$('#enchants').append($('<p>').append(i));
+			enchants.push(i);
+
+			var e_info = data.enchants[i];
+			max_max = Math.max(max_max, parseInt(e_info.levelMax));
 		}
+	}
+
+
+	//
+	// next, group them by incompatible enchants
+	//
+
+	var groups = [];
+
+	while (enchants.length){
+		var candidate = enchants.shift();
+		var group = [candidate];
+
+		var next = [];
+		for (var i=0; i<enchants.length; i++){
+			var e = enchants[i];
+			var e_info = data.enchants[e];
+
+			var is_incompatible = false;
+			for (var j=0; j<e_info.incompatible.length; j++){
+				if (e_info.incompatible[j] == candidate){
+					is_incompatible = true;
+					break;
+				}
+			}
+			if (is_incompatible){
+				group.push(e);
+			}else{
+				next.push(e);
+			}
+		}
+
+		groups.push(group);
+		enchants = next;
+	}
+
+
+	//
+	// finally, build some HTML
+	//
+
+	var g_toggle = true;
+
+	for (var i=0; i<groups.length; i++){
+		var group = groups[i];
+
+		for (var j=0; j<group.length; j++){
+			var enchant = group[j];
+			var e_info = data.enchants[enchant];
+			var max = parseInt(e_info.levelMax);
+
+			var row = $('<tr>');
+			row.addClass(g_toggle ? 'group1' : 'group2');
+
+			row.append($('<td>').append(enchant));
+			for (var k=1; k<=max_max; k++){
+				if (max >= k){
+					row.append($('<td>').append($('<button>').append(k).addClass('off').data({
+						'level' : k,
+						'enchant' : enchant,
+					})));
+				}else{
+					row.append($('<td>'));
+				}
+			}
+
+			//p.css({'backgroundColor' : g_toggle ? '#eee' : '#ddd'});
+			$('#enchants table').append(row);
+
+			//console.log(enchant, g_toggle);
+		}
+
+		g_toggle = !g_toggle;
 	}
 
 	$('#calculate').show();
 }
 
 function completed(msg){
+
+	var x = performance.now();
+	var elapsed = Math.round((x - start) / 1000);
+
+	var lines = [];
+	lines.push('Completed in '+elapsed+' seconds');
+
+	in_progress = false;
 
 	var names = {};
 	for (var i in msg.enchants){
@@ -112,15 +215,17 @@ function completed(msg){
 
 	//console.log(names);
 
-	console.log('Found optimal solution with cost', msg.cost);
+	lines.push('Found optimal solution with cost '+ msg.cost);
 	for (var i=0; i<msg.path.length; i++){
 
 		var n = i+1;
 		var left = expand_name(msg.path[i][0], names);
 		var right = expand_name(msg.path[i][1], names);
 
-		console.log('step '+n+': combine '+left+' with '+right);
+		lines.push('step '+n+': combine '+left+' with '+right);
 	}
+
+	$('#solution').val(lines.join("\n")).show();
 }
 
 function expand_name(k, names){
@@ -136,30 +241,169 @@ function expand_name(k, names){
 
 }
 
+function button_clicked(elm){
 
+	var b_data = elm.data();
 
+	// when we click on a button, we need to:
+	// 1) figure out if it's already on
+	// 2) if it is, turn it off (no longer using this enchant)
+	// 3) if it's not, turn it on and turn off any other button in the same enchant group (inc other levels of this enchant)
 
+	if (elm.attr('class') == 'on'){
+		elm.attr('class', 'off');
+	}else{
+		elm.attr('class', 'on');
+		$("#enchants button").filter(function(){ return $(this).data("enchant") == b_data.enchant && $(this).data("level") != b_data.level; }).attr('class', 'off');
+		var e_info = data.enchants[b_data.enchant];
 
+		for (var i=0; i<e_info.incompatible.length; i++){
+			$("#enchants button").filter(function(){ return $(this).data("enchant") == e_info.incompatible[i]; }).attr('class', 'off');
+		}
+	}
+}
 
+function calculate(){
 
+	// get list of enchants to use
 
+	var enchants = [];
+
+	$("#enchants button.on").each(function(idx, elm){
+		enchants.push([$(elm).data('enchant'), $(elm).data('level')]);
+	});
+
+	var item = $('select#item option:selected').val();
+
+	start_job(item, enchants);
+}
+
+function start_job(item, enchants){
+
+	if (in_progress == true){
+		alert('calculation already in progress');
+		return;
+	}
+
+	in_progress = true;
+	total_steps = enchants.length;
+	start = performance.now();
+
+	$('#progress .lbl').text("Calculating stage 1 of "+total_steps);
+	$('#progress').show();
+
+	w.postMessage({
+		'msg' : 'process',
+		'item' : item,
+		'enchants' : enchants,
+	});
+}
+
+function stage_complete(data){
+
+	if (data.num < total_steps){
+		$('#progress .lbl').text("Calculating stage "+(data.num+1)+" of "+total_steps+" ("+data.tries+" paths explored)");
+	}else{
+		$('#progress').hide();
+	}
+}
 
 
 
 </script>
+<style>
+
+#enchants {
+	width: 400px;
+}
+
+#enchants table {
+	border-spacing: 1px;
+}
+
+#enchants td {
+	padding: 0.5em;
+}
+
+#enchants tr.group1 td {
+	background-color: #eee;
+}
+
+#enchants tr.group2 td {
+	background-color: #ddd;
+}
+
+#enchants button {
+	background-color: white;
+	padding: 10px;
+	vertical-align: top;
+	box-shadow: 2px 1px 2px gray;
+	margin: 2px 0px 2px 0px;
+}
+
+#enchants button.on {
+	box-shadow: 0 0 0 white;
+	margin: 4px 0px 0px 0px;
+	color: red;
+	background-color: #cfc;
+}
+
+#left {
+	width: 400px;
+	float: left;
+	margin-right: 50px;
+	xbackground-color: lime;
+}
+
+#right {
+	xbackground-color: pink;
+}
+
+#solution {
+	width: 450px;
+	height: 200px;
+}
+
+</style>
 </head>
 <body>
 
-<h1>Hello World</h1>
+<h1>Minecraft Enchantment Ordering Tool</h1>
 
-<select id="item">
-	<option value="">Choose an item</option>
-</select>
+<p>
+	When enchanting items in Minecraft, the order in which you combine armor, weapons and tools with books in your anvil makes a huge difference.
+	Each time you work on an anvil, you increase the <a href="https://minecraft.fandom.com/wiki/Anvil_mechanics">work penalty</a> for future workings.
+	Once that penalty gets too high, you simply can't add any more enchantments and the anvil says "Too Expensive!".
+	This tool helps you plan the optimal order of combining and applying books, to give you the cheapest possible cost.
+</p>
 
-<div id="enchants">
+<div id="left">
+
+	<p>
+	<select id="item">
+		<option value="">Choose an item to enchant</option>
+	</select>
+	</p>
+
+	<div id="enchants">
+		<table></table>
+	</div>
+
+	<p>
+		<button id="calculate" style="display: none">Calculate</button>
+	</p>
 </div>
 
-<button id="calculate" style="display: none">Calculate</button>
+<div id="right">
+
+	<div id="progress" style="display: none">
+		[SPIN]
+		<span class="lbl"></span>
+	</div>
+
+	<textarea id="solution" style="display: none"></textarea>
+
+</div>
 
 
 </body>
