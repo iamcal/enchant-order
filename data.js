@@ -1,5 +1,22 @@
 var data = {
     "enchants": {
+        "Protection": {
+            "levelMax": "4",
+            "weight": "1",
+            "incompatible": [
+                "Blast Protection",
+                "Fire Protection",
+                "Projectile Protection"
+            ],
+            "items": [
+                "helmet",
+                "chestplate",
+                "leggings",
+                "boots",
+                "turtle_shell"
+            ]
+        },
+
         "Aqua Affinity": {
             "levelMax": "1",
             "weight": "2",
@@ -47,54 +64,6 @@ var data = {
             ],
             "items": [
                 "trident"
-            ]
-        },
-        "Curse of Binding": {
-            "levelMax": "1",
-            "weight": "4",
-            "incompatible": [
-                ""
-            ],
-            "items": [
-                "helmet",
-                "chestplate",
-                "leggings",
-                "boots",
-                "elytra",
-                "pumpkin",
-                "turtle_shell"
-            ]
-        },
-        "Curse of Vanishing": {
-            "levelMax": "1",
-            "weight": "4",
-            "incompatible": [
-                ""
-            ],
-            "items": [
-                "helmet",
-                "chestplate",
-                "leggings",
-                "boots",
-                "pickaxe",
-                "shovel",
-                "axe",
-                "sword",
-                "hoe",
-                "fishing_rod",
-                "bow",
-                "shears",
-                "flint_and_steel",
-                "compass",
-                "carrot_on_a_stick",
-                "warped_fungus_on_a_stick",
-                "shield",
-                "elytra",
-                "pumpkin",
-                "helmet",
-                "trident",
-                "turtle_shell",
-                "crossbow"
             ]
         },
         "Depth Strider": {
@@ -336,22 +305,6 @@ var data = {
                 "turtle_shell"
             ]
         },
-        "Protection": {
-            "levelMax": "4",
-            "weight": "1",
-            "incompatible": [
-                "Blast Protection",
-                "Fire Protection",
-                "Projectile Protection"
-            ],
-            "items": [
-                "helmet",
-                "chestplate",
-                "leggings",
-                "boots",
-                "turtle_shell"
-            ]
-        },
         "Punch": {
             "levelMax": "2",
             "weight": "2",
@@ -391,7 +344,7 @@ var data = {
                 "Loyalty"
             ],
             "items": [
-                "crossbow"
+                "trident"
             ]
         },
         "Sharpness": {
@@ -402,7 +355,8 @@ var data = {
                 "Smite"
             ],
             "items": [
-                "sword"
+                "sword",
+		"axe"
             ]
         },
         "Silk Touch": {
@@ -416,7 +370,7 @@ var data = {
                 "shovel",
                 "axe",
                 "hoe",
-                "shears"
+                "shears-bedrock"
             ]
         },
         "Smite": {
@@ -490,6 +444,54 @@ var data = {
                 "warped_fungus_on_a_stick",
                 "shield",
                 "elytra",
+                "trident",
+                "turtle_shell",
+                "crossbow"
+            ]
+        },
+        "Curse of Binding": {
+            "levelMax": "1",
+            "weight": "4",
+            "incompatible": [
+                ""
+            ],
+            "items": [
+                "helmet",
+                "chestplate",
+                "leggings",
+                "boots",
+                "elytra",
+                "pumpkin",
+                "turtle_shell"
+            ]
+        },
+        "Curse of Vanishing": {
+            "levelMax": "1",
+            "weight": "4",
+            "incompatible": [
+                ""
+            ],
+            "items": [
+                "helmet",
+                "chestplate",
+                "leggings",
+                "boots",
+                "pickaxe",
+                "shovel",
+                "axe",
+                "sword",
+                "hoe",
+                "fishing_rod",
+                "bow",
+                "shears",
+                "flint_and_steel",
+                "compass",
+                "carrot_on_a_stick",
+                "warped_fungus_on_a_stick",
+                "shield",
+                "elytra",
+                "pumpkin",
+                "helmet",
                 "trident",
                 "turtle_shell",
                 "crossbow"
