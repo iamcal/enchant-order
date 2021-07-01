@@ -73,7 +73,7 @@ function process(item, enchants_raw){
 	var best_path = {'cost' : 999999};
 	var paths_tried = 0;
 
-	// while we have incomplete paths, iterate over each one, and fine every possible next step.
+	// while we have incomplete paths, iterate over each one, and find every possible next step.
 	// for each next step, create a new path, either on the incomplete_paths list (is remaining.length > 1),
 	// or the complete_paths list.
 
@@ -85,8 +85,9 @@ function process(item, enchants_raw){
 
 		for (var i=0; i<incomplete_paths.length; i++){
 
-			var paths = explode_path(incomplete_paths[i], costs);
-			total_tries += paths.length;
+			var ret = explode_path(incomplete_paths[i], costs);
+			paths = ret.paths;
+			total_tries += ret.tries;
 
 			for (var j=0; j<paths.length; j++){
 				if (paths[j].remaining.length > 1){
@@ -148,6 +149,7 @@ function explode_path(path, costs){
 	// each destination - we will flatten this into an array when we return.
 
 	var best_paths = {};
+	var tries = 0;
 
 	var len = path.remaining.length;
 	for (var a=0; a<len; a++){
@@ -197,6 +199,8 @@ function explode_path(path, costs){
 
 			new_path.cost = path.cost + step_cost_enchants + step_cost_penalties;
 
+			tries++;
+
 
 			// is there already a better score
 			var flat_key = new_path.remaining.join('/');
@@ -223,7 +227,10 @@ function explode_path(path, costs){
 		out.push(best_paths[i]);
 	}
 
-	return out;
+	return {
+		'paths' : out,
+		'tries' : tries,
+	};
 
 }
 
