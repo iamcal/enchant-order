@@ -326,7 +326,7 @@ var data = {
             "incompatible": [
                 "Protection",
                 "Blast Protection",
-                "Fire Protection."
+                "Fire Protection"
             ],
             "items": [
                 "helmet",
