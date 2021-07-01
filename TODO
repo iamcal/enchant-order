@@ -4,5 +4,9 @@ add commas to combinations (during progress and solution)
 change solution to be nice HTML instead of a text area
 add real spinner to progress
 set nice fonts
+fix trident enchants (weird combo of excludes)
+add credits and github link
 
 experiment with combining same-weighted enchants as a shortcut for complex jobs
+
+investigate using D3 for the solution to show a nice graph (with icons?)
