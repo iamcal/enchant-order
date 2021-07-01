@@ -63,12 +63,11 @@ window.onload = function(){
 		if (opt){
 			build_enchant_list(opt);
 		}else{
-			$('#enchants').html('');
-			$('#calculate').hide();
+			$('#enchants').hide();
 		}
 	});
 
-	$('#enchants').on('click', 'button', function() {
+	$('#enchants table').on('click', 'button', function() {
 		button_clicked($(this));
 	});
 
@@ -194,7 +193,7 @@ function build_enchant_list(item){
 		g_toggle = !g_toggle;
 	}
 
-	$('#calculate').show();
+	$('#enchants').show();
 }
 
 function completed(msg){
@@ -202,11 +201,10 @@ function completed(msg){
 	var x = performance.now();
 	var elapsed = Math.round((x - start) / 1000);
 
-	var lines = [];
 	if (elapsed <= 1){
-		lines.push('Completed in under a second, trying '+number_format(total_tries)+' combinations');
+		$('#timings').text('Completed in under a second, trying '+number_format(total_tries)+' combinations');
 	}else{
-		lines.push('Completed in '+elapsed+' seconds, trying '+number_format(total_tries)+' combinations');
+		$('#timings').text('Completed in '+elapsed+' seconds, trying '+number_format(total_tries)+' combinations');
 	}
 
 	in_progress = false;
@@ -222,17 +220,19 @@ function completed(msg){
 
 	//console.log(names);
 
-	lines.push('Found optimal solution with cost '+ msg.cost);
+	$('#level-cost').text(msg.cost);
+	$('#steps').html();
+
 	for (var i=0; i<msg.path.length; i++){
 
 		var n = i+1;
 		var left = expand_name(msg.path[i][0], names);
 		var right = expand_name(msg.path[i][1], names);
 
-		lines.push('step '+n+': combine '+left+' with '+right);
+		$('#steps').append($('<li>').html('Combine <i>'+left+'</i> with <i>'+right+'</i>'));
+
 	}
 
-	$('#solutiontext').val(lines.join("\n"));
 	$('#solution').show();
 }
 
@@ -397,21 +397,30 @@ body {
 }
 
 #right {
-	margin-top: 70px;
 	xbackground-color: pink;
-}
-
-#solutiontext {
-	width: 450px;
-	height: 200px;
+	width: 550px;
+	float: left;
 }
 
 #progress {
+	margin-top: 40px;
 	line-height: 20px;
+	background-color: #ffc;
+	padding: 20px;
 }
 
 #progress img {
 	vertical-align: middle;
+}
+
+#solution {
+	background-color: #cfc;
+	padding: 10px;
+	margin-top: 20px;
+}
+
+#solution h2 {
+	margin-block-start: 0;
 }
 
 .footer {
@@ -448,13 +457,14 @@ body {
 			</select>
 		</p>
 
-		<div id="enchants">
+		<div id="enchants" style="display: none">
 			<table></table>
+
+			<p>
+				<button id="calculate">Calculate &raquo;</button>
+			</p>
 		</div>
 
-		<p>
-			<button id="calculate" style="display: none">Calculate &raquo;</button>
-		</p>
 	</div>
 
 	<div id="right">
@@ -465,7 +475,14 @@ body {
 		</div>
 
 		<div id="solution" style="display: none">
-			<textarea id="solutiontext"></textarea>
+			<h2>Optimal solution found!</h2>
+
+			<p id="timings">Completed in under a second, trying 1,000,000,000 combinations</p>
+			<p><b>Total cost:</b> <span id="level-cost">69</span> levels</p>
+
+			<h3>Steps</h3>
+			<ol id="steps">
+			</ol>
 		</div>
 
 	</div>
