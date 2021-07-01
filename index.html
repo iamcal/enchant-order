@@ -330,6 +330,15 @@ function number_format(x){
 </script>
 <style>
 
+body {
+	font-family: arial;
+}
+
+.inner {
+	margin: 30px auto;
+	width: 1000px;
+}
+
 #enchants {
 	width: 400px;
 }
@@ -365,6 +374,11 @@ function number_format(x){
 	background-color: #cfc;
 }
 
+#calculate {
+	padding: 8px;
+	font-size: 120%;
+}
+
 #left {
 	width: 400px;
 	float: left;
@@ -373,6 +387,7 @@ function number_format(x){
 }
 
 #right {
+	margin-top: 70px;
 	xbackground-color: pink;
 }
 
@@ -404,41 +419,45 @@ function number_format(x){
 </head>
 <body>
 
-<h1>Minecraft Enchantment Ordering Tool</h1>
+<div class="inner">
 
-<p>
-	When enchanting items in Minecraft, the order in which you combine armor, weapons and tools with books in your anvil makes a huge difference.
-	Each time you work on an anvil, you increase the <a href="https://minecraft.fandom.com/wiki/Anvil_mechanics">work penalty</a> for future workings.
-	Once that penalty gets too high, you simply can't add any more enchantments and the anvil says "Too Expensive!".
-	This tool helps you plan the optimal order of combining and applying books, to give you the cheapest possible cost.
-</p>
-
-<div id="left">
+	<h1>Minecraft Enchantment Ordering Tool</h1>
 
 	<p>
-	<select id="item">
-		<option value="">Choose an item to enchant</option>
-	</select>
+		When enchanting items in Minecraft, the order in which you combine armor, weapons and tools with books in your anvil makes a huge difference.
+		Each time you work on an anvil, you increase the <a href="https://minecraft.fandom.com/wiki/Anvil_mechanics">work penalty</a> for future workings.
+		Once that penalty gets too high, you simply can't add any more enchantments and the anvil says "Too Expensive!".
+		This tool helps you plan the optimal order of combining and applying books, to give you the cheapest possible cost.
 	</p>
 
-	<div id="enchants">
-		<table></table>
+	<div id="left">
+
+		<p>
+			<select id="item">
+				<option value="">Choose an item to enchant</option>
+			</select>
+		</p>
+
+		<div id="enchants">
+			<table></table>
+		</div>
+
+		<p>
+			<button id="calculate" style="display: none">Calculate &raquo;</button>
+		</p>
 	</div>
 
-	<p>
-		<button id="calculate" style="display: none">Calculate</button>
-	</p>
-</div>
+	<div id="right">
 
-<div id="right">
+		<div id="progress" style="display: none">
+			<img src="spin.svg" width="20" height="20">
+			<span class="lbl">Text here</span>
+		</div>
 
-	<div id="progress" style="display: none">
-		<img src="spin.svg" width="20" height="20">
-		<span class="lbl">Text here</span>
-	</div>
+		<div id="solution" style="display: none">
+			<textarea id="solutiontext"></textarea>
+		</div>
 
-	<div id="solution" style="display: none">
-		<textarea id="solutiontext"></textarea>
 	</div>
 
 </div>
