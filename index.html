@@ -82,6 +82,14 @@ window.onload = function(){
 		});
 	}
 
+	if (0){
+		for (var i in data.items){
+			var img = $('<img>').attr('src', './images/'+i+'.gif').attr('width', 16).attr('height', 16);
+			var lbl = $('<span>').text(data.items[i]);
+
+			$('#right').append($('<p>').append(img).append(lbl));
+		}
+	}
 }
 
 function build_enchant_list(item){
@@ -243,8 +251,8 @@ function completed(msg){
 	for (var i=0; i<msg.path.length; i++){
 
 		var n = i+1;
-		var left = expand_name(msg.path[i][0], names);
-		var right = expand_name(msg.path[i][1], names);
+		var left = expand_name(msg.path[i][0], names, msg);
+		var right = expand_name(msg.path[i][1], names, msg);
 
 		$('#steps').append($('<li>').html('Combine <i>'+left+'</i> with <i>'+right+'</i>'));
 
@@ -253,17 +261,36 @@ function completed(msg){
 	$('#solution').show();
 }
 
-function expand_name(k, names){
+function expand_name(k, names, context){
 
 	var bits = k.split('|');
-	var parts = [];
 
+	// just a single item is easy
+	if (bits.length == 1){
+		var icon = bits[0] == 'ITEM' ? context.item : 'book';
+		return '<img src="./images/'+icon+'.gif" class="icon"> '+names[bits[0]];
+	}
+
+
+	// for multiple items, make it fancy
+	var icon = 'book';
+	var lbl = 'Book';
+
+	if (bits[0] == 'ITEM'){
+		bits.shift();
+		icon = context.item;
+		lbl = names['ITEM'];
+	}
+
+	var parts = [];
 	for (var i=0; i<bits.length; i++){
 		parts.push(names[bits[i]]);
 	}
-	if (parts.length == 1) return parts[0];
-	return '(' + parts.join(' + ') + ')';
+		
+	var extra = parts.join(' + ');
+	if (icon != 'book') extra = 'w/ '+extra;
 
+	return '<img src="./images/'+icon+'.gif" class="icon"> '+lbl+' ('+extra+')';
 }
 
 function button_clicked(elm){
@@ -461,6 +488,12 @@ body {
 	padding-right: 20px;
 	box-sizing: border-box;
 	text-align: right;
+}
+
+.icon {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
 }
 
 </style>
