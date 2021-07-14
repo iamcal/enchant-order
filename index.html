@@ -234,6 +234,12 @@ function completed(msg){
 	$('#level-cost').text(msg.cost);
 	$('#steps').html('');
 
+	if (msg.tried == 0){
+		$('#error .lbl').text("Please select one or more enchantments");
+		$('#error').show();
+		return;
+	}
+
 	for (var i=0; i<msg.path.length; i++){
 
 		var n = i+1;
@@ -320,6 +326,7 @@ function start_job(item, enchants){
 	start = performance.now();
 
 	$('#solution').hide();
+	$('#error').hide();
 
 	$('#progress .lbl').text("Calculating stage 1 of "+total_steps);
 	$('#progress').show();
@@ -428,6 +435,13 @@ body {
 	vertical-align: middle;
 }
 
+#error {
+	margin-top: 40px;
+	line-height: 20px;
+	background-color: #f99;
+	padding: 20px;
+}
+
 #solution {
 	background-color: #cfc;
 	padding: 20px;
@@ -498,6 +512,10 @@ body {
 			<h3>Steps</h3>
 			<ol id="steps">
 			</ol>
+		</div>
+
+		<div id="error" style="display: none">
+			<span class="lbl">Text here</span>
 		</div>
 
 	</div>
