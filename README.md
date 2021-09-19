@@ -1,5 +1,7 @@
 # Minecraft Enchantment Ordering Tool
 
+This is a branch that removes some of the incompatibilities. You can use it here: https://g-lewis.github.io/enchant-order/
+
 This web-based tools allows you to find the optimal order for combining enchant books in Minecraft to minimize XP cost.
 
 You can use it here: https://iamcal.github.io/enchant-order/
