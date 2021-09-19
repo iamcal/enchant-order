@@ -4,9 +4,7 @@ var data = {
             "levelMax": "4",
             "weight": "1",
             "incompatible": [
-                "Blast Protection",
-                "Fire Protection",
-                "Projectile Protection"
+                ""
             ],
             "items": [
                 "helmet",
@@ -44,9 +42,7 @@ var data = {
             "levelMax": "4",
             "weight": "2",
             "incompatible": [
-                "Fire Protection",
-                "Protection",
-                "Projectile Protection"
+                ""
             ],
             "items": [
                 "helmet",
@@ -115,9 +111,7 @@ var data = {
             "levelMax": "4",
             "weight": "1",
             "incompatible": [
-                "Blast Protection",
-                "Protection",
-                "Projectile Protection"
+                ""
             ],
             "items": [
                 "helmet",
@@ -295,9 +289,7 @@ var data = {
             "levelMax": "4",
             "weight": "1",
             "incompatible": [
-                "Protection",
-                "Blast Protection",
-                "Fire Protection"
+                ""
             ],
             "items": [
                 "helmet",
