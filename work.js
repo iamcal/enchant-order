@@ -16,7 +16,7 @@ onmessage = function(e) {
 	}
 }
 
-
+var work_penalty = [];
 
 
 // TODO: calculate the score as we expand out our options.
