@@ -421,6 +421,16 @@ var data = {
                 "turtle_shell"
             ]
         },
+        "Swift Sneak": {
+            "levelMax": "3",
+            "weight": "1",
+            "incompatible": [
+                ""
+            ],
+            "items": [
+                "leggings"
+            ]
+        },
         "Unbreaking": {
             "levelMax": "3",
             "weight": "1",
