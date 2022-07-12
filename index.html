@@ -25,6 +25,15 @@ enchants = [
 	["Soul Speed", 3],
 ];
 
+var overrides = [
+	['helmet'	, 'armor_1_14_1'],
+	['chestplate'	, 'armor_1_14_1'],
+	['leggings'	, 'armor_1_14_1'],
+	['boots'	, 'armor_1_14_1'],
+	['turtle_shell'	, 'armor_1_14_1'],
+	['bow'		, 'bow_1_11'],
+];
+
 var w;
 var start;
 var in_progress = false;
@@ -62,8 +71,10 @@ window.onload = function(){
 		var opt = $('select#item option:selected').val();
 		if (opt){
 			build_enchant_list(opt);
+			build_overrides(opt);
 		}else{
 			$('#enchants').hide();
+			$('#overrides').hide();
 		}
 	});
 
@@ -130,6 +141,13 @@ function build_enchant_list(item){
 
 
 	//
+	// get overrides
+	//
+
+	var o_flags = get_override_flags();
+
+
+	//
 	// next, group them by incompatible enchants
 	//
 
@@ -151,6 +169,9 @@ function build_enchant_list(item){
 					break;
 				}
 			}
+
+			if (is_overriden(e, o_flags)) is_incompatible = false;
+
 			if (is_incompatible){
 				group.push(e);
 			}else{
@@ -213,6 +234,49 @@ function build_enchant_list(item){
 	}
 
 	$('#enchants').show();
+}
+
+function get_override_flags(){
+	return {
+		'armor_1_14_1'	: !!$('#armor_1_14_1').is(':checked'),
+		'bow_1_11'	: !!$('#bow_1_11').is(':checked'),
+	};
+}
+
+function is_overriden(enchant, o_flags){
+
+	if (enchant == 'Protection'		&& o_flags.armor_1_14_1) return true;
+	if (enchant == 'Blast Protection'	&& o_flags.armor_1_14_1) return true;
+	if (enchant == 'Fire Protection'	&& o_flags.armor_1_14_1) return true;
+	if (enchant == 'Projectile Protection'	&& o_flags.armor_1_14_1) return true;
+
+	if (enchant == 'Infinity'		&& o_flags.bow_1_11) return true;
+	if (enchant == 'Mending'		&& o_flags.bow_1_11) return true;
+
+	return false;
+}
+
+
+function build_overrides(item){
+
+	$('#overrides p').html('');
+
+	for (var i=0; i<overrides.length; i++){
+		if (overrides[i][0] == item){
+			var o = overrides[i][1];
+
+			if (o == 'armor_1_14_1'){
+				$('#overrides p').append('<label><input type="checkbox" id="armor_1_14_1" >Allow multiple Protection types (1.14.1 only)</label>');
+			}
+			if (o == 'bow_1_11'){
+				$('#overrides p').append('<label><input type="checkbox" id="bow_1_11" >Allow Mending & Infinity (1.11 only)</label>');
+			}
+		}
+	}
+
+	$('#overrides p input').change(function(){ build_enchant_list(item); });
+
+	$('#overrides').show();
 }
 
 function completed(msg){
@@ -318,6 +382,8 @@ function button_clicked(elm){
 			$("#enchants button").filter(function(){ return $(this).data("enchant") == 'Channeling' || $(this).data("enchant") == 'Loyalty'; }).attr('class', 'off');
 
 		}else{
+			if (is_overriden(b_data.enchant, get_override_flags())) return;
+
 			for (var i=0; i<e_info.incompatible.length; i++){
 				$("#enchants button").filter(function(){ return $(this).data("enchant") == e_info.incompatible[i]; }).attr('class', 'off');
 			}
@@ -521,6 +587,11 @@ body {
 
 		<div id="enchants" style="display: none">
 			<table></table>
+
+			<div id="overrides" style="display: none">
+				<p>
+				</p>
+			</div>
 
 			<p>
 				<button id="calculate">Calculate &raquo;</button>
