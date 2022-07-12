@@ -407,6 +407,16 @@ var data = {
                 "sword"
             ]
         },
+        "Swift Sneak": {
+            "levelMax": "3",
+            "weight": "4",
+            "incompatible": [
+                ""
+            ],
+            "items": [
+                "leggings"
+            ]
+        },
         "Thorns": {
             "levelMax": "3",
             "weight": "4",
