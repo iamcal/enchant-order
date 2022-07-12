@@ -407,6 +407,16 @@ var data = {
                 "sword"
             ]
         },
+        "Swift Sneak": {
+            "levelMax": "3",
+            "weight": "4",
+            "incompatible": [
+                ""
+            ],
+            "items": [
+                "leggings"
+            ]
+        },
         "Thorns": {
             "levelMax": "3",
             "weight": "4",
@@ -419,16 +429,6 @@ var data = {
                 "leggings",
                 "boots",
                 "turtle_shell"
-            ]
-        },
-        "Swift Sneak": {
-            "levelMax": "3",
-            "weight": "1",
-            "incompatible": [
-                ""
-            ],
-            "items": [
-                "leggings"
             ]
         },
         "Unbreaking": {
