@@ -3,6 +3,7 @@
 <title>Minecraft Enchantment Ordering Tool</title>
 <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 <script src="data.js?2"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
 
 var item = "boots";
@@ -546,10 +547,16 @@ body {
 	margin-block-start: 0;
 }
 
+#steps li {
+	margin-bottom: 0.75em;
+}
+
 .footer {
 	position: fixed;
 	right: 0;
 	bottom: 0;
+	width: 100%;
+	background: white;
 
 	padding-right: 20px;
 	box-sizing: border-box;
@@ -560,6 +567,36 @@ body {
 	display: inline-block;
 	width: 16px;
 	height: 16px;
+}
+
+@media only screen and (max-width: 1000px) {
+	body {
+		padding: 10px;
+	}
+	
+	.inner {
+		width: auto;
+		max-width: 100%;
+		margin-top: 0;
+	}
+	
+	h1 {
+		font-size: 24px;
+	}
+	
+	#left {
+		width: auto;
+		float: none;
+		margin-right: 0;
+	}
+	
+	#right {
+		width: auto;
+		float: none;
+	}
+	#enchants {
+		width: auto;
+	}
 }
 
 </style>
