@@ -11,7 +11,7 @@ onmessage = function(e) {
 
 	if (e.data.msg == 'process'){
 		//console.log('data (later)', data);
-		var out = process(e.data.item, e.data.enchants);
+		process(e.data.item, e.data.enchants);
 		//console.log('work complete');
 	}
 }
@@ -60,6 +60,7 @@ function process(item, enchants_raw){
 	var incomplete_paths = [
 		{
 			'cost' : 0,
+			'maxCost': 0,
 			'remaining' : items,
 			'steps' : [],
 			'workings' : {}
@@ -69,8 +70,7 @@ function process(item, enchants_raw){
 	incomplete_paths[0].workings['ITEM'] = 0;
 	for (var i=0; i<items.length; i++) incomplete_paths[0].workings[items[i]] = 0;
 
-	var complete_paths = [];
-	var best_path = {'cost' : 999999};
+	var best_path = {'cost': Infinity, 'maxCost': Infinity};
 	var paths_tried = 0;
 
 	// while we have incomplete paths, iterate over each one, and find every possible next step.
@@ -96,7 +96,7 @@ function process(item, enchants_raw){
 					//delete paths[j].remaining;
 					//complete_paths.push(paths[j]);
 					paths_tried++;
-					if (paths[j].cost < best_path.cost){
+					if (paths[j].cost < best_path.cost || (paths[j].cost === best_path.cost && paths[j].maxCost < best_path.maxCost)){
 						best_path = paths[j];
 						//console.log('found best path!', paths[j].cost);
 					}
@@ -160,6 +160,7 @@ function explode_path(path, costs){
 
 			var new_path = {
 				'cost' : 0,
+				'maxCost': 0,
 				'remaining' : [],
 				'steps' : [],
 				'workings' : {},
@@ -187,7 +188,7 @@ function explode_path(path, costs){
 			new_path.workings[combined] = new_work;
 
 			for (var i=0; i<path.steps.length; i++){
-				new_path.steps.push(path.steps[i]);;
+				new_path.steps.push(path.steps[i]);
 			}
 
 			new_path.steps.push([a_item, b_item]);
@@ -198,6 +199,7 @@ function explode_path(path, costs){
 			var step_cost_penalties = work_penalty[work_a] + work_penalty[work_b];
 
 			new_path.cost = path.cost + step_cost_enchants + step_cost_penalties;
+			new_path.maxCost = Math.max(step_cost_enchants + step_cost_penalties, path.maxCost);
 
 			tries++;
 
@@ -207,7 +209,10 @@ function explode_path(path, costs){
 
 			if (best_paths[flat_key]){
 				// there is an existing path for this destination - only overwrite if this is a better cost.
-				if (best_paths[flat_key].cost > new_path.cost){
+				if (
+					(best_paths[flat_key].cost > new_path.cost) ||
+					(best_paths[flat_key].cost === new_path.cost && best_paths[flat_key].maxCost > new_path.maxCost)
+				) {
 					best_paths[flat_key] = new_path;
 					//console.log('overriding path - better score');
 				}else{
