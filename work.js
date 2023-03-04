@@ -191,12 +191,13 @@ function explode_path(path, costs){
 				new_path.steps.push(path.steps[i]);
 			}
 
-			new_path.steps.push([a_item, b_item]);
-
 			// calculate step cost
 			// COST = score_of_sacrifice + both work penalties
 			var step_cost_enchants = calc_item_cost(b_item, costs);
 			var step_cost_penalties = work_penalty[work_a] + work_penalty[work_b];
+
+			// push the step to the array with the cost
+			new_path.steps.push({left: a_item, right: b_item, cost: step_cost_enchants + step_cost_penalties});
 
 			new_path.cost = path.cost + step_cost_enchants + step_cost_penalties;
 			new_path.maxCost = Math.max(step_cost_enchants + step_cost_penalties, path.maxCost);
