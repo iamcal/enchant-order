@@ -43,7 +43,7 @@ var total_tries;
 
 window.onload = function(){
 
-	w = new Worker('work.js');
+	w = new Worker('work.js?2');
 
 	w.onmessage = function(e){
 		var x = performance.now();
@@ -316,10 +316,10 @@ function completed(msg){
 	for (var i=0; i<msg.path.length; i++){
 
 		var n = i+1;
-		var left = expand_name(msg.path[i][0], names, msg);
-		var right = expand_name(msg.path[i][1], names, msg);
+		var left = expand_name(msg.path[i].left, names, msg);
+		var right = expand_name(msg.path[i].right, names, msg);
 
-		$('#steps').append($('<li>').html('Combine <i>'+left+'</i> with <i>'+right+'</i>'));
+		$('#steps').append($('<li>').html('Combine <i>'+left+'</i> with <i>'+right+'</i><br><small>(Cost: '+msg.path[i].cost+' levels)</small>'));
 
 	}
 
