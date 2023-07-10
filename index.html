@@ -414,6 +414,14 @@ function start_job(item, enchants){
 		return;
 	}
 
+	if (enchants.length >= 6){
+		 if (navigator.userAgent.match(/Android/i)
+			|| navigator.userAgent.match(/iPhone/i)
+			|| navigator.userAgent.match(/iPad/i)){
+				$('#phone-warn').show();
+		}
+	}
+
 	in_progress = true;
 	total_steps = enchants.length;
 	total_tries = 0;
@@ -440,6 +448,7 @@ function stage_complete(data){
 		$('#progress .lbl').text("Calculating stage "+(data.num+1)+" of "+total_steps+" ("+number_format(data.tries)+" paths explored)");
 	}else{
 		$('#progress').hide();
+		$('#phone-warn').hide();
 	}
 }
 
@@ -534,6 +543,13 @@ body {
 	margin-top: 40px;
 	line-height: 20px;
 	background-color: #f99;
+	padding: 20px;
+}
+
+#phone-warn {
+	margin-top: 40px;
+	line-height: 20px;
+	background-color: #fa9;
 	padding: 20px;
 }
 
@@ -657,6 +673,13 @@ body {
 
 		<div id="error" style="display: none">
 			<span class="lbl">Text here</span>
+		</div>
+
+		<div id="phone-warn" style="display: none">
+			<span class="lbl">
+				You have selected many enchantments and are using a phone or tablet - the calculator may run out of memory and crash.
+				Try selecting fewer enchantments, or using a computer.
+			</span>
 		</div>
 
 	</div>
