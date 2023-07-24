@@ -94,6 +94,8 @@ window.onload = function(){
 			$('#right').append($('<p>').append(img).append(lbl));
 		}
 	}
+
+	setup_darkmode();
 }
 
 function build_enchant_list(item){
@@ -447,3 +449,34 @@ function stage_complete(data){
 function number_format(x){
 	return Number(x).toLocaleString();
 }
+
+
+function setup_darkmode(){
+
+	const darkModeToggle = document.getElementById('darkModeToggle');
+	const body = document.body;
+
+	darkModeToggle.addEventListener('click', function (){
+		body.classList.toggle('dark-mode');
+
+		// Save user preference in localStorage
+		if (body.classList.contains('dark-mode')){
+			localStorage.setItem('darkMode', 'enabled');
+			darkModeToggle.textContent = 'Light Mode';
+		}else{
+			localStorage.setItem('darkMode', 'disabled');
+			darkModeToggle.textContent = 'Dark Mode';
+		}
+	});
+
+	// Check user preference on page load
+	const userPreference = localStorage.getItem('darkMode');
+	if (userPreference === 'enabled'){
+		body.classList.add('dark-mode');
+		darkModeToggle.textContent = 'Light Mode';
+	}else{
+		body.classList.remove('dark-mode');
+		darkModeToggle.textContent = 'Dark Mode';
+	}
+}
+
