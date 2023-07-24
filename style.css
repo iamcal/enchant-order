@@ -1,0 +1,250 @@
+body {
+    font-family: arial, serif;
+    position: relative;
+    background-color: #e3e4eb;
+}
+
+.selectItem {
+    appearance: none;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #191715;
+    background-image: url("images/down.png");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    background-size: 12px 12px;
+    padding: 8px 24px 8px 12px;
+}
+
+.inner {
+    margin: 30px auto;
+    width: 1000px;
+    padding-bottom: 30px;
+    overflow: auto;
+}
+
+#enchants {
+    width: 400px;
+}
+
+#enchants table {
+    border-spacing: 0;
+}
+
+#enchants td {
+    padding: 0.5em;
+}
+
+#enchants tr.group1 td {
+    color: #191715;
+    background-color: #eee;
+}
+
+#enchants tr.group2 td {
+    color: #191715;
+    background-color: #ddd;
+}
+
+#enchants td i {
+    font-size: 12px;
+}
+
+#enchants button {
+    background-color: white;
+    padding: 10px;
+    vertical-align: top;
+    box-shadow: 2px 1px 2px gray;
+    margin: 2px 0px 2px 0px;
+}
+
+#enchants button.on {
+    box-shadow: 0 0 0 white;
+    margin: 4px 0px 0px 0px;
+    color: #f02008;
+    background-color: #cfc;
+}
+
+#calculate {
+    padding: 8px;
+    font-size: 120%;
+}
+
+#left {
+    width: 400px;
+    float: left;
+    margin-right: 50px;
+}
+
+#right {
+    width: 550px;
+    float: left;
+}
+
+#progress {
+    margin-top: 40px;
+    line-height: 20px;
+    background-color: #ffc;
+    padding: 20px;
+}
+
+#progress img {
+    vertical-align: middle;
+}
+
+#error {
+    margin-top: 40px;
+    line-height: 20px;
+    background-color: #f99;
+    padding: 20px;
+}
+
+#phone-warn {
+    margin-top: 40px;
+    line-height: 20px;
+    background-color: #fa9;
+    padding: 20px;
+}
+
+#solution {
+    background-color: #cfc;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+#solution h2 {
+    margin-block-start: 0;
+}
+
+#steps li {
+    margin-bottom: 0.75em;
+}
+
+.footer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background: white;
+    padding-right: 20px;
+    box-sizing: border-box;
+    text-align: right;
+}
+
+.icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+@media only screen and (max-width: 1000px) {
+    body {
+        padding: 10px;
+    }
+
+    .inner {
+        width: auto;
+        max-width: 100%;
+        margin-top: 0;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    #left {
+        width: auto;
+        float: none;
+        margin-right: 0;
+    }
+
+    #right {
+        width: auto;
+        float: none;
+    }
+
+    #enchants {
+        width: auto;
+    }
+}
+
+/* Dark Mode Styles */
+
+.dark-mode-toggle-container {
+    top: 10px;
+    right: 10px;
+    text-align: right;
+    float: right;
+    margin-top: 21.44px;
+    padding-left: 20px;
+}
+
+.dark-mode-toggle-container button {
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #333;
+    border: none;
+}
+
+.dark-mode-toggle-container button:hover {
+    background-color: #ddd;
+}
+
+body.dark-mode {
+    background-color: #333;
+    color: #ffffff;
+}
+
+body.dark-mode h1, body.dark-mode h2 {
+    color: #ffffff;
+}
+
+body.dark-mode a {
+    color: #66b3ff;
+}
+
+body.dark-mode a:hover {
+    color: #4d8ac3;
+}
+
+/* Dark mode dropdown arrow color */
+body.dark-mode select {
+    background-image: url("images/down.png");
+    background-color: #eeeeee;
+}
+
+body.dark-mode .footer {
+    background: #222;
+}
+
+body.dark-mode #enchants tr.group1 td {
+    color: #333;
+    background-color: #CCC;
+}
+
+body.dark-mode #enchants tr.group2 td {
+    color: #333;
+    background-color: #BBB;
+}
+
+body.dark-mode #enchants button.on {
+    color: #f8f8f8;
+    background-color: #0E754D;
+}
+
+body.dark-mode #progress {
+    background-color: #f1a32f;
+}
+
+body.dark-mode #error {
+    background-color: #f90601;
+}
+
+body.dark-mode #phone-warn {
+    background: #e7cc03;
+}
+
+body.dark-mode #solution {
+    background: #03ad5f;
+}

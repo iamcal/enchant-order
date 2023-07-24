@@ -1,699 +1,90 @@
-<html>
+<html lang="en">
 <head>
-<title>Minecraft Enchantment Ordering Tool</title>
-<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-<script src="data.js?2"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script>
-
-var item = "boots";
-var enchants = [
-	["Protection", 4],
-	["Respiration", 3],
-	["Aqua Affinity", 1],
-	["Thorns", 3],
-	["Unbreaking", 3],
-	["Mending", 1],
-];
-
-enchants = [
-	["Protection", 4],
-	["Thorns", 3],
-	["Unbreaking", 3],
-	["Mending", 1],
-	["Feather Falling", 4],
-	["Depth Strider", 3],
-	["Soul Speed", 3],
-];
-
-var overrides = [
-	['helmet'	, 'armor_1_14_1'],
-	['chestplate'	, 'armor_1_14_1'],
-	['leggings'	, 'armor_1_14_1'],
-	['boots'	, 'armor_1_14_1'],
-	['turtle_shell'	, 'armor_1_14_1'],
-	['bow'		, 'bow_1_11'],
-];
-
-var w;
-var start;
-var in_progress = false;
-var total_steps;
-var total_tries;
-
-window.onload = function(){
-
-	w = new Worker('work.js?2');
-
-	w.onmessage = function(e){
-		var x = performance.now();
-		var elapsed = x - start;
-		console.log(x, 'msg back to master', e.data);
-
-		if (e.data.msg == 'stage_complete'){
-			stage_complete(e.data);
-		}
-
-		if (e.data.msg == 'complete'){
-			completed(e.data);
-		}
-	};
-
-	w.postMessage({
-		'msg' : 'set_data',
-		'data' : data,
-	});
-
-	for (var i in data.items){
-		$('<option/>', { value : i }).text(data.items[i]).appendTo('select#item');
-	}
-
-	$('select#item').change(function(){
-		var opt = $('select#item option:selected').val();
-		if (opt){
-			build_enchant_list(opt);
-			build_overrides(opt);
-		}else{
-			$('#enchants').hide();
-			$('#overrides').hide();
-		}
-	});
-
-	$('#enchants table').on('click', 'button', function() {
-		button_clicked($(this));
-	});
-
-	$('#calculate').click(calculate);
-
-	if (0){
-		start = performance.now();
-		w.postMessage({
-			'msg' : 'process',
-			'item' : item,
-			'enchants' : enchants,
-		});
-	}
-
-	if (0){
-		for (var i in data.items){
-			var img = $('<img>').attr('src', './images/'+i+'.gif').attr('width', 16).attr('height', 16);
-			var lbl = $('<span>').text(data.items[i]);
-
-			$('#right').append($('<p>').append(img).append(lbl));
-		}
-	}
-}
-
-function build_enchant_list(item){
-
-	//console.log('build list of enchants for '+item);
-
-	$('#enchants table').html('');
-
-
-	//
-	// first, filter out which enchants apply to this item
-	//
-
-	var enchants = [];
-	var max_max = 0;
-
-	for (var i in data.enchants){
-
-		var enchant = data.enchants[i];
-		var allow = false;
-
-		for (var j=0; j<enchant.items.length; j++){
-			if (enchant.items[j] == item){
-				allow = true;
-				break;
-			}
-		}
-
-		if (i.substr(0, 5) == "Curse") allow = false;
-
-		if (allow){
-			enchants.push(i);
-
-			var e_info = data.enchants[i];
-			max_max = Math.max(max_max, parseInt(e_info.levelMax));
-		}
-	}
-
-
-	//
-	// get overrides
-	//
-
-	var o_flags = get_override_flags();
-
-
-	//
-	// next, group them by incompatible enchants
-	//
-
-	var groups = [];
-
-	while (enchants.length){
-		var candidate = enchants.shift();
-		var group = [candidate];
-
-		var next = [];
-		for (var i=0; i<enchants.length; i++){
-			var e = enchants[i];
-			var e_info = data.enchants[e];
-
-			var is_incompatible = false;
-			for (var j=0; j<e_info.incompatible.length; j++){
-				if (e_info.incompatible[j] == candidate){
-					is_incompatible = true;
-					break;
-				}
-			}
-
-			if (is_overriden(e, o_flags)) is_incompatible = false;
-
-			if (is_incompatible){
-				group.push(e);
-			}else{
-				next.push(e);
-			}
-		}
-
-		groups.push(group);
-		enchants = next;
-	}
-
-
-	//
-	// finally, build some HTML
-	//
-
-	var g_toggle = true;
-
-	for (var i=0; i<groups.length; i++){
-		var group = groups[i];
-
-		for (var j=0; j<group.length; j++){
-			var enchant = group[j];
-			var e_info = data.enchants[enchant];
-			var max = parseInt(e_info.levelMax);
-
-			var row = $('<tr>');
-			row.addClass(g_toggle ? 'group1' : 'group2');
-
-			row.append($('<td>').append(enchant));
-			for (var k=1; k<=max_max; k++){
-				if (max >= k){
-					row.append($('<td>').append($('<button>').append(k).addClass('off').data({
-						'level' : k,
-						'enchant' : enchant,
-					})));
-				}else{
-					row.append($('<td>'));
-				}
-			}
-
-			//p.css({'backgroundColor' : g_toggle ? '#eee' : '#ddd'});
-			$('#enchants table').append(row);
-
-			//console.log(enchant, g_toggle);
-
-			if (enchant == 'Riptide'){
-
-				row = $('<tr>');
-				row.addClass(g_toggle ? 'group1' : 'group2');
-
-				row.append($('<td>'));
-				row.append($('<td>').attr('colspan', max_max).append($('<i>').append("Channeling and Loyalty can be used together but neither can be used with Riptide")));
-
-				$('#enchants table').append(row);
-			}
-		}
-
-		g_toggle = !g_toggle;
-	}
-
-	$('#enchants').show();
-}
-
-function get_override_flags(){
-	return {
-		'armor_1_14_1'	: !!$('#armor_1_14_1').is(':checked'),
-		'bow_1_11'	: !!$('#bow_1_11').is(':checked'),
-	};
-}
-
-function is_overriden(enchant, o_flags){
-
-	if (enchant == 'Protection'		&& o_flags.armor_1_14_1) return true;
-	if (enchant == 'Blast Protection'	&& o_flags.armor_1_14_1) return true;
-	if (enchant == 'Fire Protection'	&& o_flags.armor_1_14_1) return true;
-	if (enchant == 'Projectile Protection'	&& o_flags.armor_1_14_1) return true;
-
-	if (enchant == 'Infinity'		&& o_flags.bow_1_11) return true;
-	if (enchant == 'Mending'		&& o_flags.bow_1_11) return true;
-
-	return false;
-}
-
-
-function build_overrides(item){
-
-	$('#overrides p').html('');
-
-	for (var i=0; i<overrides.length; i++){
-		if (overrides[i][0] == item){
-			var o = overrides[i][1];
-
-			if (o == 'armor_1_14_1'){
-				$('#overrides p').append('<label><input type="checkbox" id="armor_1_14_1" >Allow multiple Protection types (1.14.1 only)</label>');
-			}
-			if (o == 'bow_1_11'){
-				$('#overrides p').append('<label><input type="checkbox" id="bow_1_11" >Allow Mending & Infinity (1.11 only)</label>');
-			}
-		}
-	}
-
-	$('#overrides p input').change(function(){ build_enchant_list(item); });
-
-	$('#overrides').show();
-}
-
-function completed(msg){
-
-	var x = performance.now();
-	var elapsed = Math.round((x - start) / 1000);
-
-	if (elapsed <= 1){
-		$('#timings').text('Completed in under a second, trying '+number_format(total_tries)+' combinations');
-	}else{
-		$('#timings').text('Completed in '+elapsed+' seconds, trying '+number_format(total_tries)+' combinations');
-	}
-
-	in_progress = false;
-
-	var names = {};
-	for (var i in msg.enchants){
-		var e = msg.enchants[i];
-		var e_info = data.enchants[msg.enchants[i].enchant];
-
-		names[i] = e_info.levelMax == "1" ? e.enchant : e.enchant + ' ' + e.level;
-	}
-	names['ITEM'] = data.items[msg.item];
-
-	//console.log(names);
-
-	$('#level-cost').text(msg.cost);
-	$('#steps').html('');
-
-	if (msg.tried == 0){
-		$('#error .lbl').text("Please select one or more enchantments");
-		$('#error').show();
-		return;
-	}
-
-	for (var i=0; i<msg.path.length; i++){
-
-		var n = i+1;
-		var left = expand_name(msg.path[i].left, names, msg);
-		var right = expand_name(msg.path[i].right, names, msg);
-
-		$('#steps').append($('<li>').html('Combine <i>'+left+'</i> with <i>'+right+'</i><br><small>(Cost: '+msg.path[i].cost+' levels)</small>'));
-
-	}
-
-	$('#solution').show();
-}
-
-function expand_name(k, names, context){
-
-	var bits = k.split('|');
-
-	// just a single item is easy
-	if (bits.length == 1){
-		var icon = bits[0] == 'ITEM' ? context.item : 'book';
-		return '<img src="./images/'+icon+'.gif" class="icon"> '+names[bits[0]];
-	}
-
-
-	// for multiple items, make it fancy
-	var icon = 'book';
-	var lbl = 'Book';
-
-	if (bits[0] == 'ITEM'){
-		bits.shift();
-		icon = context.item;
-		lbl = names['ITEM'];
-	}
-
-	var parts = [];
-	for (var i=0; i<bits.length; i++){
-		parts.push(names[bits[i]]);
-	}
-		
-	var extra = parts.join(' + ');
-	if (icon != 'book') extra = 'w/ '+extra;
-
-	return '<img src="./images/'+icon+'.gif" class="icon"> '+lbl+' ('+extra+')';
-}
-
-function button_clicked(elm){
-
-	var b_data = elm.data();
-
-	// when we click on a button, we need to:
-	// 1) figure out if it's already on
-	// 2) if it is, turn it off (no longer using this enchant)
-	// 3) if it's not, turn it on and turn off any other button in the same enchant group (inc other levels of this enchant)
-
-	if (elm.attr('class') == 'on'){
-		elm.attr('class', 'off');
-	}else{
-		elm.attr('class', 'on');
-		$("#enchants button").filter(function(){ return $(this).data("enchant") == b_data.enchant && $(this).data("level") != b_data.level; }).attr('class', 'off');
-		var e_info = data.enchants[b_data.enchant];
-
-
-		// Treat these special: Channeling and Loyalty can be used together but neither can be used with Riptide
-
-		if (b_data.enchant == 'Channeling' || b_data.enchant == 'Loyalty'){
-			$("#enchants button").filter(function(){ return $(this).data("enchant") == 'Riptide'; }).attr('class', 'off');
-		}else if (b_data.enchant == 'Riptide'){
-			$("#enchants button").filter(function(){ return $(this).data("enchant") == 'Channeling' || $(this).data("enchant") == 'Loyalty'; }).attr('class', 'off');
-
-		}else{
-			if (is_overriden(b_data.enchant, get_override_flags())) return;
-
-			for (var i=0; i<e_info.incompatible.length; i++){
-				$("#enchants button").filter(function(){ return $(this).data("enchant") == e_info.incompatible[i]; }).attr('class', 'off');
-			}
-		}
-	}
-}
-
-function calculate(){
-
-	// get list of enchants to use
-
-	var enchants = [];
-
-	$("#enchants button.on").each(function(idx, elm){
-		enchants.push([$(elm).data('enchant'), $(elm).data('level')]);
-	});
-
-	var item = $('select#item option:selected').val();
-
-	start_job(item, enchants);
-}
-
-function start_job(item, enchants){
-
-	if (in_progress == true){
-		alert('calculation already in progress');
-		return;
-	}
-
-	if (enchants.length >= 6){
-		 if (navigator.userAgent.match(/Android/i)
-			|| navigator.userAgent.match(/iPhone/i)
-			|| navigator.userAgent.match(/iPad/i)){
-				$('#phone-warn').show();
-		}
-	}
-
-	in_progress = true;
-	total_steps = enchants.length;
-	total_tries = 0;
-	start = performance.now();
-
-	$('#solution').hide();
-	$('#error').hide();
-
-	$('#progress .lbl').text("Calculating stage 1 of "+total_steps);
-	$('#progress').show();
-
-	w.postMessage({
-		'msg' : 'process',
-		'item' : item,
-		'enchants' : enchants,
-	});
-}
-
-function stage_complete(data){
-
-	total_tries = Math.max(total_tries, data.tries);
-
-	if (data.num < total_steps){
-		$('#progress .lbl').text("Calculating stage "+(data.num+1)+" of "+total_steps+" ("+number_format(data.tries)+" paths explored)");
-	}else{
-		$('#progress').hide();
-		$('#phone-warn').hide();
-	}
-}
-
-function number_format(x){
-	return Number(x).toLocaleString();
-}
-
-
-
-</script>
-<style>
-
-body {
-	font-family: arial;
-}
-
-.inner {
-	margin: 30px auto;
-	width: 1000px;
-	padding-bottom: 30px;
-}
-
-#enchants {
-	width: 400px;
-}
-
-#enchants table {
-	border-spacing: 0px;
-}
-
-#enchants td {
-	padding: 0.5em;
-}
-
-#enchants tr.group1 td {
-	background-color: #eee;
-}
-
-#enchants tr.group2 td {
-	background-color: #ddd;
-}
-
-#enchants td i {
-	font-size: 12px;
-}
-
-#enchants button {
-	background-color: white;
-	padding: 10px;
-	vertical-align: top;
-	box-shadow: 2px 1px 2px gray;
-	margin: 2px 0px 2px 0px;
-}
-
-#enchants button.on {
-	box-shadow: 0 0 0 white;
-	margin: 4px 0px 0px 0px;
-	color: red;
-	background-color: #cfc;
-}
-
-#calculate {
-	padding: 8px;
-	font-size: 120%;
-}
-
-#left {
-	width: 400px;
-	float: left;
-	margin-right: 50px;
-	xbackground-color: lime;
-}
-
-#right {
-	xbackground-color: pink;
-	width: 550px;
-	float: left;
-}
-
-#progress {
-	margin-top: 40px;
-	line-height: 20px;
-	background-color: #ffc;
-	padding: 20px;
-}
-
-#progress img {
-	vertical-align: middle;
-}
-
-#error {
-	margin-top: 40px;
-	line-height: 20px;
-	background-color: #f99;
-	padding: 20px;
-}
-
-#phone-warn {
-	margin-top: 40px;
-	line-height: 20px;
-	background-color: #fa9;
-	padding: 20px;
-}
-
-#solution {
-	background-color: #cfc;
-	padding: 20px;
-	margin-top: 20px;
-}
-
-#solution h2 {
-	margin-block-start: 0;
-}
-
-#steps li {
-	margin-bottom: 0.75em;
-}
-
-.footer {
-	position: fixed;
-	right: 0;
-	bottom: 0;
-	width: 100%;
-	background: white;
-
-	padding-right: 20px;
-	box-sizing: border-box;
-	text-align: right;
-}
-
-.icon {
-	display: inline-block;
-	width: 16px;
-	height: 16px;
-}
-
-@media only screen and (max-width: 1000px) {
-	body {
-		padding: 10px;
-	}
-	
-	.inner {
-		width: auto;
-		max-width: 100%;
-		margin-top: 0;
-	}
-	
-	h1 {
-		font-size: 24px;
-	}
-	
-	#left {
-		width: auto;
-		float: none;
-		margin-right: 0;
-	}
-	
-	#right {
-		width: auto;
-		float: none;
-	}
-	#enchants {
-		width: auto;
-	}
-}
-
-</style>
+    <title>Minecraft Enchantment Ordering Tool</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <script src="data.js?2"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 
 <div class="inner">
+    <div class="dark-mode-toggle-container">
+        <button id="darkModeToggle">Dark Mode</button>
+    </div>
 
-	<h1>Minecraft Enchantment Ordering Tool</h1>
+    <h1>Minecraft Enchantment Ordering Tool</h1>
 
-	<p>
-		When enchanting items in Minecraft, the order in which you combine armor, weapons and tools with books in your anvil makes a huge difference.
-		Each time you work on an anvil, you increase the <a href="https://minecraft.fandom.com/wiki/Anvil_mechanics">work penalty</a> for future workings.
-		Once that penalty gets too high, you simply can't add any more enchantments and the anvil says "Too Expensive!".
-		This tool helps you plan the optimal order of combining and applying books, to give you the cheapest possible cost.
-	</p>
-	<p>
-		This tool assume your gear and books start with zero "work penalty". That means you have not previously combined the books (e.g. to turn two level 1
-		books into a single level 2 book) or worked the items or books in an anvil in any way.
-		To create gear with the maximum possible enchantment, you cannot combine lower-level books and must start with high-level books from villager trading.
-	</p>
+    <p>
+        When enchanting items in Minecraft, the order in which you combine armor, weapons and tools with books in your
+        anvil makes a huge difference. Each time you work on an anvil, you increase the <a
+            href="https://minecraft.fandom.com/wiki/Anvil_mechanics">work penalty</a> for future workings. Once that
+        penalty gets too high, you simply can't add any more enchantments and the anvil says "Too Expensive!". This tool
+        helps you plan the optimal order of combining and applying books, to give you the cheapest possible cost.
+    </p>
+    <p>
+        This tool assume your gear and books start with zero "work penalty". That means you have not previously combined
+        the books (e.g. to turn two level 1 books into a single level 2 book) or worked the items or books in an anvil
+        in any way. To create gear with the maximum possible enchantment, you cannot combine lower-level books and must
+        start with high-level books from villager trading.
+    </p>
 
-	<div id="left">
+    <div id="left">
 
-		<p>
-			<select id="item">
-				<option value="">Choose an item to enchant</option>
-			</select>
-		</p>
+        <p>
+            <label for="item"></label>
+            <select id="item" class="selectItem">
+                <option value="">Choose an item to enchant</option>
+            </select>
+        </p>
 
-		<div id="enchants" style="display: none">
-			<table></table>
+        <div id="enchants" style="display: none">
+            <table></table>
 
-			<div id="overrides" style="display: none">
-				<p>
-				</p>
-			</div>
+            <div id="overrides" style="display: none">
+                <p>
+                </p>
+            </div>
+            <p>
+                <button id="calculate">Calculate &raquo;</button>
+            </p>
+        </div>
+    </div>
 
-			<p>
-				<button id="calculate">Calculate &raquo;</button>
-			</p>
-		</div>
+    <div id="right">
 
-	</div>
+        <div id="progress" style="display: none">
+            <img src="spin.svg" width="20" height="20" alt="">
+            <span class="lbl">Text here</span>
+        </div>
 
-	<div id="right">
+        <div id="solution" style="display: none">
+            <h2>Optimal solution found!</h2>
 
-		<div id="progress" style="display: none">
-			<img src="spin.svg" width="20" height="20">
-			<span class="lbl">Text here</span>
-		</div>
+            <p id="timings">Completed in under a second, trying 1,000,000,000 combinations</p>
+            <p><b>Total cost:</b> <span id="level-cost">69</span> levels</p>
 
-		<div id="solution" style="display: none">
-			<h2>Optimal solution found!</h2>
+            <h3>Steps</h3>
+            <ol id="steps">
+            </ol>
+        </div>
 
-			<p id="timings">Completed in under a second, trying 1,000,000,000 combinations</p>
-			<p><b>Total cost:</b> <span id="level-cost">69</span> levels</p>
+        <div id="error" style="display: none">
+            <span class="lbl">Text here</span>
+        </div>
 
-			<h3>Steps</h3>
-			<ol id="steps">
-			</ol>
-		</div>
-
-		<div id="error" style="display: none">
-			<span class="lbl">Text here</span>
-		</div>
-
-		<div id="phone-warn" style="display: none">
+        <div id="phone-warn" style="display: none">
 			<span class="lbl">
 				You have selected many enchantments and are using a phone or tablet - the calculator may run out of memory and crash.
 				Try selecting fewer enchantments, or using a computer.
 			</span>
-		</div>
+        </div>
 
-	</div>
-
-	<br clear="all">
+    </div>
 </div>
-
 <div class="footer">
-	<p>Built by Cal Henderson. <a href="https://github.com/iamcal/enchant-order">Source on Github</a></p>
+    <p>Built by Cal Henderson. <a href="https://github.com/iamcal/enchant-order">Source on Github</a></p>
 </div>
 
 </body>
