@@ -31,7 +31,7 @@ var data = {
         channeling: {
             levelMax: "1",
             weight: "4",
-            incompatible: ["riptide", "loyalty"],
+            incompatible: ["riptide"],
             items: ["trident"],
             stylized: "Channeling"
         },
@@ -110,7 +110,7 @@ var data = {
         loyalty: {
             levelMax: "3",
             weight: "1",
-            incompatible: ["riptide", "channeling"],
+            incompatible: ["riptide"],
             items: ["trident"],
             stylized: "Loyalty"
         },
