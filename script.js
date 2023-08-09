@@ -94,6 +94,7 @@ function incompatibleGroupFromNamespace(enchantment_namespace) {
         }
     }
 
+    incompatible_namespaces.sort()
     return incompatible_namespaces;
 }
 
