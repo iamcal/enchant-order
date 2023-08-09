@@ -1,12 +1,3 @@
-var overrides = [
-    ["helmet", "armor_1_14_1"],
-    ["chestplate", "armor_1_14_1"],
-    ["leggings", "armor_1_14_1"],
-    ["boots", "armor_1_14_1"],
-    ["turtle_shell", "armor_1_14_1"],
-    ["bow", "bow_1_11"]
-];
-
 var worker;
 var start_time;
 var total_steps;
@@ -44,7 +35,7 @@ window.onload = function() {
         var option = $("select#item option:selected").val();
         if (option) {
             buildEnchantList(option);
-            build_overrides(option);
+            buildOverrides(option);
         } else {
             $("#enchants").hide();
             $("#overrides").hide();
@@ -166,11 +157,7 @@ function buildEnchantList(item_namespace_chosen) {
         enchantment_groups.push(enchantment_group);
     });
 
-    //
-    // finally, build some HTML
-    //
-
-    var group_toggle = true;
+    var group_toggle_color = true;
 
     enchantment_groups.forEach(enchantment_group => {
         enchantment_group.forEach(enchantment_namespace => {
@@ -179,7 +166,7 @@ function buildEnchantList(item_namespace_chosen) {
             const enchantment_name = enchantment_metadata["stylized"];
 
             var enchantment_row = $("<tr>");
-            enchantment_row.addClass(group_toggle ? "group1" : "group2");
+            enchantment_row.addClass(group_toggle_color ? "group1" : "group2");
 
             enchantment_row.append($("<td>").append(enchantment_name));
             for (let enchantment_level = 1; enchantment_level <= enchantment_level_maxmax; enchantment_level++) {
@@ -200,55 +187,26 @@ function buildEnchantList(item_namespace_chosen) {
             $("#enchants table").append(enchantment_row);
         });
 
-        group_toggle = !group_toggle;
+        group_toggle_color = !group_toggle_color;
     });
 
     $("#enchants").show();
 }
 
-function get_override_flags() {
-    return {
-        armor_1_14_1: !!$("#armor_1_14_1").is(":checked"),
-        bow_1_11: !!$("#bow_1_11").is(":checked")
+function getOverrideFlags() {
+    const flags = {
+        allow_incompatible: $("#allow_incompatible").is(":checked")
     };
+    return flags;
 }
 
-function is_overriden(enchant, o_flags) {
-    if (enchant == "Protection" && o_flags.armor_1_14_1) return true;
-    if (enchant == "Blast Protection" && o_flags.armor_1_14_1) return true;
-    if (enchant == "Fire Protection" && o_flags.armor_1_14_1) return true;
-    if (enchant == "Projectile Protection" && o_flags.armor_1_14_1) return true;
-
-    if (enchant == "Infinity" && o_flags.bow_1_11) return true;
-    if (enchant == "Mending" && o_flags.bow_1_11) return true;
-
-    return false;
-}
-
-function build_overrides(item) {
-    $("#overrides p").html("");
-
-    for (var i = 0; i < overrides.length; i++) {
-        if (overrides[i][0] == item) {
-            var o = overrides[i][1];
-
-            if (o == "armor_1_14_1") {
-                $("#overrides p").append(
-                    '<label><input type="checkbox" id="armor_1_14_1" >Allow multiple Protection types (1.14.1 only)</label>'
-                );
-            }
-            if (o == "bow_1_11") {
-                $("#overrides p").append(
-                    '<label><input type="checkbox" id="bow_1_11" >Allow Mending & Infinity (1.11 only)</label>'
-                );
-            }
-        }
-    }
+function buildOverrides(item_namespace) {
+    const overrides_checkbox = '<input type="checkbox" id="allow_incompatible" >Allow incompatible enchantments';
+    $("#overrides p").append("<label>").html(overrides_checkbox);
 
     $("#overrides p input").change(function() {
-        buildEnchantList(item);
+        buildEnchantList(item_namespace);
     });
-
     $("#overrides").show();
 }
 
@@ -433,12 +391,14 @@ function buttonClicked(button_clicked) {
         });
         turnOffButtons(matching_buttons);
 
-        if (is_overriden(button_data.enchant, get_override_flags())) return;
-
-        const enchantment_namespace = enchantmentNamespaceFromStylized(clicked_enchantment_name);
-        const enchantment_metadata = enchantments_metadata[enchantment_namespace];
-        const incompatible_namespaces = enchantment_metadata.incompatible;
-        filterEnchantmentButtons(incompatible_namespaces);
+        const override_flags = getOverrideFlags();
+        const allow_incompatible = override_flags["allow_incompatible"];
+        if (!allow_incompatible) {
+            const enchantment_namespace = enchantmentNamespaceFromStylized(clicked_enchantment_name);
+            const enchantment_metadata = enchantments_metadata[enchantment_namespace];
+            const incompatible_namespaces = enchantment_metadata.incompatible;
+            filterEnchantmentButtons(incompatible_namespaces);
+        }
     }
 }
 
