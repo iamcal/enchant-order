@@ -6,20 +6,19 @@ var ENCHANTMENT2NAMESPACE = [];
 var ITEM_NAMESPACES = [];
 const MAXIMUM_MERGE_COST = 39;
 
-onmessage = function(e) {
-    if (e.data.msg == "set_data") {
-        data = e.data.data;
+onmessage = function(event) {
+    if (event.data.msg === "set_data") {
+        const event_data = event.data.data;
+        const enchantments_metadata = event_data.enchants;
+        const item_namepace2style = event_data.items;
 
-        const enchantment_data = data["enchants"];
-        const item_data = data["items"];
-
-        for (let item_namespace in item_data) {
+        for (let item_namespace in item_namepace2style) {
             ITEM2ENCHANTMENTS[item_namespace] = [];
         }
 
         var enchantment_id = 0;
-        for (let enchantment_namespace in enchantment_data) {
-            const enchantment_metadata = enchantment_data[enchantment_namespace];
+        for (let enchantment_namespace in enchantments_metadata) {
+            const enchantment_metadata = enchantments_metadata[enchantment_namespace];
             const enchantment_weight = enchantment_metadata["weight"];
             const enchantment_items = enchantment_metadata["items"];
 
@@ -43,10 +42,8 @@ onmessage = function(e) {
         ITEM_NAMESPACES = Object.keys(ITEM2ENCHANTMENTS);
     }
 
-    if (e.data.msg == "process") {
-        //console.log('data (later)', data);
-        process(e.data.item, e.data.enchants);
-        //console.log('work complete');
+    if (event.data.msg === "process") {
+        process(event.data.item, event.data.enchants);
     }
 };
 
@@ -72,12 +69,12 @@ function combinations(set, k) {
     }
 
     // K-sized set has only one K-sized subset.
-    if (k == set.length) {
+    if (k === set.length) {
         return [set];
     }
 
     // There is N 1-sized subsets in a N-sized set.
-    if (k == 1) {
+    if (k === 1) {
         combs = [];
         for (i = 0; i < set.length; i++) {
             combs.push([set[i]]);
@@ -116,82 +113,84 @@ function isPositiveInt(obj) {
     return is_int && is_positive;
 }
 
+function memoizeHashFromArguments(arguments) {
+    enchanted_item_objs = arguments[0];
+    enchanted_item_hashes = new Array(enchanted_item_objs.length);
+
+    enchanted_item_objs.forEach((enchanted_item_obj, enchanted_item_index) => {
+        const enchantments_obj = enchanted_item_obj.enchantments_obj;
+        const enchantment_objs = enchantments_obj.enchantment_objs;
+
+        enchantment_objs_length = enchantment_objs.length;
+        var enchantment_ids = new Array(enchantment_objs_length);
+        var enchantment_levels = new Array(enchantment_objs_length);
+        enchantment_objs.forEach((enchantment_obj, enchantment_index) => {
+            enchantment_ids[enchantment_index] = enchantment_obj.id;
+            enchantment_levels[enchantment_index] = enchantment_obj.level;
+        });
+
+        const sorted_ids = enchantment_ids.sort();
+        var sorted_levels = new Array(enchantment_objs_length);
+
+        sorted_ids.forEach((id, id_index) => {
+            sorted_levels[id_index] = enchantment_ids[enchantment_ids.indexOf(id)];
+        });
+
+        enchanted_item_hashes[enchanted_item_index] = [
+            enchanted_item_obj.item_namespace,
+            sorted_ids,
+            sorted_levels,
+            enchanted_item_obj.prior_work,
+            enchantments_obj.cost,
+            enchantments_obj.merge_cost,
+            enchanted_item_obj.cumulative_cost
+        ];
+    });
+
+    return enchanted_item_hashes;
+}
+
 const memoizeCheapest = func => {
     var results = {};
-    return (...args) => {
-        enchanted_item_objs = args[0];
-        enchanted_item_hashes = new Array(enchanted_item_objs.length);
-        enchanted_item_objs.forEach((enchanted_item_obj, enchanted_item_index) => {
-            const enchantments_obj = enchanted_item_obj.enchantments_obj;
-            const enchantment_objs = enchantments_obj.enchantment_objs;
-
-            enchantment_objs_length = enchantment_objs.length;
-            var enchantment_ids = new Array(enchantment_objs_length);
-            var enchantment_levels = new Array(enchantment_objs_length);
-            enchantment_objs.forEach((enchantment_obj, enchantment_index) => {
-                enchantment_ids[enchantment_index] = enchantment_obj.id;
-                enchantment_levels[enchantment_index] = enchantment_obj.level;
-            });
-
-            const sorted_ids = enchantment_ids.sort();
-            var sorted_levels = new Array(enchantment_objs_length);
-
-            sorted_ids.forEach((id, id_index) => {
-                sorted_levels[id_index] = enchantment_ids[enchantment_ids.indexOf(id)];
-            });
-
-            enchanted_item_hashes[enchanted_item_index] = [
-                enchanted_item_obj.item_namespace,
-                sorted_ids,
-                sorted_levels,
-                enchanted_item_obj.prior_work,
-                enchantments_obj.cost,
-                enchantments_obj.merge_cost,
-                enchanted_item_obj.cumulative_cost
-            ];
-        });
-        const argsKey = enchanted_item_hashes;
-
-        if (!results[argsKey]) {
-            results[argsKey] = func(...args);
+    return (...arguments) => {
+        const args_key = memoizeHashFromArguments(arguments);
+        if (!results[args_key]) {
+            results[args_key] = func(...arguments);
         }
-        return results[argsKey];
+        return results[args_key];
     };
 };
 
 function cheapestEnchantedItem2(left_item_obj, right_item_obj) {
     let normal_item_obj, reversed_item_obj;
-    var cheapest_item_obj;
 
     try {
         normal_item_obj = combineEnchantedItem(left_item_obj, right_item_obj);
-        try {
-            reversed_item_obj = combineEnchantedItem(right_item_obj, left_item_obj);
-            const normal_cumulative_cost = normal_item_obj.cumulative_cost,
-                reversed_cumulative_cost = reversed_item_obj.cumulative_cost;
-
-            if (reversed_cumulative_cost >= normal_cumulative_cost) {
-                cheapest_item_obj = normal_item_obj;
-            } else {
-                cheapest_item_obj = reversed_item_obj;
-            }
-        } catch (error) {
-            if (error instanceof BookNotOnRightError) {
-                cheapest_item_obj = normal_item_obj;
-            } else {
-                throw error;
-            }
-        }
     } catch (error) {
         if (error instanceof BookNotOnRightError) {
-            reversed_item_obj = combineEnchantedItem(right_item_obj, left_item_obj);
-            cheapest_item_obj = reversed_item_obj;
+            return combineEnchantedItem(right_item_obj, left_item_obj);
         } else {
             throw error;
         }
     }
 
-    return cheapest_item_obj;
+    try {
+        reversed_item_obj = combineEnchantedItem(right_item_obj, left_item_obj);
+        const normal_cumulative_cost = normal_item_obj.cumulative_cost,
+            reversed_cumulative_cost = reversed_item_obj.cumulative_cost;
+
+        if (reversed_cumulative_cost >= normal_cumulative_cost) {
+            return normal_item_obj;
+        } else {
+            return reversed_item_obj;
+        }
+    } catch (error) {
+        if (error instanceof BookNotOnRightError) {
+            return normal_item_obj;
+        } else {
+            throw error;
+        }
+    }
 }
 
 function cheapestEnchantedItemN(item_objs) {
@@ -217,7 +216,7 @@ function cheapestEnchantedItemN(item_objs) {
                         cheapest_cost = new_cost;
                         cheapest_prior_work = new_prior_work;
                     }
-                } else if (new_cost == cheapest_cost) {
+                } else if (new_cost === cheapest_cost) {
                     if (new_prior_work < cheapest_prior_work) {
                         cheapest_item_obj = new_item_obj;
                         cheapest_cost = new_cost;
@@ -238,18 +237,20 @@ function cheapestEnchantedItemN(item_objs) {
 
 const cheapestEnchantedItem = memoizeCheapest(item_objs => {
     const item_count = item_objs.length;
-    var cheapest_item_obj;
 
-    if (item_count == 1) {
-        cheapest_item_obj = item_objs[0];
-    } else if (item_count == 2) {
-        const left_item_obj = item_objs[0],
-            right_item_obj = item_objs[1];
-        cheapest_item_obj = cheapestEnchantedItem2(left_item_obj, right_item_obj);
-    } else if (item_count >= 3) {
-        cheapest_item_obj = cheapestEnchantedItemN(item_objs);
+    switch (item_count) {
+        case 1: {
+            return item_objs[0];
+        }
+        case 2: {
+            const left_item_obj = item_objs[0],
+                right_item_obj = item_objs[1];
+            return cheapestEnchantedItem2(left_item_obj, right_item_obj);
+        }
+        default: {
+            return cheapestEnchantedItemN(item_objs);
+        }
     }
-    return cheapest_item_obj;
 });
 
 function combineEnchantment(left_enchantment_obj, right_enchantment_obj) {

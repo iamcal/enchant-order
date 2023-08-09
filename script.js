@@ -4,70 +4,38 @@ var total_steps;
 var total_tries;
 
 window.onload = function() {
-    const item_namespace2style = data.items;
-
     worker = new Worker("work.js?2");
-
-    worker.onmessage = function(e) {
-        const current_time = performance.now();
-        var elapsed_time = current_time - start_time;
-        console.log(current_time, "msg back to master", e.data);
-
-        if (e.data.msg == "complete") {
-            afterFoundOptimalSolution(e.data);
+    worker.onmessage = function(event) {
+        if (event.data.msg == "complete") {
+            afterFoundOptimalSolution(event.data);
         }
     };
-
     worker.postMessage({
         msg: "set_data",
         data: data
     });
 
+    buildItemSelection();
+    buildEnchantmentSelection();
+    buildCalculateButton();
+    setupDarkmode();
+};
+
+function buildCalculateButton() {
+    $("#calculate").click(calculate);
+}
+
+function buildItemSelection() {
+    const item_namespace2style = data.items;
     const item_namespaces = Object.keys(item_namespace2style);
+
     item_namespaces.forEach(item_namespace => {
         const item_name = item_namespace2style[item_namespace];
         const item_listbox_metadata = { value: item_namespace };
         const item_listbox = $("<option/>", item_listbox_metadata);
         item_listbox.text(item_name).appendTo("select#item");
     });
-
-    $("select#item").change(function() {
-        var option = $("select#item option:selected").val();
-        if (option) {
-            buildEnchantList(option);
-            buildOverrides(option);
-        } else {
-            $("#enchants").hide();
-            $("#overrides").hide();
-        }
-    });
-
-    $("#enchants table").on("click", "button", function() {
-        buttonClicked($(this));
-    });
-
-    $("#calculate").click(calculate);
-
-    if (0) {
-        start_time = performance.now();
-        worker.postMessage({
-            msg: "process",
-            item: item,
-            enchants: enchants
-        });
-    }
-
-    if (0) {
-        for (var i in item_namespace2style) {
-            var img = $("<img>").attr("src", "./images/" + i + ".gif").attr("width", 16).attr("height", 16);
-            var lbl = $("<span>").text(item_namespace2style[i]);
-
-            $("#right").append($("<p>").append(img).append(lbl));
-        }
-    }
-
-    setup_darkmode();
-};
+}
 
 function incompatibleGroupFromNamespace(enchantment_namespace) {
     const enchantments_metadata = data.enchants;
@@ -94,7 +62,7 @@ function incompatibleGroupFromNamespace(enchantment_namespace) {
         }
     }
 
-    incompatible_namespaces.sort()
+    incompatible_namespaces.sort();
     return incompatible_namespaces;
 }
 
@@ -209,6 +177,23 @@ function buildOverrides(item_namespace) {
         buildEnchantList(item_namespace);
     });
     $("#overrides").show();
+}
+
+function buildEnchantmentSelection() {
+    $("select#item").change(function() {
+        var option = $("select#item option:selected").val();
+        if (option) {
+            buildEnchantList(option);
+            buildOverrides(option);
+        } else {
+            $("#enchants").hide();
+            $("#overrides").hide();
+        }
+    });
+
+    $("#enchants table").on("click", "button", function() {
+        buttonClicked($(this));
+    });
 }
 
 function afterFoundOptimalSolution(msg) {
@@ -403,7 +388,7 @@ function buttonClicked(button_clicked) {
     }
 }
 
-function calculate() {
+function retrieveEnchantmentFoundation() {
     var enchantment_foundation = [];
     const buttons_on = $("#enchants button.on");
 
@@ -414,6 +399,11 @@ function calculate() {
         enchantment_foundation.push([enchantment_namespace, enchantment_level]);
     });
 
+    return enchantment_foundation;
+}
+
+function calculate() {
+    const enchantment_foundation = retrieveEnchantmentFoundation();
     const item_namespace = $("select#item option:selected").val();
     startCalculating(item_namespace, enchantment_foundation);
 }
@@ -443,30 +433,30 @@ function startCalculating(item_namespace, enchantment_foundation) {
     });
 }
 
-function setup_darkmode() {
-    const darkModeToggle = document.getElementById("darkModeToggle");
+function setupDarkmode() {
+    const dark_mode_toggle = document.getElementById("darkModeToggle");
     const body = document.body;
 
-    darkModeToggle.addEventListener("click", function() {
+    dark_mode_toggle.addEventListener("click", function() {
         body.classList.toggle("dark-mode");
 
         // Save user preference in localStorage
         if (body.classList.contains("dark-mode")) {
             localStorage.setItem("darkMode", "enabled");
-            darkModeToggle.textContent = "Light Mode";
+            dark_mode_toggle.textContent = "Light Mode";
         } else {
             localStorage.setItem("darkMode", "disabled");
-            darkModeToggle.textContent = "Dark Mode";
+            dark_mode_toggle.textContent = "Dark Mode";
         }
     });
 
     // Check user preference on page load
-    const userPreference = localStorage.getItem("darkMode");
-    if (userPreference === "enabled") {
+    const user_preference = localStorage.getItem("darkMode");
+    if (user_preference === "enabled") {
         body.classList.add("dark-mode");
-        darkModeToggle.textContent = "Light Mode";
+        dark_mode_toggle.textContent = "Light Mode";
     } else {
         body.classList.remove("dark-mode");
-        darkModeToggle.textContent = "Dark Mode";
+        dark_mode_toggle.textContent = "Dark Mode";
     }
 }
