@@ -405,6 +405,14 @@ function filterButton(button, enchantment_name, enchantment_level = -1) {
     return button_matches_name && !button_matches_level;
 }
 
+function turnOffButtons(buttons) {
+    buttons.attr("class", "off");
+}
+
+function turnOnButtons(buttons) {
+    buttons.attr("class", "on");
+}
+
 function filterEnchantmentButtons(incompatible_namespaces) {
     const enchantments_metadata = data.enchants;
     const enchantment_buttons = $("#enchants button");
@@ -413,13 +421,12 @@ function filterEnchantmentButtons(incompatible_namespaces) {
         const incompatible_metadata = enchantments_metadata[incompatible_namespace];
         const incompatible_name = incompatible_metadata["stylized"];
 
-        enchantment_buttons
-            .filter(function() {
-                const this_button = $(this);
-                const button_matches_name = buttonMatchesName(this_button, incompatible_name);
-                return button_matches_name;
-            })
-            .attr("class", "off");
+        var matching_buttons = enchantment_buttons.filter(function() {
+            const this_button = $(this);
+            const button_matches_name = filterButton(this_button, incompatible_name);
+            return button_matches_name;
+        });
+        turnOffButtons(matching_buttons);
     });
 }
 
@@ -430,19 +437,18 @@ function buttonClicked(button_clicked) {
     const button_is_on = button_clicked.attr("class") == "on";
 
     if (button_is_on) {
-        button_clicked.attr("class", "off");
+        turnOffButtons(button_clicked);
     } else {
-        button_clicked.attr("class", "on");
+        turnOnButtons(button_clicked);
 
         const clicked_enchantment_name = button_data.enchant;
         const clicked_enchantment_level = button_data.level;
 
-        enchantment_buttons
-            .filter(function() {
-                const this_button = $(this);
-                return filterButton(this_button, clicked_enchantment_name, clicked_enchantment_level);
-            })
-            .attr("class", "off");
+        var matching_buttons = enchantment_buttons.filter(function() {
+            const this_button = $(this);
+            return filterButton(this_button, clicked_enchantment_name, clicked_enchantment_level);
+        });
+        turnOffButtons(matching_buttons);
 
         if (is_overriden(button_data.enchant, get_override_flags())) return;
 
