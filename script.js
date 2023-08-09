@@ -198,23 +198,6 @@ function buildEnchantList(item_namespace_chosen) {
             }
 
             $("#enchants table").append(enchantment_row);
-
-            const name_is_riptide = enchantment_name == "Riptide";
-            if (name_is_riptide) {
-                const trident_footnote =
-                    "Channeling and Loyalty can be used together but neither can be used with Riptide";
-                enchantment_row = $("<tr>");
-                enchantment_row.addClass(group_toggle ? "group1" : "group2");
-
-                enchantment_row.append($("<td>"));
-
-                const trident_row_append = $("<td>")
-                    .attr("colspan", enchantment_level_maxmax)
-                    .append($("<i>").append(trident_footnote));
-                enchantment_row.append(trident_row_append);
-
-                $("#enchants table").append(enchantment_row);
-            }
         });
 
         group_toggle = !group_toggle;
