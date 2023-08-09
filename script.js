@@ -196,17 +196,66 @@ function buildEnchantmentSelection() {
     });
 }
 
-function displayLevelsText(levels, xp, minimum_xp = -1) {
-    const level_text = levels + " levels";
+function displayTime(time_milliseconds) {
+    var time_text;
 
+    if (time_milliseconds < 1) {
+        const time_microseconds = Math.round(time_milliseconds * 1000);
+        time_text = Math.round(time_microseconds) + " microseconds";
+    } else if (time_milliseconds < 1000) {
+        const time_round = Math.round(time_milliseconds);
+        time_text = time_round + " millisecond";
+        if (time_round != 1) time_text += "s";
+    } else {
+        const time_seconds = Math.round(time_milliseconds / 1000);
+        time_text = time_seconds + " second";
+        if (time_seconds != 1) time_text += "s";
+    }
+
+    return time_text;
+}
+
+function displayLevelsText(levels) {
+    var level_text = levels + " level";
+    if (levels != 1) {
+        level_text += "s";
+    }
+    return level_text;
+}
+
+function displayXpText(xp, minimum_xp = -1) {
     var xp_text = "";
     if (minimum_xp >= 0) {
         xp_text += minimum_xp + "-";
     }
     xp_text += xp + " xp";
+    return xp_text;
+}
 
+function displayLevelXpText(levels, xp, minimum_xp = -1) {
+    const level_text = displayLevelsText(levels);
+    const xp_text = displayXpText(xp, minimum_xp);
     const cost_text = level_text + " (" + xp_text + ")";
     return cost_text;
+}
+
+function displayInstructionText(instruction) {
+    const left_item_obj = instruction[0];
+    const right_item_obj = instruction[1];
+    const levels = instruction[2];
+    const xp = instruction[3];
+    const prior_work = instruction[4];
+
+    const left_item_text = displayItemText(left_item_obj);
+    const right_item_text = displayItemText(right_item_obj);
+    const prior_work_penalty = 2 ** prior_work - 1;
+
+    const instruction_text = "Combine <i>" + left_item_text + "</i> with <i>" + right_item_text + "</i>";
+    const cost_text = "Cost: " + displayLevelXpText(levels, xp);
+    const prior_work_text = "Prior Work Penalty: " + displayLevelsText(prior_work_penalty);
+
+    const display_text = instruction_text + "<br><small>" + cost_text + ", " + prior_work_text + "</small>";
+    return display_text;
 }
 
 function displayEnchantmentText(enchantment_obj) {
@@ -253,28 +302,19 @@ function displayItemText(item_obj) {
 }
 
 function updateTime(time_milliseconds) {
-    var timing_text;
-
-    if (time_milliseconds < 1) {
-        const time_microseconds = Math.round(time_milliseconds * 1000);
-        timing_text = "Completed in " + Math.round(time_microseconds) + " microseconds";
-    } else if (time_milliseconds < 1000) {
-        const time_round = Math.round(time_milliseconds);
-        timing_text = "Completed in " + time_round + " millisecond";
-        if (time_round != 0) timing_text += "s";
-    } else {
-        const time_seconds = Math.round(time_milliseconds / 1000);
-        timing_text = "Completed in " + time_seconds + " second";
-        if (time_seconds != 1) timing_text += "s";
-    }
-
+    const timing_text = "Completed in " + displayTime(time_milliseconds);
     $("#timings").text(timing_text);
     $("#timings").show();
 }
 
 function updateCumulativeCost(cumulative_levels, cumulative_xp, minimum_xp = -1) {
-    const cost_text = displayLevelsText(cumulative_levels, cumulative_xp, minimum_xp);
+    const cost_text = displayLevelXpText(cumulative_levels, cumulative_xp, minimum_xp);
     $("#level-cost").text(cost_text);
+}
+
+function addInstructionDisplay(instruction) {
+    const display_text = displayInstructionText(instruction);
+    $("#steps").append($("<li>").html(display_text));
 }
 
 function afterFoundOptimalSolution(msg) {
@@ -298,22 +338,7 @@ function afterFoundOptimalSolution(msg) {
 
     const instructions = msg.instructions;
     instructions.forEach(instruction => {
-        const left_item_obj = instruction[0];
-        const right_item_obj = instruction[1];
-        const levels = instruction[2];
-        const xp = instruction[3];
-        const prior_work = instruction[4];
-
-        const left_item_text = displayItemText(left_item_obj);
-        const right_item_text = displayItemText(right_item_obj);
-        const prior_work_penalty = 2 ** prior_work - 1;
-
-        const instruction_text = "Combine <i>" + left_item_text + "</i> with <i>" + right_item_text + "</i>";
-        const cost_text = "Cost: " + displayLevelsText(levels, xp);
-        const prior_work_text = "Prior Work Penalty: " + prior_work_penalty + " levels";
-
-        const display_text = instruction_text + "<br><small>" + cost_text + ", " + prior_work_text + "</small>";
-        $("#steps").append($("<li>").html(display_text));
+        addInstructionDisplay(instruction);
     });
 
     $("#solution").show();
