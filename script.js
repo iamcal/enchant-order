@@ -404,7 +404,11 @@ function retrieveEnchantmentFoundation() {
 
 function calculate() {
     const enchantment_foundation = retrieveEnchantmentFoundation();
+    const no_enchantments_selected = enchantment_foundation.length == 0;
+    if (no_enchantments_selected) return;
+
     const item_namespace = $("select#item option:selected").val();
+
     startCalculating(item_namespace, enchantment_foundation);
 }
 
