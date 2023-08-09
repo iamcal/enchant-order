@@ -3,7 +3,7 @@ var ITEM2ENCHANTMENTS = {};
 var ENCHANTMENT2WEIGHT = [];
 var ENCHANTMENT2NAMESPACE = [];
 var ITEM_NAMESPACES = [];
-const MAXIMUM_MERGE_COST = 39;
+const MAXIMUM_MERGE_LEVELS = 39;
 
 onmessage = function(event) {
     if (event.data.msg === "set_data") {
@@ -49,12 +49,12 @@ onmessage = function(event) {
 function process(item_namespace, enchantment_foundation) {
     const enchanted_item_objs = generateEnchantedItems(item_namespace, enchantment_foundation);
     const cheapest_item_obj = cheapestEnchantedItem(enchanted_item_objs);
-    const steps = cheapest_item_obj.getSteps();
+    const instructions = cheapest_item_obj.getInstructions();
 
     postMessage({
         msg: "complete",
         item_obj: cheapest_item_obj,
-        steps: steps
+        instructions: instructions
     });
 }
 
@@ -140,9 +140,9 @@ function memoizeHashFromArguments(arguments) {
             sorted_ids,
             sorted_levels,
             enchanted_item_obj.prior_work,
-            enchantments_obj.cost,
-            enchantments_obj.merge_cost,
-            enchanted_item_obj.cumulative_cost
+            enchantments_obj.levels,
+            enchantments_obj.merge_levels,
+            enchanted_item_obj.cumulative_levels
         ];
     });
 
@@ -160,6 +160,57 @@ const memoizeCheapest = func => {
     };
 };
 
+function cheapestLevels(item_obj1, item_obj2) {
+    let cumulative_levels1;
+    try {
+        cumulative_levels1 = item_obj1.cumulative_levels;
+    } catch (error) {
+        if (error instanceof TypeError) {
+            return item_obj2;
+        }
+    }
+
+    let cumulative_levels2;
+    try {
+        cumulative_levels2 = item_obj2.cumulative_levels;
+    } catch (error) {
+        if (error instanceof TypeError) {
+            return item_obj1;
+        }
+    }
+
+    if (cumulative_levels1 < cumulative_levels2) {
+        return item_obj1;
+    } else if (cumulative_levels1 === cumulative_levels2) {
+        const prior_work1 = item_obj1.prior_work,
+            prior_work2 = item_obj2.prior_work;
+
+        if (prior_work1 < prior_work2) {
+            return item_obj1;
+        } else if (prior_work1 === prior_work2) {
+            const merge_levels1 = item_obj1.merge_levels,
+                merge_levels2 = item_obj2.merge_levels;
+            if (merge_levels1 < merge_levels2) {
+                return item_obj1;
+            } else if (merge_levels1 === merge_levels2) {
+                const minimum_xp1 = item_obj1.minimum_xp,
+                    minimum_xp2 = item_obj2.minimum_xp;
+                if (minimum_xp1 <= minimum_xp2) {
+                    return item_obj1;
+                }
+            }
+        }
+    }
+
+    return item_obj2;
+}
+
+function compareCheapest(item_obj1, item_obj2, cheap_definition = 0) {
+    if (cheap_definition === 0) {
+        return cheapestLevels(item_obj1, item_obj2);
+    }
+}
+
 function cheapestEnchantedItem2(left_item_obj, right_item_obj) {
     let normal_item_obj, reversed_item_obj;
 
@@ -175,14 +226,6 @@ function cheapestEnchantedItem2(left_item_obj, right_item_obj) {
 
     try {
         reversed_item_obj = combineEnchantedItem(right_item_obj, left_item_obj);
-        const normal_cumulative_cost = normal_item_obj.cumulative_cost,
-            reversed_cumulative_cost = reversed_item_obj.cumulative_cost;
-
-        if (reversed_cumulative_cost >= normal_cumulative_cost) {
-            return normal_item_obj;
-        } else {
-            return reversed_item_obj;
-        }
     } catch (error) {
         if (error instanceof BookNotOnRightError) {
             return normal_item_obj;
@@ -190,12 +233,14 @@ function cheapestEnchantedItem2(left_item_obj, right_item_obj) {
             throw error;
         }
     }
+
+    return compareCheapest(normal_item_obj, reversed_item_obj);
 }
 
 function cheapestEnchantedItemN(item_objs) {
     const item_count = item_objs.length;
     const max_item_subcount = Math.floor(item_count / 2) + 1;
-    var cheapest_item_obj, cheapest_cost, cheapest_prior_work;
+    var cheapest_item_obj;
 
     for (let item_subcount = 1; item_subcount < max_item_subcount; item_subcount++) {
         combinations(item_objs, item_subcount).forEach(left_item_objs => {
@@ -205,25 +250,9 @@ function cheapestEnchantedItemN(item_objs) {
                 const left_cheapest_item_obj = cheapestEnchantedItem(left_item_objs);
                 const right_cheapest_item_obj = cheapestEnchantedItem(right_item_objs);
                 const new_item_obj = cheapestEnchantedItem([left_cheapest_item_obj, right_cheapest_item_obj]);
-
-                const new_cost = new_item_obj.cumulative_cost;
-                const new_prior_work = new_item_obj.prior_work;
-
-                if (!(new_cost >= cheapest_cost)) {
-                    if (!(new_prior_work > cheapest_prior_work)) {
-                        cheapest_item_obj = new_item_obj;
-                        cheapest_cost = new_cost;
-                        cheapest_prior_work = new_prior_work;
-                    }
-                } else if (new_cost === cheapest_cost) {
-                    if (new_prior_work < cheapest_prior_work) {
-                        cheapest_item_obj = new_item_obj;
-                        cheapest_cost = new_cost;
-                        cheapest_prior_work = new_prior_work;
-                    }
-                }
+                cheapest_item_obj = compareCheapest(cheapest_item_obj, new_item_obj);
             } catch (error) {
-                if (error instanceof MergeCostTooExpensiveError) {
+                if (error instanceof MergeLevelsTooExpensiveError) {
                 } else {
                     throw error;
                 }
@@ -268,11 +297,11 @@ function combineEnchantment(left_enchantment_obj, right_enchantment_obj) {
         }
 
         const new_enchantment = new Enchantment(left_enchantment_id, new_level);
-        const merge_cost = new_enchantment.cost;
-        return new Enchantments([new_enchantment], merge_cost);
+        const merge_levels = new_enchantment.levels;
+        return new Enchantments([new_enchantment], merge_levels);
     } else {
-        const merge_cost = right_enchantment_obj.cost;
-        return new Enchantments([left_enchantment_obj, right_enchantment_obj], merge_cost);
+        const merge_levels = right_enchantment_obj.levels;
+        return new Enchantments([left_enchantment_obj, right_enchantment_obj], merge_levels);
     }
 }
 
@@ -292,7 +321,7 @@ class Enchantment {
         this.level = level;
 
         const weight = ENCHANTMENT2WEIGHT[enchantment_id];
-        this.cost = level * weight;
+        this.levels = level * weight;
 
         this.namespace = this.getNamespace();
     }
@@ -306,7 +335,7 @@ class Enchantment {
 }
 
 function combineEnchantments(left_enchantments_obj, right_enchantments_obj) {
-    var merge_cost = 0;
+    var merge_levels = 0;
     var merged_enchantment_objs = [];
 
     const left_enchantment_objs = left_enchantments_obj.enchantment_objs;
@@ -329,11 +358,11 @@ function combineEnchantments(left_enchantments_obj, right_enchantments_obj) {
             common_left_enchantments.push(left_enchantment_obj);
 
             const merged_enchantments_obj = combineEnchantment(left_enchantment_obj, right_enchantment_obj);
-            merge_cost += merged_enchantments_obj.merge_cost;
+            merge_levels += merged_enchantments_obj.merge_levels;
 
             merged_enchantment_objs = merged_enchantment_objs.concat(merged_enchantments_obj.enchantment_objs);
         } else {
-            merge_cost += right_enchantment_obj.cost;
+            merge_levels += right_enchantment_obj.levels;
             merged_enchantment_objs.push(right_enchantment_obj);
         }
     });
@@ -344,11 +373,11 @@ function combineEnchantments(left_enchantments_obj, right_enchantments_obj) {
         }
     });
 
-    return new Enchantments(merged_enchantment_objs, merge_cost);
+    return new Enchantments(merged_enchantment_objs, merge_levels);
 }
 
 class Enchantments {
-    constructor(enchantment_objs, merge_cost = 0) {
+    constructor(enchantment_objs, merge_levels = 0) {
         enchantment_objs.forEach(enchantment_obj => {
             if (!(enchantment_obj instanceof Enchantment)) {
                 throw new TypeError("each enchantment must be of type Enchantment");
@@ -356,18 +385,28 @@ class Enchantments {
         });
 
         this.enchantment_objs = enchantment_objs;
-        this.merge_cost = merge_cost;
+        this.merge_levels = merge_levels;
 
-        var cost = 0;
+        var levels = 0;
         enchantment_objs.forEach(enchantment_obj => {
-            cost += enchantment_obj.cost;
+            levels += enchantment_obj.levels;
         });
-        this.cost = cost;
+        this.levels = levels;
     }
 }
 
 function combineEnchantedItem(left_item_obj, right_item_obj) {
     return new MergedEnchantedItem(left_item_obj, right_item_obj);
+}
+
+function experienceFromLevel(level) {
+    if (level <= 16) {
+        return level * level + 7;
+    } else if (level <= 31) {
+        return 2.5 * level * level - 40.5 * level + 360;
+    } else {
+        return 4.5 * level * level - 162.5 * level + 2220;
+    }
 }
 
 function priorWork2Penalty(prior_work) {
@@ -389,7 +428,7 @@ class InvalidItemNameError extends Error {
 }
 
 class EnchantedItem {
-    constructor(item_namespace, enchantments_obj, prior_work = 0, cumulative_cost = 0) {
+    constructor(item_namespace, enchantments_obj, prior_work = 0, cumulative_levels = 0, cumulative_minimum_xp = 0) {
         if (!ITEM_NAMESPACES.includes(item_namespace)) {
             console.log(item_namespace);
             throw new InvalidItemNameError("invalid item namespace");
@@ -411,14 +450,16 @@ class EnchantedItem {
             throw new Error("prior work must be non-negative integer");
         }
 
-        if (!isNaturalNumber(cumulative_cost)) {
-            throw new Error("cumulative cost must be non-negative integer");
+        if (!isNaturalNumber(cumulative_levels)) {
+            throw new Error("cumulative levels must be non-negative integer");
         }
 
         this.item_namespace = item_namespace;
         this.enchantments_obj = enchantments_obj;
         this.prior_work = prior_work;
-        this.cumulative_cost = cumulative_cost;
+        this.cumulative_levels = cumulative_levels;
+        this.cumulative_minimum_xp = cumulative_minimum_xp;
+        this.maximum_xp = experienceFromLevel(cumulative_levels);
     }
 }
 
@@ -436,10 +477,10 @@ class BookNotOnRightError extends Error {
     }
 }
 
-class MergeCostTooExpensiveError extends Error {
-    constructor(message = "merge cost is above maximum allowed") {
+class MergeLevelsTooExpensiveError extends Error {
+    constructor(message = "merge levels is above maximum allowed") {
         super(message);
-        this.name = "MergeCostTooExpensiveError";
+        this.name = "MergeLevelsTooExpensiveError";
     }
 }
 class MergedEnchantedItem extends EnchantedItem {
@@ -461,11 +502,12 @@ class MergedEnchantedItem extends EnchantedItem {
         }
 
         const enchantments = combineEnchantments(left_item_obj.enchantments_obj, right_item_obj.enchantments_obj);
-        let merge_cost;
+
+        var merge_levels;
         if (right_item_is_book) {
-            merge_cost = enchantments.merge_cost;
+            merge_levels = enchantments.merge_levels;
         } else {
-            merge_cost = 2 * enchantments.merge_cost;
+            merge_levels = 2 * enchantments.merge_levels;
         }
 
         const left_prior_work = left_item_obj.prior_work,
@@ -473,42 +515,50 @@ class MergedEnchantedItem extends EnchantedItem {
         const prior_work = Math.max(left_prior_work, right_prior_work) + 1;
         const prior_work_penalty = priorWork2Penalty(left_prior_work) + priorWork2Penalty(right_prior_work);
 
-        const total_merge_cost = merge_cost + prior_work_penalty;
-        if (total_merge_cost > MAXIMUM_MERGE_COST) {
-            throw new MergeCostTooExpensiveError();
+        merge_levels = merge_levels + prior_work_penalty;
+        if (merge_levels > MAXIMUM_MERGE_LEVELS) {
+            throw new MergeLevelsTooExpensiveError();
         }
 
-        const left_cumulative_cost = left_item_obj.cumulative_cost,
-            right_cumuluative_cost = right_item_obj.cumulative_cost;
-        const cumulative_cost = left_cumulative_cost + right_cumuluative_cost + total_merge_cost;
+        const left_cumulative_levels = left_item_obj.cumulative_levels,
+            right_cumuluative_levels = right_item_obj.cumulative_levels;
+        const cumulative_levels = left_cumulative_levels + right_cumuluative_levels + merge_levels;
 
-        super(left_item, enchantments, prior_work, cumulative_cost);
+        const left_cumulative_minimum_xp = left_item_obj.cumulative_minimum_xp,
+            right_minimum_xp = right_item_obj.cumulative_minimum_xp;
+        const merge_minimum_xp = experienceFromLevel(merge_levels);
+        const cumulative_minimum_xp = left_cumulative_minimum_xp + right_minimum_xp + merge_minimum_xp;
+
+        super(left_item, enchantments, prior_work, cumulative_levels, cumulative_minimum_xp);
 
         this.left_item_obj = left_item_obj;
         this.right_item_obj = right_item_obj;
-        this.merge_cost = total_merge_cost;
+        this.merge_levels = merge_levels;
+        this.merge_xp = experienceFromLevel(merge_levels);
     }
 
-    getSteps() {
+    getInstructions() {
         const left_item_obj = this.left_item_obj,
             right_item_obj = this.right_item_obj;
 
         const child_item_objs = [left_item_obj, right_item_obj];
-        var steps = [];
+        var instructions = [];
         child_item_objs.forEach(child_item => {
             if (child_item instanceof MergedEnchantedItem) {
-                const child_steps = child_item.getSteps();
-                child_steps.forEach(single_step => {
-                    steps.push(single_step);
+                const child_instructions = child_item.getInstructions();
+                child_instructions.forEach(single_instruction => {
+                    instructions.push(single_instruction);
                 });
             }
         });
 
-        const cost = this.merge_cost;
+        const merge_levels = this.merge_levels;
+        const merge_xp = this.merge_xp;
         const prior_work = this.prior_work;
-        const single_step = [left_item_obj, right_item_obj, cost, prior_work];
-        steps.push(single_step);
-        return steps;
+
+        const single_instruction = [left_item_obj, right_item_obj, merge_levels, merge_xp, prior_work];
+        instructions.push(single_instruction);
+        return instructions;
     }
 }
 

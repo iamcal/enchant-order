@@ -196,65 +196,17 @@ function buildEnchantmentSelection() {
     });
 }
 
-function afterFoundOptimalSolution(msg) {
-    // if (msg.tried == 0) {
-    //     $("#error .lbl").text("Please select one or more enchantments");
-    //     $("#error").show();
-    //     return;
-    // }
+function displayLevelsText(levels, xp, minimum_xp = -1) {
+    const level_text = levels + " levels";
 
-    const current_time = performance.now();
-    const elapsed_time_milliseconds = current_time - start_time;
-
-    var timing_text;
-    console.log(elapsed_time_milliseconds);
-    if (elapsed_time_milliseconds < 1) {
-        const elapsed_time_microseconds = Math.round(elapsed_time_milliseconds * 1000);
-        timing_text = "Completed in " + Math.round(elapsed_time_microseconds) + " microseconds";
-    } else if (elapsed_time_milliseconds < 1000) {
-        const elasped_time_round = Math.round(elapsed_time_milliseconds);
-        timing_text = "Completed in " + elasped_time_round + " millisecond";
-        if (elasped_time_round != 0) timing_text += "s";
-    } else {
-        const elapsed_time_seconds = Math.round(elapsed_time_milliseconds / 1000);
-        timing_text = "Completed in " + elapsed_time_seconds + " second";
-        if (elapsed_time_seconds != 1) timing_text += "s";
+    var xp_text = "";
+    if (minimum_xp >= 0) {
+        xp_text += minimum_xp + "-";
     }
+    xp_text += xp + " xp";
 
-    $("#timings").text(timing_text);
-    $("#timings").show();
-
-    const final_item_obj = msg.item_obj;
-    const cumulative_cost = final_item_obj.cumulative_cost;
-
-    $("#level-cost").text(cumulative_cost);
-    $("#steps").html("");
-
-    const steps = msg.steps;
-    steps.forEach(step => {
-        const left_item_obj = step[0];
-        const right_item_obj = step[1];
-        const cost = step[2];
-        const prior_work = step[3];
-
-        const left_item_text = displayItemText(left_item_obj);
-        const right_item_text = displayItemText(right_item_obj);
-        const prior_work_penalty = 2 ** prior_work - 1;
-
-        const display_text =
-            "Combine <i>" +
-            left_item_text +
-            "</i> with <i>" +
-            right_item_text +
-            "</i><br><small>(Cost: " +
-            cost +
-            " levels, Prior Work Penalty: " +
-            prior_work_penalty +
-            ")</small>";
-        $("#steps").append($("<li>").html(display_text));
-    });
-
-    $("#solution").show();
+    const cost_text = level_text + " (" + xp_text + ")";
+    return cost_text;
 }
 
 function displayEnchantmentText(enchantment_obj) {
@@ -298,6 +250,73 @@ function displayItemText(item_obj) {
 
     const display_name = icon_text + " " + item_name + " " + enchantments_text;
     return display_name;
+}
+
+function updateTime(time_milliseconds) {
+    var timing_text;
+
+    if (time_milliseconds < 1) {
+        const time_microseconds = Math.round(time_milliseconds * 1000);
+        timing_text = "Completed in " + Math.round(time_microseconds) + " microseconds";
+    } else if (time_milliseconds < 1000) {
+        const time_round = Math.round(time_milliseconds);
+        timing_text = "Completed in " + time_round + " millisecond";
+        if (time_round != 0) timing_text += "s";
+    } else {
+        const time_seconds = Math.round(time_milliseconds / 1000);
+        timing_text = "Completed in " + time_seconds + " second";
+        if (time_seconds != 1) timing_text += "s";
+    }
+
+    $("#timings").text(timing_text);
+    $("#timings").show();
+}
+
+function updateCumulativeCost(cumulative_levels, cumulative_xp, minimum_xp = -1) {
+    const cost_text = displayLevelsText(cumulative_levels, cumulative_xp, minimum_xp);
+    $("#level-cost").text(cost_text);
+}
+
+function afterFoundOptimalSolution(msg) {
+    // if (msg.tried == 0) {
+    //     $("#error .lbl").text("Please select one or more enchantments");
+    //     $("#error").show();
+    //     return;
+    // }
+
+    const current_time = performance.now();
+    const elapsed_time_milliseconds = current_time - start_time;
+    updateTime(elapsed_time_milliseconds);
+
+    const final_item_obj = msg.item_obj;
+    const cumulative_levels = final_item_obj.cumulative_levels;
+    const minimum_xp = final_item_obj.cumulative_minimum_xp;
+    const maximum_xp = final_item_obj.maximum_xp;
+    updateCumulativeCost(cumulative_levels, maximum_xp, minimum_xp);
+
+    $("#steps").html("");
+
+    const instructions = msg.instructions;
+    instructions.forEach(instruction => {
+        const left_item_obj = instruction[0];
+        const right_item_obj = instruction[1];
+        const levels = instruction[2];
+        const xp = instruction[3];
+        const prior_work = instruction[4];
+
+        const left_item_text = displayItemText(left_item_obj);
+        const right_item_text = displayItemText(right_item_obj);
+        const prior_work_penalty = 2 ** prior_work - 1;
+
+        const instruction_text = "Combine <i>" + left_item_text + "</i> with <i>" + right_item_text + "</i>";
+        const cost_text = "Cost: " + displayLevelsText(levels, xp);
+        const prior_work_text = "Prior Work Penalty: " + prior_work_penalty + " levels";
+
+        const display_text = instruction_text + "<br><small>" + cost_text + ", " + prior_work_text + "</small>";
+        $("#steps").append($("<li>").html(display_text));
+    });
+
+    $("#solution").show();
 }
 
 function enchantmentNamespaceFromStylized(enchantment_name) {
