@@ -1,4 +1,3 @@
-var data = {};
 var ENCHANTMENT2ID = {};
 var ITEM2ENCHANTMENTS = {};
 var ENCHANTMENT2WEIGHT = [];
@@ -102,14 +101,14 @@ function isInt(obj) {
 }
 
 function isNaturalNumber(obj) {
-    let is_int = isInt(obj);
-    let is_positive = obj >= 0;
+    const is_int = isInt(obj);
+    const is_positive = obj >= 0;
     return is_int && is_positive;
 }
 
 function isPositiveInt(obj) {
-    let is_int = isInt(obj);
-    let is_positive = obj > 0;
+    const is_int = isInt(obj);
+    const is_positive = obj > 0;
     return is_int && is_positive;
 }
 
@@ -254,11 +253,11 @@ const cheapestEnchantedItem = memoizeCheapest(item_objs => {
 });
 
 function combineEnchantment(left_enchantment_obj, right_enchantment_obj) {
-    let left_enchantment_id = left_enchantment_obj.id,
+    const left_enchantment_id = left_enchantment_obj.id,
         right_enchantment_id = right_enchantment_obj.id;
 
     if (left_enchantment_id === right_enchantment_id) {
-        let left_level = left_enchantment_obj.level,
+        const left_level = left_enchantment_obj.level,
             right_level = right_enchantment_obj.level;
 
         let new_level;
@@ -292,7 +291,7 @@ class Enchantment {
 
         this.level = level;
 
-        let weight = ENCHANTMENT2WEIGHT[enchantment_id];
+        const weight = ENCHANTMENT2WEIGHT[enchantment_id];
         this.cost = level * weight;
 
         this.namespace = this.getNamespace();
@@ -307,12 +306,12 @@ class Enchantment {
 }
 
 function combineEnchantments(left_enchantments_obj, right_enchantments_obj) {
-    let merge_cost = 0;
-    let merged_enchantment_objs = [];
+    var merge_cost = 0;
+    var merged_enchantment_objs = [];
 
     const left_enchantment_objs = left_enchantments_obj.enchantment_objs;
 
-    let left_enchantment_ids = new Array(left_enchantment_objs.length);
+    var left_enchantment_ids = new Array(left_enchantment_objs.length);
     left_enchantment_objs.forEach((enchantment_obj, enchantment_index) => {
         left_enchantment_ids[enchantment_index] = enchantment_obj.id;
     });
@@ -320,16 +319,16 @@ function combineEnchantments(left_enchantments_obj, right_enchantments_obj) {
 
     const right_enchantment_objs = right_enchantments_obj.enchantment_objs;
 
-    let common_left_enchantments = [];
+    var common_left_enchantments = [];
     right_enchantment_objs.forEach(right_enchantment_obj => {
-        let right_enchantment_id = right_enchantment_obj.id;
+        const right_enchantment_id = right_enchantment_obj.id;
 
         if (left_enchantment_ids.includes(right_enchantment_id)) {
-            let left_enchantment_index = left_enchantment_ids.indexOf(right_enchantment_id);
-            let left_enchantment_obj = left_enchantment_objs[left_enchantment_index];
+            const left_enchantment_index = left_enchantment_ids.indexOf(right_enchantment_id);
+            const left_enchantment_obj = left_enchantment_objs[left_enchantment_index];
             common_left_enchantments.push(left_enchantment_obj);
 
-            let merged_enchantments_obj = combineEnchantment(left_enchantment_obj, right_enchantment_obj);
+            const merged_enchantments_obj = combineEnchantment(left_enchantment_obj, right_enchantment_obj);
             merge_cost += merged_enchantments_obj.merge_cost;
 
             merged_enchantment_objs = merged_enchantment_objs.concat(merged_enchantments_obj.enchantment_objs);
@@ -359,7 +358,7 @@ class Enchantments {
         this.enchantment_objs = enchantment_objs;
         this.merge_cost = merge_cost;
 
-        let cost = 0;
+        var cost = 0;
         enchantment_objs.forEach(enchantment_obj => {
             cost += enchantment_obj.cost;
         });
@@ -401,7 +400,7 @@ class EnchantedItem {
             const enchantment_objs = enchantments_obj.enchantment_objs;
 
             enchantment_objs.forEach(enchantment_obj => {
-                let enchantment_id = enchantment_obj.id;
+                const enchantment_id = enchantment_obj.id;
                 if (!valid_enchantments.includes(enchantment_id)) {
                     throw new InvalidEnchantmentError("invalid or incompatible enchantment for item namespace");
                 }
