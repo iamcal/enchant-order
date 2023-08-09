@@ -184,21 +184,8 @@ function cheapestLevels(item_obj1, item_obj2) {
     } else if (cumulative_levels1 === cumulative_levels2) {
         const prior_work1 = item_obj1.prior_work,
             prior_work2 = item_obj2.prior_work;
-
-        if (prior_work1 < prior_work2) {
+        if (prior_work1 <= prior_work2) {
             return item_obj1;
-        } else if (prior_work1 === prior_work2) {
-            const merge_levels1 = item_obj1.merge_levels,
-                merge_levels2 = item_obj2.merge_levels;
-            if (merge_levels1 < merge_levels2) {
-                return item_obj1;
-            } else if (merge_levels1 === merge_levels2) {
-                const minimum_xp1 = item_obj1.minimum_xp,
-                    minimum_xp2 = item_obj2.minimum_xp;
-                if (minimum_xp1 <= minimum_xp2) {
-                    return item_obj1;
-                }
-            }
         }
     }
 
@@ -206,8 +193,9 @@ function cheapestLevels(item_obj1, item_obj2) {
 }
 
 function compareCheapest(item_obj1, item_obj2, cheap_definition = 0) {
-    if (cheap_definition === 0) {
-        return cheapestLevels(item_obj1, item_obj2);
+    switch (cheap_definition) {
+        case 0:
+            return cheapestLevels(item_obj1, item_obj2);
     }
 }
 
@@ -525,9 +513,9 @@ class MergedEnchantedItem extends EnchantedItem {
         const cumulative_levels = left_cumulative_levels + right_cumuluative_levels + merge_levels;
 
         const left_cumulative_minimum_xp = left_item_obj.cumulative_minimum_xp,
-            right_minimum_xp = right_item_obj.cumulative_minimum_xp;
+            right_cumulative_minimum_xp = right_item_obj.cumulative_minimum_xp;
         const merge_minimum_xp = experienceFromLevel(merge_levels);
-        const cumulative_minimum_xp = left_cumulative_minimum_xp + right_minimum_xp + merge_minimum_xp;
+        const cumulative_minimum_xp = left_cumulative_minimum_xp + right_cumulative_minimum_xp + merge_minimum_xp;
 
         super(left_item, enchantments, prior_work, cumulative_levels, cumulative_minimum_xp);
 
