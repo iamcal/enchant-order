@@ -78,6 +78,34 @@ window.onload = function() {
     setup_darkmode();
 };
 
+function incompatibleGroupFromNamespace(enchantment_namespace) {
+    const enchantments_metadata = data.enchants;
+    var incompatible_namespaces_queue = [enchantment_namespace];
+    var incompatible_namespaces = [];
+
+    while (incompatible_namespaces_queue.length) {
+        const incompatible_namespace = incompatible_namespaces_queue.shift();
+        const incompatible_already_grouped = incompatible_namespaces.includes(incompatible_namespace);
+
+        if (!incompatible_already_grouped) {
+            incompatible_namespaces.push(incompatible_namespace);
+            const enchantment_metadata = enchantments_metadata[incompatible_namespace];
+            const new_incompatible_namespaces = enchantment_metadata.incompatible;
+
+            new_incompatible_namespaces.forEach(new_incompatible_namespace => {
+                const new_incompatible_already_grouped = incompatible_namespaces.includes(new_incompatible_namespace);
+                const new_incompatible_in_queue = incompatible_namespaces_queue.includes(new_incompatible_namespace);
+                const push_new_incompatible = !new_incompatible_already_grouped && !new_incompatible_in_queue;
+                if (push_new_incompatible) {
+                    incompatible_namespaces_queue.push(new_incompatible_namespace);
+                }
+            });
+        }
+    }
+
+    return incompatible_namespaces;
+}
+
 function buildEnchantList(item_namespace_chosen) {
     const enchantments_metadata = data.enchants;
 
@@ -87,7 +115,7 @@ function buildEnchantList(item_namespace_chosen) {
     // first, filter out which enchants apply to this item
     //
 
-    var enchantments_allowed = [];
+    var item_enchantment_namespaces = [];
     var enchantment_level_maxmax = 0;
 
     const enchantment_namespaces = Object.keys(enchantments_metadata);
@@ -99,58 +127,44 @@ function buildEnchantList(item_namespace_chosen) {
         item_namespaces.forEach(item_namespace => {
             if (item_namespace == item_namespace_chosen) {
                 allow_enchantment = true;
-                return;
             }
         });
 
         if (allow_enchantment) {
             const enchantment_max_level = enchantment_metadata.levelMax;
             enchantment_level_maxmax = Math.max(enchantment_level_maxmax, enchantment_max_level);
-            enchantments_allowed.push(enchantment_namespace);
+            item_enchantment_namespaces.push(enchantment_namespace);
         }
     });
-
-    //
-    // get overrides
-    //
-
-    var o_flags = get_override_flags();
 
     //
     // next, group them by incompatible enchants
     //
 
     var enchantment_groups = [];
+    var enchantments_grouped = [];
 
-    while (enchantments_allowed.length) {
-        var candidate = enchantments_allowed.shift();
-        var enchantment_group = [candidate];
+    function filterEnchantmentGroup(enchantment_namespace) {
+        const is_valid_enchantment = item_enchantment_namespaces.includes(enchantment_namespace);
+        return is_valid_enchantment;
+    }
 
-        var next_enchantment_namespace = [];
-        for (let i = 0; i < enchantments_allowed.length; i++) {
-            const enchantment_namespace = enchantments_allowed[i];
-            const enchantment_metadata = enchantments_metadata[enchantment_namespace];
+    item_enchantment_namespaces.forEach(enchantment_namespace => {
+        const namespace_already_grouped = enchantments_grouped.includes(enchantment_namespace);
+        if (namespace_already_grouped) return;
 
-            var is_incompatible = false;
-            for (let j = 0; j < enchantment_metadata.incompatible.length; j++) {
-                if (enchantment_metadata.incompatible[j] == candidate) {
-                    is_incompatible = true;
-                    break;
-                }
+        var enchantment_group = incompatibleGroupFromNamespace(enchantment_namespace);
+        enchantment_group = enchantment_group.filter(filterEnchantmentGroup);
+
+        enchantment_group.forEach(enchantment_namespace => {
+            const enchantment_already_grouped = enchantments_grouped.includes(enchantment_namespace);
+            if (!enchantment_already_grouped) {
+                enchantments_grouped.push(enchantment_namespace);
             }
-
-            if (is_overriden(enchantment_namespace, o_flags)) is_incompatible = false;
-
-            if (is_incompatible) {
-                enchantment_group.push(enchantment_namespace);
-            } else {
-                next_enchantment_namespace.push(enchantment_namespace);
-            }
-        }
+        });
 
         enchantment_groups.push(enchantment_group);
-        enchantments_allowed = next_enchantment_namespace;
-    }
+    });
 
     //
     // finally, build some HTML
@@ -185,7 +199,8 @@ function buildEnchantList(item_namespace_chosen) {
 
             $("#enchants table").append(enchantment_row);
 
-            if (enchantment_name == "Riptide") {
+            const name_is_riptide = enchantment_name == "Riptide";
+            if (name_is_riptide) {
                 const trident_footnote =
                     "Channeling and Loyalty can be used together but neither can be used with Riptide";
                 enchantment_row = $("<tr>");
@@ -367,7 +382,6 @@ function enchantmentNamespaceFromStylized(enchantment_name) {
         const enchantment_metadata = enchantments_metadata[enchantment_namespace];
         const enchantment_name_check = enchantment_metadata["stylized"];
         if (enchantment_name_check == enchantment_name) namespace_match = enchantment_namespace;
-        return;
     });
 
     return namespace_match;
@@ -391,16 +405,28 @@ function filterButton(button, enchantment_name, enchantment_level = -1) {
     return button_matches_name && !button_matches_level;
 }
 
+function filterEnchantmentButtons(incompatible_namespaces) {
+    const enchantments_metadata = data.enchants;
+    const enchantment_buttons = $("#enchants button");
+
+    incompatible_namespaces.forEach(incompatible_namespace => {
+        const incompatible_metadata = enchantments_metadata[incompatible_namespace];
+        const incompatible_name = incompatible_metadata["stylized"];
+
+        enchantment_buttons
+            .filter(function() {
+                const this_button = $(this);
+                const button_matches_name = buttonMatchesName(this_button, incompatible_name);
+                return button_matches_name;
+            })
+            .attr("class", "off");
+    });
+}
+
 function buttonClicked(button_clicked) {
     const button_data = button_clicked.data();
     const enchantments_metadata = data.enchants;
     const enchantment_buttons = $("#enchants button");
-
-    // when we click on a button, we need to:
-    // 1) figure out if it's already on
-    // 2) if it is, turn it off (no longer using this enchant)
-    // 3) if it's not, turn it on and turn off any other button in the same enchant group (inc other levels of this enchant)
-
     const button_is_on = button_clicked.attr("class") == "on";
 
     if (button_is_on) {
@@ -418,49 +444,12 @@ function buttonClicked(button_clicked) {
             })
             .attr("class", "off");
 
-        // Treat these special: Channeling and Loyalty can be used together but neither can be used with Riptide
+        if (is_overriden(button_data.enchant, get_override_flags())) return;
 
-        const name_is_channeling = clicked_enchantment_name == "Channeling";
-        const name_is_loyalty = clicked_enchantment_name == "Loyalty";
-        const name_is_riptide = clicked_enchantment_name == "Riptide";
-
-        if (name_is_channeling || name_is_loyalty) {
-            enchantment_buttons
-                .filter(function() {
-                    const this_button = $(this);
-                    const name_is_riptide = buttonMatchesName(this_button, "Riptide");
-                    return name_is_riptide;
-                })
-                .attr("class", "off");
-        } else if (name_is_riptide) {
-            enchantment_buttons
-                .filter(function() {
-                    const this_button = $(this);
-                    const name_is_channeling = buttonMatchesName(this_button, "Riptide");
-                    const name_is_loyalty = buttonMatchesName(this_button, "Loyalty");
-                    return name_is_channeling || name_is_loyalty;
-                })
-                .attr("class", "off");
-        } else {
-            if (is_overriden(button_data.enchant, get_override_flags())) return;
-
-            const enchantment_namespace = enchantmentNamespaceFromStylized(clicked_enchantment_name);
-            const enchantment_metadata = enchantments_metadata[enchantment_namespace];
-            const incompatible_namespaces = enchantment_metadata.incompatible;
-
-            incompatible_namespaces.forEach(incompatible_namespace => {
-                const incompatible_metadata = enchantments_metadata[incompatible_namespace];
-                const incompatible_name = incompatible_metadata["stylized"];
-
-                enchantment_buttons
-                    .filter(function() {
-                        const this_button = $(this);
-                        const button_matches_name = buttonMatchesName(this_button, incompatible_name);
-                        return button_matches_name;
-                    })
-                    .attr("class", "off");
-            });
-        }
+        const enchantment_namespace = enchantmentNamespaceFromStylized(clicked_enchantment_name);
+        const enchantment_metadata = enchantments_metadata[enchantment_namespace];
+        const incompatible_namespaces = enchantment_metadata.incompatible;
+        filterEnchantmentButtons(incompatible_namespaces);
     }
 }
 
