@@ -309,12 +309,14 @@ function updateTime(time_milliseconds) {
 
 function updateCumulativeCost(cumulative_levels, cumulative_xp, minimum_xp = -1) {
     const cost_text = displayLevelXpText(cumulative_levels, cumulative_xp, minimum_xp);
-    $("#level-cost").text(cost_text);
+    const cost_header = $("#level-cost");
+    cost_header.text(cost_text);
 }
 
 function addInstructionDisplay(instruction) {
     const display_text = displayInstructionText(instruction);
-    $("#steps").append($("<li>").html(display_text));
+    var solution_steps = $("#steps");
+    solution_steps.append($("<li>").html(display_text));
 }
 
 function afterFoundOptimalSolution(msg) {
@@ -324,24 +326,39 @@ function afterFoundOptimalSolution(msg) {
     //     return;
     // }
 
+    const instructions = msg.instructions;
+    const instructions_count = instructions.length;
+
     const current_time = performance.now();
     const elapsed_time_milliseconds = current_time - start_time;
     updateTime(elapsed_time_milliseconds);
 
-    const final_item_obj = msg.item_obj;
-    const cumulative_levels = final_item_obj.cumulative_levels;
-    const minimum_xp = final_item_obj.cumulative_minimum_xp;
-    const maximum_xp = final_item_obj.maximum_xp;
-    updateCumulativeCost(cumulative_levels, maximum_xp, minimum_xp);
+    var solution_section = $("#solution");
+    var solution_header = $("#solution h2");
+    var solution_steps = $("#steps");
+    var steps_header = $("#solution h3");
 
-    $("#steps").html("");
+    solution_steps.html("");
+    solution_section.show();
 
-    const instructions = msg.instructions;
-    instructions.forEach(instruction => {
-        addInstructionDisplay(instruction);
-    });
+    if (instructions_count === 0) {
+        solution_header.html("No solution found!");
+        steps_header.html("");
+        updateCumulativeCost(0, 0);
+    } else {
+        solution_header.html("Optimal solution found!");
+        steps_header.html("Steps");
 
-    $("#solution").show();
+        const final_item_obj = msg.item_obj;
+        const cumulative_levels = final_item_obj.cumulative_levels;
+        const minimum_xp = final_item_obj.cumulative_minimum_xp;
+        const maximum_xp = final_item_obj.maximum_xp;
+        updateCumulativeCost(cumulative_levels, maximum_xp, minimum_xp);
+
+        instructions.forEach(instruction => {
+            addInstructionDisplay(instruction);
+        });
+    }
 }
 
 function enchantmentNamespaceFromStylized(enchantment_name) {

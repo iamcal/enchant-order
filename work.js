@@ -49,28 +49,16 @@ onmessage = function(event) {
 function process(item_namespace, enchantment_foundation) {
     const enchanted_item_objs = generateEnchantedItems(item_namespace, enchantment_foundation);
     const cheapest_work2item = cheapestItemsFromList(enchanted_item_objs);
+    const cheapest_item_obj = cheapestItemFromDictionary(cheapest_work2item);
 
-    const prior_works = Object.keys(cheapest_work2item);
-    const cheapest_count = prior_works.length;
-    var potential_costs = new Array(cheapest_count);
-
-    let cheapest_levels;
-
-    prior_works.forEach((prior_work, index) => {
-        const item_obj = cheapest_work2item[prior_work];
-        const cumulative_levels = item_obj.cumulative_levels;
-        potential_costs[index] = cumulative_levels;
-
-        if (!(cumulative_levels >= cheapest_levels)) {
-            cheapest_levels = cumulative_levels;
+    let instructions;
+    try {
+        instructions = cheapest_item_obj.getInstructions();
+    } catch (error) {
+        if (error instanceof TypeError) {
+            instructions = [];
         }
-    });
-
-    const cheapest_index = potential_costs.indexOf(cheapest_levels);
-    const cheapest_prior_work = prior_works[cheapest_index];
-    const cheapest_item_obj = cheapest_work2item[cheapest_prior_work];
-
-    const instructions = cheapest_item_obj.getInstructions();
+    }
 
     postMessage({
         msg: "complete",
@@ -227,6 +215,29 @@ function compareCheapest(item_obj1, item_obj2, cheap_definition = 0) {
         case 0:
             return cheapestLevels(item_obj1, item_obj2);
     }
+}
+
+function cheapestItemFromDictionary(work2item) {
+    const prior_works = Object.keys(work2item);
+    const cheapest_count = prior_works.length;
+    var potential_costs = new Array(cheapest_count);
+
+    let cheapest_levels;
+    let cheapest_index;
+    prior_works.forEach((prior_work, index) => {
+        const item_obj = work2item[prior_work];
+        const cumulative_levels = item_obj.cumulative_levels;
+        potential_costs[index] = cumulative_levels;
+
+        if (!(cumulative_levels >= cheapest_levels)) {
+            cheapest_levels = cumulative_levels;
+            cheapest_index = index;
+        }
+    });
+
+    const cheapest_prior_work = prior_works[cheapest_index];
+    const cheapest_item_obj = work2item[cheapest_prior_work];
+    return cheapest_item_obj;
 }
 
 function cheapestItemFromItems2(left_item_obj, right_item_obj) {
