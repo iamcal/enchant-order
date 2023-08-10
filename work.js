@@ -234,7 +234,9 @@ function cheapestItemFromItems2(left_item_obj, right_item_obj) {
     try {
         normal_item_obj = combineEnchantedItem(left_item_obj, right_item_obj);
     } catch (error) {
-        if (error instanceof BookNotOnRightError) {
+        const merge_levels_too_expensive = error instanceof MergeLevelsTooExpensiveError;
+        const book_not_on_right = error instanceof BookNotOnRightError;
+        if (merge_levels_too_expensive || book_not_on_right) {
             return combineEnchantedItem(right_item_obj, left_item_obj);
         } else {
             throw error;
@@ -245,7 +247,9 @@ function cheapestItemFromItems2(left_item_obj, right_item_obj) {
     try {
         reversed_item_obj = combineEnchantedItem(right_item_obj, left_item_obj);
     } catch (error) {
-        if (error instanceof BookNotOnRightError) {
+        const merge_levels_too_expensive = error instanceof MergeLevelsTooExpensiveError;
+        const book_not_on_right = error instanceof BookNotOnRightError;
+        if (merge_levels_too_expensive || book_not_on_right) {
             return normal_item_obj;
         } else {
             throw error;
@@ -268,7 +272,18 @@ function cheapestItemsFromDictionaries2(left_work2item, right_work2item) {
 
         for (let right_prior_work in right_work2item) {
             const right_item_obj = right_work2item[right_prior_work];
-            const new_work2item = cheapestItemsFromList([left_item_obj, right_item_obj]);
+
+            let new_work2item;
+            try {
+                new_work2item = cheapestItemsFromList([left_item_obj, right_item_obj]);
+            } catch (error) {
+                const merge_levels_too_expensive = error instanceof MergeLevelsTooExpensiveError;
+                const book_not_on_right = error instanceof BookNotOnRightError;
+                if (merge_levels_too_expensive || book_not_on_right) {
+                } else {
+                    throw error;
+                }
+            }
 
             for (let new_prior_work in new_work2item) {
                 const new_item_obj = new_work2item[new_prior_work];
@@ -300,17 +315,9 @@ function cheapestItemsFromListN(item_objs) {
         combinations(item_objs, item_subcount).forEach(left_item_objs => {
             const right_item_objs = item_objs.filter(item_obj => !left_item_objs.includes(item_obj));
 
-            let left_work2item, right_work2item, new_work2item;
-            try {
-                left_work2item = cheapestItemsFromList(left_item_objs);
-                right_work2item = cheapestItemsFromList(right_item_objs);
-                new_work2item = cheapestItemsFromDictionaries([left_work2item, right_work2item]);
-            } catch (error) {
-                if (error instanceof MergeLevelsTooExpensiveError) {
-                } else {
-                    throw error;
-                }
-            }
+            const left_work2item = cheapestItemsFromList(left_item_objs);
+            const right_work2item = cheapestItemsFromList(right_item_objs);
+            const new_work2item = cheapestItemsFromDictionaries([left_work2item, right_work2item]);
 
             for (let new_prior_work in new_work2item) {
                 const new_item_obj = new_work2item[new_prior_work];
