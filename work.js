@@ -48,7 +48,28 @@ onmessage = function(event) {
 
 function process(item_namespace, enchantment_foundation) {
     const enchanted_item_objs = generateEnchantedItems(item_namespace, enchantment_foundation);
-    const cheapest_item_obj = cheapestEnchantedItem(enchanted_item_objs);
+    const cheapest_work2item = cheapestItemsFromList(enchanted_item_objs);
+
+    const prior_works = Object.keys(cheapest_work2item);
+    const cheapest_count = prior_works.length;
+    var potential_costs = new Array(cheapest_count);
+
+    let cheapest_levels;
+
+    prior_works.forEach((prior_work, index) => {
+        const item_obj = cheapest_work2item[prior_work];
+        const cumulative_levels = item_obj.cumulative_levels;
+        potential_costs[index] = cumulative_levels;
+
+        if (!(cumulative_levels >= cheapest_levels)) {
+            cheapest_levels = cumulative_levels;
+        }
+    });
+
+    const cheapest_index = potential_costs.indexOf(cheapest_levels);
+    const cheapest_prior_work = prior_works[cheapest_index];
+    const cheapest_item_obj = cheapest_work2item[cheapest_prior_work];
+
     const instructions = cheapest_item_obj.getInstructions();
 
     postMessage({
@@ -161,35 +182,44 @@ const memoizeCheapest = func => {
 };
 
 function cheapestLevels(item_obj1, item_obj2) {
-    let cumulative_levels1;
+    var work2item = {};
+
+    let prior_work1;
     try {
-        cumulative_levels1 = item_obj1.cumulative_levels;
+        prior_work1 = item_obj1.prior_work;
     } catch (error) {
         if (error instanceof TypeError) {
-            return item_obj2;
+            const prior_work2 = item_obj2.prior_work;
+            work2item[prior_work2] = item_obj2;
+            return work2item;
         }
     }
 
-    let cumulative_levels2;
+    let prior_work2;
     try {
-        cumulative_levels2 = item_obj2.cumulative_levels;
+        prior_work2 = item_obj2.prior_work;
     } catch (error) {
         if (error instanceof TypeError) {
-            return item_obj1;
+            const prior_work1 = item_obj1.prior_work;
+            work2item[prior_work1] = item_obj1;
+            return work2item;
         }
     }
 
-    if (cumulative_levels1 < cumulative_levels2) {
-        return item_obj1;
-    } else if (cumulative_levels1 === cumulative_levels2) {
-        const prior_work1 = item_obj1.prior_work,
-            prior_work2 = item_obj2.prior_work;
-        if (prior_work1 <= prior_work2) {
-            return item_obj1;
+    if (prior_work1 === prior_work2) {
+        const cumulative_levels1 = item_obj1.cumulative_levels,
+            cumulative_levels2 = item_obj2.cumulative_levels;
+        if (cumulative_levels1 < cumulative_levels2) {
+            work2item[prior_work1] = item_obj1;
+        } else {
+            work2item[prior_work2] = item_obj2;
         }
+    } else {
+        work2item[prior_work1] = item_obj1;
+        work2item[prior_work2] = item_obj2;
     }
 
-    return item_obj2;
+    return work2item;
 }
 
 function compareCheapest(item_obj1, item_obj2, cheap_definition = 0) {
@@ -199,9 +229,8 @@ function compareCheapest(item_obj1, item_obj2, cheap_definition = 0) {
     }
 }
 
-function cheapestEnchantedItem2(left_item_obj, right_item_obj) {
-    let normal_item_obj, reversed_item_obj;
-
+function cheapestItemFromItems2(left_item_obj, right_item_obj) {
+    let normal_item_obj;
     try {
         normal_item_obj = combineEnchantedItem(left_item_obj, right_item_obj);
     } catch (error) {
@@ -212,6 +241,7 @@ function cheapestEnchantedItem2(left_item_obj, right_item_obj) {
         }
     }
 
+    let reversed_item_obj;
     try {
         reversed_item_obj = combineEnchantedItem(right_item_obj, left_item_obj);
     } catch (error) {
@@ -222,52 +252,124 @@ function cheapestEnchantedItem2(left_item_obj, right_item_obj) {
         }
     }
 
-    return compareCheapest(normal_item_obj, reversed_item_obj);
+    const cheapest_work2item = compareCheapest(normal_item_obj, reversed_item_obj);
+    const prior_works = Object.keys(cheapest_work2item);
+    const prior_work = prior_works[0];
+    const cheapest_item_obj = cheapest_work2item[prior_work];
+    return cheapest_item_obj;
 }
 
-function cheapestEnchantedItemN(item_objs) {
-    const item_count = item_objs.length;
-    const max_item_subcount = Math.floor(item_count / 2) + 1;
-    var cheapest_item_obj;
+function cheapestItemsFromDictionaries2(left_work2item, right_work2item) {
+    var cheapest_work2item = {};
+    var cheapest_prior_works = [];
 
-    for (let item_subcount = 1; item_subcount < max_item_subcount; item_subcount++) {
+    for (let left_prior_work in left_work2item) {
+        const left_item_obj = left_work2item[left_prior_work];
+
+        for (let right_prior_work in right_work2item) {
+            const right_item_obj = right_work2item[right_prior_work];
+            const new_work2item = cheapestItemsFromList([left_item_obj, right_item_obj]);
+
+            for (let new_prior_work in new_work2item) {
+                const new_item_obj = new_work2item[new_prior_work];
+                const prior_work_exists = cheapest_prior_works.includes(new_prior_work);
+
+                if (prior_work_exists) {
+                    const cheapest_item_obj = cheapest_work2item[new_prior_work];
+                    const new_cheapest_work2item = compareCheapest(cheapest_item_obj, new_item_obj);
+                    const new_cheapest_item_obj = new_cheapest_work2item[new_prior_work];
+                    cheapest_work2item[new_prior_work] = new_cheapest_item_obj;
+                } else {
+                    cheapest_work2item[new_prior_work] = new_item_obj;
+                    cheapest_prior_works.push(new_prior_work);
+                }
+            }
+        }
+    }
+
+    return cheapest_work2item;
+}
+
+function cheapestItemsFromListN(item_objs) {
+    const item_count = item_objs.length;
+    const max_item_subcount = Math.floor(item_count / 2);
+    var cheapest_work2item = {};
+    var cheapest_prior_works = [];
+
+    for (let item_subcount = 1; item_subcount <= max_item_subcount; item_subcount++) {
         combinations(item_objs, item_subcount).forEach(left_item_objs => {
             const right_item_objs = item_objs.filter(item_obj => !left_item_objs.includes(item_obj));
 
+            let left_work2item, right_work2item, new_work2item;
             try {
-                const left_cheapest_item_obj = cheapestEnchantedItem(left_item_objs);
-                const right_cheapest_item_obj = cheapestEnchantedItem(right_item_objs);
-                const new_item_obj = cheapestEnchantedItem([left_cheapest_item_obj, right_cheapest_item_obj]);
-                cheapest_item_obj = compareCheapest(cheapest_item_obj, new_item_obj);
+                left_work2item = cheapestItemsFromList(left_item_objs);
+                right_work2item = cheapestItemsFromList(right_item_objs);
+                new_work2item = cheapestItemsFromDictionaries([left_work2item, right_work2item]);
             } catch (error) {
                 if (error instanceof MergeLevelsTooExpensiveError) {
                 } else {
                     throw error;
                 }
             }
+
+            for (let new_prior_work in new_work2item) {
+                const new_item_obj = new_work2item[new_prior_work];
+                const prior_work_exists = cheapest_prior_works.includes(new_prior_work);
+
+                if (prior_work_exists) {
+                    const cheapest_item_obj = cheapest_work2item[new_prior_work];
+                    const new_cheapest_work2item = compareCheapest(cheapest_item_obj, new_item_obj);
+                    const new_cheapest_item_obj = new_cheapest_work2item[new_prior_work];
+                    cheapest_work2item[new_prior_work] = new_cheapest_item_obj;
+                } else {
+                    cheapest_work2item[new_prior_work] = new_item_obj;
+                    cheapest_prior_works.push(new_prior_work);
+                }
+            }
         });
     }
 
-    return cheapest_item_obj;
+    return cheapest_work2item;
 }
 
-const cheapestEnchantedItem = memoizeCheapest(item_objs => {
+const cheapestItemsFromList = memoizeCheapest(item_objs => {
     const item_count = item_objs.length;
 
     switch (item_count) {
         case 1: {
-            return item_objs[0];
+            const item_obj = item_objs[0];
+            const prior_work = item_obj.prior_work;
+            var work2item = {};
+            work2item[prior_work] = item_obj;
+            return work2item;
         }
         case 2: {
             const left_item_obj = item_objs[0],
                 right_item_obj = item_objs[1];
-            return cheapestEnchantedItem2(left_item_obj, right_item_obj);
+            const cheapest_item_obj = cheapestItemFromItems2(left_item_obj, right_item_obj);
+            const cheapest_prior_work = cheapest_item_obj.prior_work;
+            var work2item = {};
+            work2item[cheapest_prior_work] = cheapest_item_obj;
+            return work2item;
         }
         default: {
-            return cheapestEnchantedItemN(item_objs);
+            const work2item = cheapestItemsFromListN(item_objs);
+            return work2item;
         }
     }
 });
+
+function cheapestItemsFromDictionaries(work2items) {
+    const work2item_count = work2items.length;
+    switch (work2item_count) {
+        case 1:
+            return work2items[0];
+        case 2:
+            const left_work2item = work2items[0],
+                right_work2item = work2items[1];
+            return cheapestItemsFromDictionaries2(left_work2item, right_work2item);
+    }
+}
 
 function combineEnchantment(left_enchantment_obj, right_enchantment_obj) {
     const left_enchantment_id = left_enchantment_obj.id,
@@ -388,7 +490,9 @@ function combineEnchantedItem(left_item_obj, right_item_obj) {
 }
 
 function experienceFromLevel(level) {
-    if (level <= 16) {
+    if (level == 0) {
+        return 0;
+    } else if (level <= 16) {
         return level * level + 7;
     } else if (level <= 31) {
         return 2.5 * level * level - 40.5 * level + 360;
@@ -500,13 +604,14 @@ class MergedEnchantedItem extends EnchantedItem {
 
         const left_prior_work = left_item_obj.prior_work,
             right_prior_work = right_item_obj.prior_work;
-        const prior_work = Math.max(left_prior_work, right_prior_work) + 1;
         const prior_work_penalty = priorWork2Penalty(left_prior_work) + priorWork2Penalty(right_prior_work);
 
-        merge_levels = merge_levels + prior_work_penalty;
+        merge_levels += prior_work_penalty;
         if (merge_levels > MAXIMUM_MERGE_LEVELS) {
             throw new MergeLevelsTooExpensiveError();
         }
+
+        const prior_work = Math.max(left_prior_work, right_prior_work) + 1;
 
         const left_cumulative_levels = left_item_obj.cumulative_levels,
             right_cumuluative_levels = right_item_obj.cumulative_levels;
@@ -553,6 +658,7 @@ class MergedEnchantedItem extends EnchantedItem {
 function generateEnchantedItems(item_namespace, enchantments, prior_work = 0) {
     var enchanted_item_objs = new Array(enchantments.length);
     const empty_enchantments_obj = new Enchantments([]);
+
     const enchanted_tool_obj = new EnchantedItem(
         item_namespace,
         empty_enchantments_obj,
