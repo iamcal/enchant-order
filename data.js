@@ -258,7 +258,8 @@ var data = {
                 "elytra",
                 "trident",
                 "turtle_shell",
-                "crossbow"
+                "crossbow",
+                "brush"
             ]
         },
         "Multishot": {
@@ -458,7 +459,8 @@ var data = {
                 "elytra",
                 "trident",
                 "turtle_shell",
-                "crossbow"
+                "crossbow",
+                "brush"
             ]
         },
         "Curse of Binding": {
@@ -506,7 +508,8 @@ var data = {
                 "helmet",
                 "trident",
                 "turtle_shell",
-                "crossbow"
+                "crossbow",
+                "brush"
             ]
         }
     },
@@ -527,6 +530,7 @@ var data = {
         "bow": "Bow",
         "shield": "Shield",
         "crossbow": "Crossbow",
+        "brush": "Brush",
 
         "fishing_rod": "Fishing Rod",
         "shears": "Shears",
