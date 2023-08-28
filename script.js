@@ -170,8 +170,8 @@ function getOverrideFlags() {
 }
 
 function buildOverrides(item_namespace) {
-    const overrides_checkbox = '<input type="checkbox" id="allow_incompatible" >Allow incompatible enchantments';
-    $("#overrides p").append("<label>").html(overrides_checkbox);
+    const overrides_checkbox = '<label><input type="checkbox" id="allow_incompatible" >Allow incompatible enchantments</label>';
+    $("#overrides p").html(overrides_checkbox);
 
     $("#overrides p input").change(function() {
         buildEnchantList(item_namespace);
