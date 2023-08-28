@@ -372,6 +372,12 @@ function afterFoundOptimalSolution(msg) {
         instructions.forEach(instruction => {
             addInstructionDisplay(instruction);
         });
+
+        if (minimum_xp && minimum_xp != maximum_xp){
+          $('#xp-range-note').show();
+        }else{
+          $('#xp-range-note').hide();
+        }
     }
 }
 
