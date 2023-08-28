@@ -258,7 +258,8 @@ var data = {
                 "elytra",
                 "trident",
                 "turtle_shell",
-                "crossbow"
+                "crossbow",
+                "brush"
             ]
         },
         "Multishot": {
@@ -458,7 +459,8 @@ var data = {
                 "elytra",
                 "trident",
                 "turtle_shell",
-                "crossbow"
+                "crossbow",
+                "brush"
             ]
         },
         "Curse of Binding": {
@@ -506,7 +508,8 @@ var data = {
                 "helmet",
                 "trident",
                 "turtle_shell",
-                "crossbow"
+                "crossbow",
+                "brush"
             ]
         }
     },
@@ -533,6 +536,7 @@ var data = {
         "flint_and_steel": "Flint & Steel",
         "compass": "Compass",
         "carrot_on_a_stick": "Carrot on a Stick",
-        "warped_fungus_on_a_stick": "Warped Fungus on a Stick"
+        "warped_fungus_on_a_stick": "Warped Fungus on a Stick",
+        "brush": "Brush"
     }
 };
