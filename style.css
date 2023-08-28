@@ -248,3 +248,8 @@ body.dark-mode #phone-warn {
 body.dark-mode #solution {
     background: #03ad5f;
 }
+
+#xp-range-note {
+    margin-top: 2em;
+    font-size: 12px;
+}
