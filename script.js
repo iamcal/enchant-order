@@ -227,10 +227,20 @@ function displayLevelsText(levels) {
 function displayXpText(xp, minimum_xp = -1) {
     var xp_text = "";
     if (minimum_xp >= 0) {
-        xp_text += minimum_xp + "-";
+        xp_text += commaify(minimum_xp) + "-";
     }
-    xp_text += xp + " xp";
+    xp_text += commaify(xp) + " xp";
     return xp_text;
+}
+
+function commaify(n){
+    var out = '';
+    var nstr = ''+n;
+    while (nstr.length > 3){
+        out = ',' + nstr.substr(nstr.length - 3)  + out;
+        nstr = nstr.substr(0, nstr.length - 3);
+    }
+    return nstr + out;
 }
 
 function displayLevelXpText(levels, xp, minimum_xp = -1) {
