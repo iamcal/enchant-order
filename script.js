@@ -6,6 +6,7 @@ var total_tries;
 window.onload = function() {
     worker = new Worker("work.js?3");
     worker.onmessage = function(event) {
+console.log('async event ', event.data);
         if (event.data.msg == "complete") {
             afterFoundOptimalSolution(event.data);
         }
@@ -326,6 +327,9 @@ function afterFoundOptimalSolution(msg) {
     //     return;
     // }
 
+    $('#progress').hide();
+    $('#phone-warn').hide();
+
     const instructions = msg.instructions;
     const instructions_count = instructions.length;
 
@@ -496,6 +500,9 @@ function startCalculating(item_namespace, enchantment_foundation) {
         item: item_namespace,
         enchants: enchantment_foundation
     });
+
+    $('#progress .lbl').text("Calculating solution...");
+    $('#progress').show();
 }
 
 function setupDarkmode() {
