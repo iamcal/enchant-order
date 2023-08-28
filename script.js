@@ -261,7 +261,7 @@ function build_overrides(item){
 			var o = overrides[i][1];
 
 			if (o == 'armor_1_14_1'){
-				$('#overrides p').append('<label><input type="checkbox" id="armor_1_14_1" >Allow multiple Protection types (1.14.1 only)</label>');
+				$('#overrides p').append('<label><input type="checkbox" id="armor_1_14_1" >Allow multiple Protection types (1.14-1.14.2 only)</label>');
 			}
 			if (o == 'bow_1_11'){
 				$('#overrides p').append('<label><input type="checkbox" id="bow_1_11" >Allow Mending & Infinity (1.11 only)</label>');
