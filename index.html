@@ -4,7 +4,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
         <script src="data.js?5"></script>
-        <script src="script.js?3"></script>
+        <script src="script.js?4"></script>
         <link rel="stylesheet" type="text/css" href="style.css?2">
     </head>
     <body>
@@ -58,10 +58,15 @@
             <div id="right">
 
                 <div id="mode_selection">
-                    <label for="mode-levels">Levels</label>
-                    <input type="radio" name="cheapness-mode" checked="checked" value="levels">
-                    <label for="mode-prior-work">Prior Work</label>
-                    <input type="radio" name="cheapness-mode" value="prior_work">
+                    Optimize for:
+                    <label>
+                        <input type="radio" name="cheapness-mode" checked="checked" value="levels">
+                        Least XP/Levels
+                    </label>
+                    <label>
+                        <input type="radio" name="cheapness-mode" value="prior_work">
+                        Least Prior Work Penalty
+                    </label>
                 </div>
 
                 <div id="progress" style="display: none">
