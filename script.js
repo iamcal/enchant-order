@@ -6,7 +6,7 @@ var total_tries;
 window.onload = function() {
     worker = new Worker("work.js?3");
     worker.onmessage = function(event) {
-console.log('async event ', event.data);
+        console.log("async event ", event.data);
         if (event.data.msg == "complete") {
             afterFoundOptimalSolution(event.data);
         }
@@ -171,7 +171,8 @@ function getOverrideFlags() {
 }
 
 function buildOverrides(item_namespace) {
-    const overrides_checkbox = '<label><input type="checkbox" id="allow_incompatible" >Allow incompatible enchantments</label>';
+    const overrides_checkbox =
+        '<label><input type="checkbox" id="allow_incompatible" >Allow incompatible enchantments</label>';
     $("#overrides p").html(overrides_checkbox);
 
     $("#overrides p input").change(function() {
@@ -193,7 +194,7 @@ function buildEnchantmentSelection() {
     });
 
     $("#enchants table").on("click", "button", function() {
-        buttonClicked($(this));
+        levelButtonClicked($(this));
     });
 }
 
@@ -233,11 +234,11 @@ function displayXpText(xp, minimum_xp = -1) {
     return xp_text;
 }
 
-function commaify(n){
-    var out = '';
-    var nstr = ''+n;
-    while (nstr.length > 3){
-        out = ',' + nstr.substr(nstr.length - 3)  + out;
+function commaify(n) {
+    var out = "";
+    var nstr = "" + n;
+    while (nstr.length > 3) {
+        out = "," + nstr.substr(nstr.length - 3) + out;
         nstr = nstr.substr(0, nstr.length - 3);
     }
     return nstr + out;
@@ -331,14 +332,8 @@ function addInstructionDisplay(instruction) {
 }
 
 function afterFoundOptimalSolution(msg) {
-    // if (msg.tried == 0) {
-    //     $("#error .lbl").text("Please select one or more enchantments");
-    //     $("#error").show();
-    //     return;
-    // }
-
-    $('#progress').hide();
-    $('#phone-warn').hide();
+    $("#progress").hide();
+    $("#phone-warn").hide();
 
     const instructions = msg.instructions;
     const instructions_count = instructions.length;
@@ -348,7 +343,7 @@ function afterFoundOptimalSolution(msg) {
     updateTime(elapsed_time_milliseconds);
 
     var solution_section = $("#solution");
-    var solution_header = $("#solution h2");
+    var solution_header = $("#solution-header");
     var solution_steps = $("#steps");
     var steps_header = $("#solution h3");
 
@@ -360,7 +355,6 @@ function afterFoundOptimalSolution(msg) {
         steps_header.html("");
         updateCumulativeCost(0, 0);
     } else {
-        solution_header.html("Optimal solution found!");
         steps_header.html("Steps");
 
         const final_item_obj = msg.item_obj;
@@ -373,10 +367,10 @@ function afterFoundOptimalSolution(msg) {
             addInstructionDisplay(instruction);
         });
 
-        if (minimum_xp && minimum_xp != maximum_xp){
-          $('#xp-range-note').show();
-        }else{
-          $('#xp-range-note').hide();
+        if (minimum_xp && minimum_xp != maximum_xp) {
+            $("#xp-range-note").show();
+        } else {
+            $("#xp-range-note").hide();
         }
     }
 }
@@ -438,7 +432,7 @@ function filterEnchantmentButtons(incompatible_namespaces) {
     });
 }
 
-function buttonClicked(button_clicked) {
+function levelButtonClicked(button_clicked) {
     const button_data = button_clicked.data();
     const enchantments_metadata = data.enchants;
     const enchantment_buttons = $("#enchants button");
@@ -483,17 +477,44 @@ function retrieveEnchantmentFoundation() {
     return enchantment_foundation;
 }
 
+function retrieveCheapnessMode() {
+    const selected_mode = $('input[name="cheapness-mode"]:checked').val();
+    return selected_mode;
+}
+
+function retrieveSelectedItem() {
+    const item_namespace = $("select#item option:selected").val();
+    return item_namespace;
+}
+
 function calculate() {
     const enchantment_foundation = retrieveEnchantmentFoundation();
     const no_enchantments_selected = enchantment_foundation.length == 0;
     if (no_enchantments_selected) return;
 
-    const item_namespace = $("select#item option:selected").val();
+    const cheapness_mode = retrieveCheapnessMode();
+    const item_namespace = retrieveSelectedItem();
 
-    startCalculating(item_namespace, enchantment_foundation);
+    startCalculating(item_namespace, enchantment_foundation, cheapness_mode);
 }
 
-function startCalculating(item_namespace, enchantment_foundation) {
+function solutionHeaderTextFromMode(mode) {
+    let solution_header_text;
+    if (mode === "levels") {
+        solution_header_text = "Optimal solution found (by lowest cumulative levels)!";
+    } else if (mode === "prior_work") {
+        solution_header_text = "Optimal solution found (by lowest prior work)!";
+    }
+    return solution_header_text;
+}
+
+function updateSolutionHeader(mode) {
+    const solution_header_text = solutionHeaderTextFromMode(mode);
+    const solution_header = $("#solution-header");
+    solution_header.text(solution_header_text);
+}
+
+function startCalculating(item_namespace, enchantment_foundation, mode) {
     if (enchantment_foundation.length >= 6) {
         if (
             navigator.userAgent.match(/Android/i) ||
@@ -510,15 +531,17 @@ function startCalculating(item_namespace, enchantment_foundation) {
 
     $("#solution").hide();
     $("#error").hide();
+    updateSolutionHeader(mode);
 
     worker.postMessage({
         msg: "process",
         item: item_namespace,
-        enchants: enchantment_foundation
+        enchants: enchantment_foundation,
+        mode: mode
     });
 
-    $('#progress .lbl').text("Calculating solution...");
-    $('#progress').show();
+    $("#progress .lbl").text("Calculating solution...");
+    $("#progress").show();
 }
 
 function setupDarkmode() {

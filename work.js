@@ -42,14 +42,20 @@ onmessage = function(event) {
     }
 
     if (event.data.msg === "process") {
-        process(event.data.item, event.data.enchants);
+        process(event.data.item, event.data.enchants, event.data.mode);
     }
 };
 
-function process(item_namespace, enchantment_foundation) {
+function process(item_namespace, enchantment_foundation, mode = "levels") {
     const enchanted_item_objs = generateEnchantedItems(item_namespace, enchantment_foundation);
     const cheapest_work2item = cheapestItemsFromList(enchanted_item_objs);
-    const cheapest_item_obj = cheapestItemFromDictionary(cheapest_work2item);
+
+    let cheapest_item_obj;
+    if (mode === "levels") {
+        cheapest_item_obj = cheapestItemFromDictionaryByLevels(cheapest_work2item);
+    } else if (mode === "prior_work") {
+        cheapest_item_obj = cheapestItemFromDictionaryByPriorWork(cheapest_work2item);
+    }
 
     let instructions;
     try {
@@ -217,7 +223,14 @@ function compareCheapest(item_obj1, item_obj2, cheap_definition = 0) {
     }
 }
 
-function cheapestItemFromDictionary(work2item) {
+function cheapestItemFromDictionaryByPriorWork(work2item) {
+    const prior_works = Object.keys(work2item);
+    const cheapest_prior_work = prior_works[0];
+    const cheapest_item_obj = work2item[cheapest_prior_work];
+    return cheapest_item_obj;
+}
+
+function cheapestItemFromDictionaryByLevels(work2item) {
     const prior_works = Object.keys(work2item);
     const cheapest_count = prior_works.length;
     var potential_costs = new Array(cheapest_count);
