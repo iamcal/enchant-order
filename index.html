@@ -4,7 +4,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
         <script src="data.js?6"></script>
-        <script src="script.js?5"></script>
+        <script src="script.js?6"></script>
         <link rel="stylesheet" type="text/css" href="style.css?2">
     </head>
     <body>
@@ -33,6 +33,8 @@
                 and mending/infinity (1.9 to 1.11.1).
             </p>
 
+            <hr>
+
             <div id="left">
 
                 <p>
@@ -57,7 +59,7 @@
 
             <div id="right">
 
-                <div id="mode_selection">
+                <p id="mode_selection">
                     Optimize for:
                     <label>
                         <input type="radio" name="cheapness-mode" checked="checked" value="levels">
@@ -67,7 +69,7 @@
                         <input type="radio" name="cheapness-mode" value="prior_work">
                         Least Prior Work Penalty
                     </label>
-                </div>
+                </p>
 
                 <div id="progress" style="display: none">
                     <img src="spin.svg" width="20" height="20" alt="">
