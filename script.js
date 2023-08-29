@@ -162,6 +162,7 @@ function buildEnchantList(item_namespace_chosen) {
     });
 
     $("#enchants").show();
+    updateCalculateButtonState();
 }
 
 function getOverrideFlags() {
@@ -462,6 +463,7 @@ function levelButtonClicked(button_clicked) {
             filterEnchantmentButtons(incompatible_namespaces);
         }
     }
+    updateCalculateButtonState();
 }
 
 function retrieveEnchantmentFoundation() {
@@ -486,6 +488,15 @@ function retrieveCheapnessMode() {
 function retrieveSelectedItem() {
     const item_namespace = $("select#item option:selected").val();
     return item_namespace;
+}
+
+function updateCalculateButtonState() {
+    const enchantment_foundation = retrieveEnchantmentFoundation();
+    if (enchantment_foundation.length == 0){
+        $('#calculate').attr("disabled", true);
+    }else{
+        $('#calculate').attr("disabled", false);
+    }
 }
 
 function calculate() {
