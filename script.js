@@ -6,7 +6,6 @@ var total_tries;
 window.onload = function() {
     worker = new Worker("work.js?3");
     worker.onmessage = function(event) {
-        console.log("async event ", event.data);
         if (event.data.msg == "complete") {
             afterFoundOptimalSolution(event.data);
         }
