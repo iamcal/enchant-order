@@ -30,10 +30,12 @@ function buildItemSelection() {
     const item_namespaces = Object.keys(item_namespace2style);
 
     item_namespaces.forEach(item_namespace => {
-        const item_name = item_namespace2style[item_namespace];
-        const item_listbox_metadata = { value: item_namespace };
-        const item_listbox = $("<option/>", item_listbox_metadata);
-        item_listbox.text(item_name).appendTo("select#item");
+        if (item_namespace != "book") {
+            const item_name = item_namespace2style[item_namespace];
+            const item_listbox_metadata = { value: item_namespace };
+            const item_listbox = $("<option/>", item_listbox_metadata);
+            item_listbox.text(item_name).appendTo("select#item");
+        }
     });
 }
 

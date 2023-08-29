@@ -303,6 +303,7 @@ var data = {
         flint_and_steel: "Flint & Steel",
         carrot_on_a_stick: "Carrot on a Stick",
         warped_fungus_on_a_stick: "Warped Fungus on a Stick",
-        pumpkin: "Pumpkin"
+        pumpkin: "Pumpkin",
+        book: "Book"
     }
 };
