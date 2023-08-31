@@ -706,15 +706,17 @@ class MergedEnchantedItem extends EnchantedItem {
 }
 
 function generateEnchantedItems(item_namespace, enchantments, prior_work = 0) {
-    var enchanted_item_objs = new Array(enchantments.length);
+    var enchanted_item_objs = [];
     const empty_enchantments_obj = new Enchantments([]);
 
-    const enchanted_tool_obj = new EnchantedItem(
-        item_namespace,
-        empty_enchantments_obj,
-        (this.prior_work = prior_work)
-    );
-    enchanted_item_objs[0] = enchanted_tool_obj;
+    if (item_namespace !== "book") {
+        const enchanted_tool_obj = new EnchantedItem(
+            item_namespace,
+            empty_enchantments_obj,
+            (this.prior_work = prior_work)
+        );
+        enchanted_item_objs.push(enchanted_tool_obj);
+    }
 
     const book_namespace = "book";
     enchantments.forEach((enchantment, enchantment_index) => {
@@ -725,7 +727,7 @@ function generateEnchantedItems(item_namespace, enchantments, prior_work = 0) {
         const enchantment_obj = new Enchantment(enchantment_id, enchantment_level);
         const enchantments_obj = new Enchantments([enchantment_obj]);
         const enchanted_item_obj = new EnchantedItem(book_namespace, enchantments_obj, (this.prior_work = 0));
-        enchanted_item_objs[enchantment_index + 1] = enchanted_item_obj;
+        enchanted_item_objs.push(enchanted_item_obj);
     });
 
     return enchanted_item_objs;
