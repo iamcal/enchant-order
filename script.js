@@ -20,11 +20,17 @@ window.onload = function() {
     buildItemSelection();
     buildEnchantmentSelection();
     buildCalculateButton();
+    buildFilters();
     setupDarkmode();
 };
 
 function buildCalculateButton() {
     $("#calculate").click(calculate);
+}
+
+function buildFilters() {
+    $("#allow_incompatible").change(allowIncompatibleChanged);
+    $("#allow_many").change(allowManyChanged);
 }
 
 function buildItemSelection() {
@@ -181,14 +187,14 @@ function doAllowManyEnchantments() {
     return allow_many;
 }
 
-function allowIncompatibleChanged(allow_incompatible_checkbox) {
+function allowIncompatibleChanged() {
     const allow_incompatible = doAllowIncompatibleEnchantments();
     if (!allow_incompatible) {
         turnOffLevelButtons();
     }
 }
 
-function allowManyChanged(allow_many_checkbox) {
+function allowManyChanged() {
     const allow_many = doAllowManyEnchantments();
     if (!allow_many) {
         turnOffLevelButtons();
