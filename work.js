@@ -287,6 +287,23 @@ function cheapestItemFromItems2(left_item_obj, right_item_obj) {
     return cheapest_item_obj;
 }
 
+function removeExpensiveCandidatesFromDictionary(work2item) {
+    var cheapest_work2item = {};
+    var cheapest_levels;
+
+    for (let prior_work in work2item) {
+        const item_obj = work2item[prior_work];
+        const cumulative_levels = item_obj.cumulative_levels;
+
+        if (!(cumulative_levels >= cheapest_levels)) {
+            cheapest_work2item[prior_work] = item_obj;
+            cheapest_levels = cumulative_levels;
+        }
+    }
+
+    return cheapest_work2item;
+}
+
 function cheapestItemsFromDictionaries2(left_work2item, right_work2item) {
     var cheapest_work2item = {};
     var cheapest_prior_works = [];
@@ -326,6 +343,7 @@ function cheapestItemsFromDictionaries2(left_work2item, right_work2item) {
         }
     }
 
+    cheapest_work2item = removeExpensiveCandidatesFromDictionary(cheapest_work2item);
     return cheapest_work2item;
 }
 
