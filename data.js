@@ -70,7 +70,13 @@ var data = {
             items: ["book", "helmet", "chestplate", "leggings", "boots", "turtle_shell"],
             stylized: "Fire Protection"
         },
-        flame: { levelMax: "1", weight: "2", incompatible: [], items: ["book", "bow"], stylized: "Flame" },
+        flame: {
+            levelMax: "1",
+            weight: "2",
+            incompatible: [],
+            items: ["book", "bow"],
+            stylized: "Flame"
+        },
         fortune: {
             levelMax: "3",
             weight: "2",
