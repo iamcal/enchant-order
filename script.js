@@ -1,3 +1,5 @@
+const ENCHANTMENT_LIMIT_INCLUSIVE = 12;
+
 var worker;
 var start_time;
 var total_steps;
@@ -30,12 +32,10 @@ function buildItemSelection() {
     const item_namespaces = Object.keys(item_namespace2style);
 
     item_namespaces.forEach(item_namespace => {
-        if (item_namespace != "book") {
-            const item_name = item_namespace2style[item_namespace];
-            const item_listbox_metadata = { value: item_namespace };
-            const item_listbox = $("<option/>", item_listbox_metadata);
-            item_listbox.text(item_name).appendTo("select#item");
-        }
+        const item_name = item_namespace2style[item_namespace];
+        const item_listbox_metadata = { value: item_namespace };
+        const item_listbox = $("<option/>", item_listbox_metadata);
+        item_listbox.text(item_name).appendTo("select#item");
     });
 }
 
@@ -147,7 +147,11 @@ function buildEnchantList(item_namespace_chosen) {
                         enchant: enchantment_name
                     };
                     var enchantment_button = $("<button>");
-                    enchantment_button.append(enchantment_level).addClass("off").data(enchantment_button_data);
+                    enchantment_button.append(enchantment_level);
+                    enchantment_button.addClass("off");
+                    enchantment_button.addClass("level-button");
+                    enchantment_button.data(enchantment_button_data);
+
                     const enchantment_row_append = $("<td>").append(enchantment_button);
                     enchantment_row.append(enchantment_row_append);
                 } else {
@@ -165,30 +169,43 @@ function buildEnchantList(item_namespace_chosen) {
     updateCalculateButtonState();
 }
 
-function getOverrideFlags() {
-    const flags = {
-        allow_incompatible: $("#allow_incompatible").is(":checked")
-    };
-    return flags;
+function doAllowIncompatibleEnchantments() {
+    const allow_incompatible_checkbox = $("#allow_incompatible");
+    const allow_incompatible = allow_incompatible_checkbox.is(":checked");
+    return allow_incompatible;
 }
 
-function buildOverrides(item_namespace) {
-    const overrides_checkbox =
-        '<label><input type="checkbox" id="allow_incompatible" >Allow incompatible enchantments</label>';
-    $("#overrides p").html(overrides_checkbox);
+function doAllowManyEnchantments() {
+    const allow_many_checkbox = $("#allow_many");
+    const allow_many = allow_many_checkbox.is(":checked");
+    return allow_many;
+}
 
-    $("#overrides p input").change(function() {
-        buildEnchantList(item_namespace);
-    });
-    $("#overrides").show();
+function allowIncompatibleChanged(allow_incompatible_checkbox) {
+    const allow_incompatible = doAllowIncompatibleEnchantments();
+    if (!allow_incompatible) {
+        turnOffLevelButtons();
+    }
+}
+
+function allowManyChanged(allow_many_checkbox) {
+    const allow_many = doAllowManyEnchantments();
+    if (!allow_many) {
+        turnOffLevelButtons();
+    }
+}
+
+function turnOffLevelButtons() {
+    const enchantment_buttons = $(".level-button");
+    turnOffButtons(enchantment_buttons);
 }
 
 function buildEnchantmentSelection() {
     $("select#item").change(function() {
-        var option = $("select#item option:selected").val();
-        if (option) {
-            buildEnchantList(option);
-            buildOverrides(option);
+        var item_namespace_selected = $("select#item option:selected").val();
+        if (item_namespace_selected) {
+            buildEnchantList(item_namespace_selected);
+            $("#overrides").show();
         } else {
             $("#enchants").hide();
             $("#overrides").hide();
@@ -410,11 +427,14 @@ function filterButton(button, enchantment_name, enchantment_level = -1) {
 }
 
 function turnOffButtons(buttons) {
-    buttons.attr("class", "off");
+    buttons.addClass("off");
+    buttons.removeClass("on");
+    updateCalculateButtonState();
 }
 
 function turnOnButtons(buttons) {
-    buttons.attr("class", "on");
+    buttons.addClass("on");
+    buttons.removeClass("off");
 }
 
 function filterEnchantmentButtons(incompatible_namespaces) {
@@ -434,36 +454,58 @@ function filterEnchantmentButtons(incompatible_namespaces) {
     });
 }
 
-function levelButtonClicked(button_clicked) {
-    const button_data = button_clicked.data();
+function updateLevelButtonForOnState(level_button) {
+    const button_data = level_button.data();
     const enchantments_metadata = data.enchants;
     const enchantment_buttons = $("#enchants button");
-    const button_is_on = button_clicked.attr("class") == "on";
+
+    turnOnButtons(level_button);
+
+    const enchantment_name = button_data.enchant;
+    const enchantment_level = button_data.level;
+
+    var matching_buttons = enchantment_buttons.filter(function() {
+        const this_button = $(this);
+        return filterButton(this_button, enchantment_name, enchantment_level);
+    });
+    turnOffButtons(matching_buttons);
+
+    const allow_incompatible = doAllowIncompatibleEnchantments();
+    if (!allow_incompatible) {
+        const enchantment_namespace = enchantmentNamespaceFromStylized(enchantment_name);
+        const enchantment_metadata = enchantments_metadata[enchantment_namespace];
+        const incompatible_namespaces = enchantment_metadata.incompatible;
+        filterEnchantmentButtons(incompatible_namespaces);
+    }
+}
+
+function isTooManyEnchantments(enchantment_count) {
+    const allow_many = doAllowManyEnchantments();
+    const many_selected = enchantment_count > ENCHANTMENT_LIMIT_INCLUSIVE;
+    const is_too_many = !allow_many && many_selected;
+    return is_too_many;
+}
+
+function levelButtonClicked(button_clicked) {
+    const button_is_on = button_clicked.hasClass("on");
 
     if (button_is_on) {
         turnOffButtons(button_clicked);
     } else {
-        turnOnButtons(button_clicked);
+        const enchantment_foundation = retrieveEnchantmentFoundation();
+        const enchantment_count = enchantment_foundation.length;
+        const is_too_many = isTooManyEnchantments(enchantment_count + 1);
 
-        const clicked_enchantment_name = button_data.enchant;
-        const clicked_enchantment_level = button_data.level;
-
-        var matching_buttons = enchantment_buttons.filter(function() {
-            const this_button = $(this);
-            return filterButton(this_button, clicked_enchantment_name, clicked_enchantment_level);
-        });
-        turnOffButtons(matching_buttons);
-
-        const override_flags = getOverrideFlags();
-        const allow_incompatible = override_flags["allow_incompatible"];
-        if (!allow_incompatible) {
-            const enchantment_namespace = enchantmentNamespaceFromStylized(clicked_enchantment_name);
-            const enchantment_metadata = enchantments_metadata[enchantment_namespace];
-            const incompatible_namespaces = enchantment_metadata.incompatible;
-            filterEnchantmentButtons(incompatible_namespaces);
+        if (is_too_many) {
+            var alert_text = "";
+            alert_text += "Too many enchantments!";
+            alert_text += " More than " + ENCHANTMENT_LIMIT_INCLUSIVE + " enchantments are not recommended.";
+            alert_text += " Please deselect some enchantments or check the override near the bottom of the page.";
+            alert(alert_text);
+        } else {
+            updateLevelButtonForOnState(button_clicked);
         }
     }
-    updateCalculateButtonState();
 }
 
 function retrieveEnchantmentFoundation() {
@@ -492,10 +534,10 @@ function retrieveSelectedItem() {
 
 function updateCalculateButtonState() {
     const enchantment_foundation = retrieveEnchantmentFoundation();
-    if (enchantment_foundation.length == 0){
-        $('#calculate').attr("disabled", true);
-    }else{
-        $('#calculate').attr("disabled", false);
+    if (enchantment_foundation.length == 0) {
+        $("#calculate").attr("disabled", true);
+    } else {
+        $("#calculate").attr("disabled", false);
     }
 }
 

@@ -47,9 +47,15 @@
                 <div id="enchants" style="display: none">
                     <table></table>
 
-                    <div id="overrides" style="display: none">
-                        <p>
-                        </p>
+                    <div id="overrides" style="">
+                        <div>
+                            <input type="checkbox" id="allow_incompatible" onchange="allowIncompatibleChanged()">
+                            <label for="allow_incompatible">Allow incompatible enchantments</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="allow_many" onchange="allowManyChanged()">
+                            <label for="allow_incompatible">Allow more than 12 enchantments</label>
+                        </div>
                     </div>
                     <p>
                         <button id="calculate">Calculate &raquo;</button>
