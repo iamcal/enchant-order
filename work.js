@@ -175,7 +175,7 @@ const memoizeCheapest = func => {
     };
 };
 
-function cheapestLevels(item_obj1, item_obj2) {
+function compareCheapest(item_obj1, item_obj2) {
     var work2item = {};
 
     let prior_work1;
@@ -203,7 +203,15 @@ function cheapestLevels(item_obj1, item_obj2) {
     if (prior_work1 === prior_work2) {
         const cumulative_levels1 = item_obj1.cumulative_levels,
             cumulative_levels2 = item_obj2.cumulative_levels;
-        if (cumulative_levels1 < cumulative_levels2) {
+        if (cumulative_levels1 === cumulative_levels2) {
+            const cumulative_minimum_xp1 = item_obj1.cumulative_minimum_xp,
+                cumulative_minimum_xp2 = item_obj2.cumulative_minimum_xp;
+            if (cumulative_minimum_xp1 <= cumulative_minimum_xp2) {
+                work2item[prior_work1] = item_obj1;
+            } else {
+                work2item[prior_work2] = item_obj2;
+            }
+        } else if (cumulative_levels1 < cumulative_levels2) {
             work2item[prior_work1] = item_obj1;
         } else {
             work2item[prior_work2] = item_obj2;
@@ -214,13 +222,6 @@ function cheapestLevels(item_obj1, item_obj2) {
     }
 
     return work2item;
-}
-
-function compareCheapest(item_obj1, item_obj2, cheap_definition = 0) {
-    switch (cheap_definition) {
-        case 0:
-            return cheapestLevels(item_obj1, item_obj2);
-    }
 }
 
 function cheapestItemFromDictionaryByPriorWork(work2item) {
