@@ -92,11 +92,15 @@ function buildEnchantList(item_namespace_chosen) {
         const item_namespaces = enchantment_metadata.items;
 
         var allow_enchantment = false;
-        item_namespaces.forEach(item_namespace => {
-            if (item_namespace == item_namespace_chosen) {
-                allow_enchantment = true;
-            }
-        });
+        if (item_namespace_chosen == "book") {
+            allow_enchantment = true;
+        } else {
+            item_namespaces.forEach(item_namespace => {
+                if (item_namespace == item_namespace_chosen) {
+                    allow_enchantment = true;
+                }
+            });
+        }
 
         if (allow_enchantment) {
             const enchantment_max_level = enchantment_metadata.levelMax;
