@@ -1,4 +1,4 @@
-const ENCHANTMENT_LIMIT_INCLUSIVE = 12;
+const ENCHANTMENT_LIMIT_INCLUSIVE = 10;
 
 var worker;
 var start_time;
