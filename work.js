@@ -127,38 +127,38 @@ function isPositiveInt(obj) {
     return is_int && is_positive;
 }
 
+function hashFromItem(item_obj) {
+    const enchantments_obj = item_obj.enchantments_obj;
+    const enchantment_objs = enchantments_obj.enchantment_objs;
+
+    enchantment_objs_length = enchantment_objs.length;
+    var enchantment_ids = new Array(enchantment_objs_length);
+    var enchantment_levels = new Array(enchantment_objs_length);
+    enchantment_objs.forEach((enchantment_obj, enchantment_index) => {
+        enchantment_ids[enchantment_index] = enchantment_obj.id;
+        enchantment_levels[enchantment_index] = enchantment_obj.level;
+    });
+
+    const sorted_ids = enchantment_ids.sort();
+    var sorted_levels = new Array(enchantment_objs_length);
+
+    sorted_ids.forEach((id, id_index) => {
+        sorted_levels[id_index] = enchantment_ids[enchantment_ids.indexOf(id)];
+    });
+
+    const item_namespace = item_obj.item_namespace;
+    const prior_work = item_obj.prior_work;
+    const item_hash = [item_namespace, sorted_ids, sorted_levels, prior_work];
+    return item_hash;
+}
+
 function memoizeHashFromArguments(arguments) {
     enchanted_item_objs = arguments[0];
     enchanted_item_hashes = new Array(enchanted_item_objs.length);
 
     enchanted_item_objs.forEach((enchanted_item_obj, enchanted_item_index) => {
-        const enchantments_obj = enchanted_item_obj.enchantments_obj;
-        const enchantment_objs = enchantments_obj.enchantment_objs;
-
-        enchantment_objs_length = enchantment_objs.length;
-        var enchantment_ids = new Array(enchantment_objs_length);
-        var enchantment_levels = new Array(enchantment_objs_length);
-        enchantment_objs.forEach((enchantment_obj, enchantment_index) => {
-            enchantment_ids[enchantment_index] = enchantment_obj.id;
-            enchantment_levels[enchantment_index] = enchantment_obj.level;
-        });
-
-        const sorted_ids = enchantment_ids.sort();
-        var sorted_levels = new Array(enchantment_objs_length);
-
-        sorted_ids.forEach((id, id_index) => {
-            sorted_levels[id_index] = enchantment_ids[enchantment_ids.indexOf(id)];
-        });
-
-        enchanted_item_hashes[enchanted_item_index] = [
-            enchanted_item_obj.item_namespace,
-            sorted_ids,
-            sorted_levels,
-            enchanted_item_obj.prior_work,
-            enchantments_obj.levels,
-            enchantments_obj.merge_levels,
-            enchanted_item_obj.cumulative_levels
-        ];
+        const item_hash = hashFromItem(enchanted_item_obj);
+        enchanted_item_hashes[enchanted_item_index] = item_hash;
     });
 
     return enchanted_item_hashes;
