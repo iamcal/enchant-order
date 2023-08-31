@@ -6,7 +6,7 @@ var total_steps;
 var total_tries;
 
 window.onload = function() {
-    worker = new Worker("work.js?4");
+    worker = new Worker("work.js?5");
     worker.onmessage = function(event) {
         if (event.data.msg == "complete") {
             afterFoundOptimalSolution(event.data);
