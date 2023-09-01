@@ -49,6 +49,8 @@ onmessage = function(event) {
 };
 
 function process(item_namespace, enchantment_foundation, cheapness_definition_raw) {
+    clearMemoizeCache();
+
     const prior_work_index = cheapness_definition_raw.indexOf(-1);
     const prior_work_is_priority = prior_work_index === 0;
 
@@ -172,9 +174,14 @@ function memoizeHashFromArguments(arguments) {
     return enchanted_item_hashes;
 }
 
+function clearMemoizeCache() {
+    cheapestItemsFromList.clearCache();
+}
+
 const memoizeCheapest = func => {
     var results = {};
-    return (...arguments) => {
+
+    const memory = function(...arguments) {
         const memoize_hash = memoizeHashFromArguments(arguments);
         let result = results[memoize_hash];
         if (!result) {
@@ -183,6 +190,11 @@ const memoizeCheapest = func => {
         }
         return result;
     };
+
+    memory.clearCache = function() {
+        results = {};
+    };
+    return memory;
 };
 
 function cheaperItemByLevelPerStep(item_obj1, item_obj2) {
