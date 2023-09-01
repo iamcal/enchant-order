@@ -65,6 +65,21 @@ body {
     background-color: #cfc;
 }
 
+#mode-selection {
+    list-style-type: none;
+}
+
+#mode-selection-header {
+    text-align: left;
+}
+
+.mode-choice {
+    display: block;
+    float: left;
+    margin: 0px;
+    padding: 6px;
+}
+
 #calculate {
     padding: 8px;
     font-size: 120%;
@@ -196,7 +211,8 @@ body.dark-mode {
     color: #ffffff;
 }
 
-body.dark-mode h1, body.dark-mode h2 {
+body.dark-mode h1,
+body.dark-mode h2 {
     color: #ffffff;
 }
 
@@ -220,17 +236,17 @@ body.dark-mode .footer {
 
 body.dark-mode #enchants tr.group1 td {
     color: #333;
-    background-color: #CCC;
+    background-color: #ccc;
 }
 
 body.dark-mode #enchants tr.group2 td {
     color: #333;
-    background-color: #BBB;
+    background-color: #bbb;
 }
 
 body.dark-mode #enchants button.on {
     color: #f8f8f8;
-    background-color: #0E754D;
+    background-color: #0e754d;
 }
 
 body.dark-mode #progress {
