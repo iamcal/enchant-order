@@ -3,6 +3,7 @@ var ITEM2ENCHANTMENTS = {};
 var ENCHANTMENT2WEIGHT = [];
 var ENCHANTMENT2NAMESPACE = [];
 var ITEM_NAMESPACES = [];
+var cheapness_definition_default = [0, 1, 2]; // sort by total levels (0), then minimum XP (1), then levels per step (2)
 const MAXIMUM_MERGE_LEVELS = 39;
 
 onmessage = function(event) {
@@ -153,8 +154,8 @@ function hashFromItem(item_obj) {
 }
 
 function memoizeHashFromArguments(arguments) {
-    enchanted_item_objs = arguments[0];
-    enchanted_item_hashes = new Array(enchanted_item_objs.length);
+    const enchanted_item_objs = arguments[0];
+    const enchanted_item_hashes = new Array(enchanted_item_objs.length);
 
     enchanted_item_objs.forEach((enchanted_item_obj, enchanted_item_index) => {
         const item_hash = hashFromItem(enchanted_item_obj);
@@ -166,17 +167,68 @@ function memoizeHashFromArguments(arguments) {
 
 const memoizeCheapest = func => {
     var results = {};
-    return (...arguments) => {
-        const args_key = memoizeHashFromArguments(arguments);
-        if (!results[args_key]) {
-            results[args_key] = func(...arguments);
+    return (...enchanted_item_objs) => {
+        const memoize_hash = memoizeHashFromArguments(enchanted_item_objs);
+        let result = results[memoize_hash];
+        if (!result) {
+            result = func(...enchanted_item_objs);
+            results[memoize_hash] = result;
         }
-        return results[args_key];
+        return result;
     };
 };
 
-function compareCheapest(item_obj1, item_obj2) {
-    var work2item = {};
+function cheapestItemByLevelPerStep(item_obj1, item_obj2) {
+    const maximum_level_per_step1 = item_obj1.maximum_level_per_step,
+        maximum_level_per_step2 = item_obj2.maximum_level_per_step;
+
+    if (maximum_level_per_step1 === maximum_level_per_step2) {
+        return false;
+    } else if (maximum_level_per_step1 < maximum_level_per_step2) {
+        return item_obj1;
+    } else {
+        return item_obj2;
+    }
+}
+
+function cheapestItemByCumulativeXp(item_obj1, item_obj2) {
+    const cumulative_minimum_xp1 = item_obj1.cumulative_minimum_xp,
+        cumulative_minimum_xp2 = item_obj2.cumulative_minimum_xp;
+
+    if (cumulative_minimum_xp1 === cumulative_minimum_xp2) {
+        return false;
+    } else if (cumulative_minimum_xp1 < cumulative_minimum_xp2) {
+        return item_obj1;
+    } else {
+        return item_obj2;
+    }
+}
+
+function cheapestItemByCumulativeLevels(item_obj1, item_obj2) {
+    const cumulative_levels1 = item_obj1.cumulative_levels,
+        cumulative_levels2 = item_obj2.cumulative_levels;
+
+    if (cumulative_levels1 === cumulative_levels2) {
+        return false;
+    } else if (cumulative_levels1 < cumulative_levels2) {
+        return item_obj1;
+    } else {
+        return item_obj2;
+    }
+}
+
+function cheapestItemByDefinition(item_obj1, item_obj2, cheapness_mode) {
+    if (cheapness_mode == 0) {
+        return cheapestItemByCumulativeLevels(item_obj1, item_obj2);
+    } else if (cheapness_mode == 1) {
+        return cheapestItemByCumulativeXp(item_obj1, item_obj2);
+    } else if (cheapness_mode == 2) {
+        return cheapestItemByLevelPerStep(item_obj1, item_obj2);
+    }
+}
+
+function compareCheapest(item_obj1, item_obj2, cheapness_definition = cheapness_definition_default) {
+    let work2item = {};
 
     let prior_work1;
     try {
@@ -201,27 +253,23 @@ function compareCheapest(item_obj1, item_obj2) {
     }
 
     if (prior_work1 === prior_work2) {
-        const cumulative_levels1 = item_obj1.cumulative_levels,
-            cumulative_levels2 = item_obj2.cumulative_levels;
-        if (cumulative_levels1 === cumulative_levels2) {
-            const cumulative_minimum_xp1 = item_obj1.cumulative_minimum_xp,
-                cumulative_minimum_xp2 = item_obj2.cumulative_minimum_xp;
-            if (cumulative_minimum_xp1 <= cumulative_minimum_xp2) {
-                work2item[prior_work1] = item_obj1;
-            } else {
-                work2item[prior_work2] = item_obj2;
+        const cheapness_length = cheapness_definition.length;
+        for (let cheapness_index = 0; cheapness_index < cheapness_length; cheapness_index++) {
+            const cheapness_mode = cheapness_definition[cheapness_index];
+            const cheapest_item_obj = cheapestItemByDefinition(item_obj1, item_obj2, cheapness_mode);
+            if (cheapest_item_obj) {
+                work2item[prior_work1] = cheapest_item_obj;
+                return work2item;
             }
-        } else if (cumulative_levels1 < cumulative_levels2) {
-            work2item[prior_work1] = item_obj1;
-        } else {
-            work2item[prior_work2] = item_obj2;
         }
+
+        work2item[prior_work1] = item_obj1;
+        return work2item;
     } else {
         work2item[prior_work1] = item_obj1;
         work2item[prior_work2] = item_obj2;
+        return work2item;
     }
-
-    return work2item;
 }
 
 function cheapestItemFromDictionaryByPriorWork(work2item) {
@@ -570,7 +618,14 @@ class InvalidItemNameError extends Error {
 }
 
 class EnchantedItem {
-    constructor(item_namespace, enchantments_obj, prior_work = 0, cumulative_levels = 0, cumulative_minimum_xp = 0) {
+    constructor(
+        item_namespace,
+        enchantments_obj,
+        prior_work = 0,
+        cumulative_levels = 0,
+        cumulative_minimum_xp = 0,
+        maximum_level_per_step = 0
+    ) {
         if (!ITEM_NAMESPACES.includes(item_namespace)) {
             console.log(item_namespace);
             throw new InvalidItemNameError("invalid item namespace");
@@ -602,6 +657,7 @@ class EnchantedItem {
         this.cumulative_levels = cumulative_levels;
         this.cumulative_minimum_xp = cumulative_minimum_xp;
         this.maximum_xp = experienceFromLevel(cumulative_levels);
+        this.maximum_level_per_step = maximum_level_per_step;
     }
 }
 
@@ -672,7 +728,15 @@ class MergedEnchantedItem extends EnchantedItem {
         const merge_minimum_xp = experienceFromLevel(merge_levels);
         const cumulative_minimum_xp = left_cumulative_minimum_xp + right_cumulative_minimum_xp + merge_minimum_xp;
 
-        super(left_item, enchantments, prior_work, cumulative_levels, cumulative_minimum_xp);
+        const left_maximum_level_per_step = left_item_obj.maximum_level_per_step,
+            right_maximum_level_per_step = right_item_obj.maximum_level_per_step;
+        const maximum_level_per_step = Math.max(
+            left_maximum_level_per_step,
+            right_maximum_level_per_step,
+            merge_levels
+        );
+
+        super(left_item, enchantments, prior_work, cumulative_levels, cumulative_minimum_xp, maximum_level_per_step);
 
         this.left_item_obj = left_item_obj;
         this.right_item_obj = right_item_obj;
