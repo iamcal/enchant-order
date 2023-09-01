@@ -5,6 +5,13 @@ var start_time;
 var total_steps;
 var total_tries;
 
+const CHEAPNESS_NAME2MODE = {
+    "cumulative-levels": 0,
+    "prior-work": -1,
+    "minimum-xp": 1,
+    "max-step": 2
+};
+
 window.onload = function() {
     worker = new Worker("work.js?5");
     worker.onmessage = function(event) {
@@ -21,6 +28,7 @@ window.onload = function() {
     buildEnchantmentSelection();
     buildCalculateButton();
     buildFilters();
+    buildCheapnessSelection();
     setupDarkmode();
 };
 
@@ -43,6 +51,11 @@ function buildItemSelection() {
         const item_listbox = $("<option/>", item_listbox_metadata);
         item_listbox.text(item_name).appendTo("select#item");
     });
+}
+
+function buildCheapnessSelection() {
+    var selection_sortable = $("#mode-selection");
+    selection_sortable.sortable();
 }
 
 function incompatibleGroupFromNamespace(enchantment_namespace) {
@@ -532,9 +545,19 @@ function retrieveEnchantmentFoundation() {
     return enchantment_foundation;
 }
 
-function retrieveCheapnessMode() {
-    const selected_mode = $('input[name="cheapness-mode"]:checked').val();
-    return selected_mode;
+function retrieveCheapnessDefinition() {
+    const selection_sortable = $("#mode-selection");
+    const cheapness_elements = selection_sortable.find("li");
+    const cheapness_count = cheapness_elements.length;
+
+    var cheapness_definition = new Array(cheapness_count);
+    cheapness_elements.each((selected_index, selected_element) => {
+        const cheapness_name = $(selected_element).attr("name");
+        const cheapness_mode = CHEAPNESS_NAME2MODE[cheapness_name];
+        cheapness_definition[selected_index] = cheapness_mode;
+    });
+
+    return cheapness_definition;
 }
 
 function retrieveSelectedItem() {
@@ -556,10 +579,10 @@ function calculate() {
     const no_enchantments_selected = enchantment_foundation.length == 0;
     if (no_enchantments_selected) return;
 
-    const cheapness_mode = retrieveCheapnessMode();
+    const cheapness_definition = retrieveCheapnessDefinition();
     const item_namespace = retrieveSelectedItem();
 
-    startCalculating(item_namespace, enchantment_foundation, cheapness_mode);
+    startCalculating(item_namespace, enchantment_foundation, cheapness_definition);
 }
 
 function solutionHeaderTextFromMode(mode) {
@@ -578,7 +601,7 @@ function updateSolutionHeader(mode) {
     solution_header.text(solution_header_text);
 }
 
-function startCalculating(item_namespace, enchantment_foundation, mode) {
+function startCalculating(item_namespace, enchantment_foundation, cheapness_definition) {
     if (enchantment_foundation.length >= 6) {
         if (
             navigator.userAgent.match(/Android/i) ||
@@ -595,13 +618,13 @@ function startCalculating(item_namespace, enchantment_foundation, mode) {
 
     $("#solution").hide();
     $("#error").hide();
-    updateSolutionHeader(mode);
+    updateSolutionHeader(cheapness_definition);
 
     worker.postMessage({
         msg: "process",
         item: item_namespace,
         enchants: enchantment_foundation,
-        mode: mode
+        cheapness_definition: cheapness_definition
     });
 
     $("#progress .lbl").text("Calculating solution...");

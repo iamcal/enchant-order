@@ -7,7 +7,9 @@ var cheapness_definition_default = [0, 1, 2]; // sort by total levels (0), then 
 const MAXIMUM_MERGE_LEVELS = 39;
 
 onmessage = function(event) {
-    if (event.data.msg === "set_data") {
+    const event_message = event.data.msg;
+
+    if (event_message === "set_data") {
         const event_data = event.data.data;
         const enchantments_metadata = event_data.enchants;
         const item_namepace2style = event_data.items;
@@ -40,22 +42,27 @@ onmessage = function(event) {
         }
         Object.freeze(ITEM2ENCHANTMENTS);
         ITEM_NAMESPACES = Object.keys(ITEM2ENCHANTMENTS);
-    }
-
-    if (event.data.msg === "process") {
-        process(event.data.item, event.data.enchants, event.data.mode);
+    } else if (event_message === "process") {
+        const event_data = event.data;
+        process(event_data.item, event_data.enchants, event_data.cheapness_definition);
     }
 };
 
-function process(item_namespace, enchantment_foundation, mode = "levels") {
+function process(item_namespace, enchantment_foundation, cheapness_definition_raw) {
+    const prior_work_index = cheapness_definition_raw.indexOf(-1);
+    const prior_work_is_priority = prior_work_index === 0;
+
+    var cheapness_definition = cheapness_definition_raw.filter(cheapness_mode => cheapness_mode !== -1);
+    cheapness_definition_default = cheapness_definition;
+
     const enchanted_item_objs = generateEnchantedItems(item_namespace, enchantment_foundation);
     const cheapest_work2item = cheapestItemsFromList(enchanted_item_objs);
 
     let cheapest_item_obj;
-    if (mode === "levels") {
-        cheapest_item_obj = cheapestItemFromDictionaryByDefinition(cheapest_work2item);
-    } else if (mode === "prior_work") {
+    if (prior_work_is_priority) {
         cheapest_item_obj = cheapestItemFromDictionaryByPriorWork(cheapest_work2item);
+    } else {
+        cheapest_item_obj = cheapestItemFromDictionaryByDefinition(cheapest_work2item);
     }
 
     let instructions;
@@ -300,7 +307,6 @@ function cheapestItemFromDictionaryByDefinition(work2item) {
         const cheaper_item_obj = cheaperItemByDefinition(cheapest_item_obj, item_obj);
         cheapest_item_obj = cheaper_item_obj;
     });
-
     return cheapest_item_obj;
 }
 
@@ -636,8 +642,7 @@ class EnchantedItem {
         maximum_level_per_step = 0
     ) {
         if (!ITEM_NAMESPACES.includes(item_namespace)) {
-            console.log(item_namespace);
-            throw new InvalidItemNameError("invalid item namespace");
+            throw new InvalidItemNameError("invalid item namespace (" + item_namespace + ")");
         }
 
         if (!(item_namespace === "book")) {

@@ -3,9 +3,11 @@
     <head>
         <title>Minecraft Enchantment Ordering Tool</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
         <script src="data.js?8"></script>
         <script src="script.js?8"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
         <link rel="stylesheet" type="text/css" href="style.css?2">
     </head>
     <body>
@@ -70,16 +72,14 @@
 
             <div id="right">
 
-                <p id="mode_selection">
-                    Optimize for:
-                    <label>
-                        <input type="radio" name="cheapness-mode" checked="checked" value="levels">
-                        Least XP/Levels
-                    </label>
-                    <label>
-                        <input type="radio" name="cheapness-mode" value="prior_work">
-                        Least Prior Work Penalty
-                    </label>
+                <p id="mode-selection-container">
+                    <span id="mode-selection-header">Optimize Priority:</span>
+                    <ul id="mode-selection">
+                        <li class="ui-state-default mode-choice" name="cumulative-levels">Total Levels</li>
+                        <li class="ui-state-default mode-choice" name="prior-work">Prior Work</li>
+                        <li class="ui-state-default mode-choice" name="minimum-xp">Minimum XP</li>
+                        <li class="ui-state-default mode-choice" name="max-step">Max Levels Per Step</li>
+                    </ul>
                 </p>
 
                 <div id="progress" style="display: none">
