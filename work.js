@@ -448,7 +448,6 @@ function combineEnchantment(left_enchantment_obj, right_enchantment_obj) {
 class Enchantment {
     constructor(enchantment_id, level) {
         this.id = enchantment_id;
-
         if (!ENCHANTMENT2WEIGHT.hasOwnProperty(enchantment_id)) {
             console.log(ENCHANTMENT2WEIGHT);
             console.log(enchantment_id);
@@ -572,7 +571,6 @@ class InvalidItemNameError extends Error {
 class EnchantedItem {
     constructor(item_namespace, enchantments_obj, prior_work = 0, cumulative_levels = 0, cumulative_minimum_xp = 0) {
         if (!ITEM_NAMESPACES.includes(item_namespace)) {
-            console.log(item_namespace);
             throw new InvalidItemNameError("invalid item namespace");
         }
 

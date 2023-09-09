@@ -1,0 +1,356 @@
+{
+    "h1_title": "Инструмент для сортировки чар Майнкрафт",
+    "paragraph_1": "При наложении чар на предметы в Майнкрафте порядок, в котором вы сочетаете броню, оружие и инструменты с книгами на вашем наковальне, имеет огромное значение. Каждый раз, когда вы работаете на наковальне, вы увеличиваете <a href='https://minecraft.fandom.com/wiki/Anvil_mechanics'>штраф за работу</a> на будущие работы. Как только этот штраф становится слишком высоким, вы просто не можете больше добавлять чары, и наковальня говорит \"Слишком дорого!\". Этот инструмент помогает вам спланировать оптимальный порядок сочетания и применения книг, чтобы предоставить вам наименьшую возможную стоимость.",
+    "paragraph_2": "Этот инструмент предполагает, что ваши снаряжение и книги начинаются с 'штрафа за работу' равным нулю. Это означает, что вы предварительно не комбинировали книги (например, чтобы превратить две книги 1-го уровня в одну книгу 2-го уровня) или не работали с предметами или книгами на наковальне вообще. Чтобы создать снаряжение с максимальным количеством чар, вы не можете сочетать книги более низких уровней и должны начинать с книг более высоких уровней, полученных через торговлю с жителями.",
+    "paragraph_3": "Разрешение несовместимых чар может быть полезно для сочетания чар типа защита (с 1.14 по 1.14.3pre-1) и чары восстановления/бесконечность (с 1.9 по 1.11.1).",
+    "choose_an_item_to_enchant": "Выберите предмет для наложения чар",
+
+    "checkbox_label_0": "<input type='checkbox' id='allow_incompatible' onchange='allowIncompatibleChanged()'> Разрешить несовместимые чары",
+    "checkbox_label_1": "<input type='checkbox' id='allow_many' onchange='allowManyChanged()'> Разрешить более 10 чар",
+
+    "calculate": "Вычислить",
+    "optimize_for": "Оптимизировать для: ",
+
+    "label_radio_1": "<input type='radio' name='cheapness-mode' checked='checked' value='levels'> Меньше опыта/уровней ",
+    "label_radio_2": "<input type='radio' name='cheapness-mode' value='prior_work'> Предыдущие штрафы за работу",
+
+    "optimal_solution_cumulative_levels": "Найдено лучшее решение (с наименьшим совокупным уровнем)!",
+    "optimal_solution_prior_work": "Найдено оптимальное решение (с меньшим предыдущим штрафом за работу)!",
+
+    "total_cost": "Общая стоимость: ",
+    "completed_in": "Завершено за ",
+    "millisecond": " миллисекунд",
+    "second": " секунду",
+    "level": " уровень",
+    "steps": " Шагов:",
+    "combine": " Совместить",
+    "with": "с",
+    "cost": "Стоимость: ",
+    "prior_work_penalty": "Предыдущие штрафы за работу: ",
+    "no_solution_found": "Решение не найдено!",
+    "button_enchant": "Наложить чары",
+    "button_level": "Поднять уровень",
+    "too_many_enchantments": "Слишком много чар!",
+    "more_than": " Более чем ",
+    "enchantments_are_not_recommended": " чары не рекомендуются.",
+    "please_select_enchantments": " Пожалуйста, снимите отметки с некоторых чар или проверьте их замену внизу страницы",
+    "calculating_solution": "Вычисление решения...",
+    "note": "Примечание: два значения опыта, отображаемые здесь, представляют собой разницу между экономией всех уровней/опыта сразу по сравнению с получением уровней/опыта между каждым этапом наложения чар.",
+
+    "light_mode": "Светлый режим",
+    "dark_mode": "Темный режим",
+
+    "items": {
+        "helmet": "Шлем",
+        "chestplate": "Нагрудник",
+        "leggings": "Поножи",
+        "boots": "Ботинки",
+        "turtle_shell": "Панцирь черепахи",
+        "elytra": "Элитры",
+
+        "sword": "Меч",
+        "axe": "Топор",
+        "trident": "Трезубец",
+        "pickaxe": "Кирка",
+        "shovel": "Лопата",
+        "hoe": "Мотыга",
+        "bow": "Лук",
+        "shield": "Щит",
+        "crossbow": "Арбалет",
+        "brush": "Кисть",
+
+        "fishing_rod": "Удочка",
+        "shears": "Ножницы",
+        "flint_and_steel": "Кремень и жердочка",
+        "carrot_on_a_stick": "Морковь на палке",
+        "warped_fungus_on_a_stick": "Искаженный гриб на палке",
+        "pumpkin": "Тыква",
+        "book": "Книга"
+    },
+
+    "enchants": {
+
+        "protection": {
+            "levelMax": "4",
+            "weight": "1",
+            "incompatible": ["blast_protection", "fire_protection", "projectile_protection"],
+            "items": ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
+            "stylized": "Защита"
+        },
+        "aqua_affinity": {
+            "levelMax": "1",
+            "weight": "2",
+            "incompatible": [],
+            "items": ["helmet", "turtle_shell"],
+            "stylized": "Акваланг"
+        },
+        "bane_of_arthropods": {
+            "levelMax": "5",
+            "weight": "1",
+            "incompatible": ["smite", "sharpness"],
+            "items": ["sword", "axe"],
+            "stylized": "Кошмар насекомых"
+        },
+        "blast_protection": {
+            "levelMax": "4",
+            "weight": "2",
+            "incompatible": ["fire_protection", "protection", "projectile_protection"],
+            "items": ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
+            "stylized": "Защита от взрывов"
+        },
+        "channeling": {
+            "levelMax": "1",
+            "weight": "4",
+            "incompatible": ["riptide"],
+            "items": ["trident"],
+            "stylized": "Молния"
+        },
+        "depth_strider": {
+            "levelMax": "3",
+            "weight": "2",
+            "incompatible": ["frost_walker"],
+            "items": ["boots"],
+            "stylized": "Глубокая походка"
+        },
+        "efficiency": {
+            "levelMax": "5",
+            "weight": "1",
+            "incompatible": [],
+            "items": ["pickaxe", "shovel", "axe", "hoe", "shears"],
+            "stylized": "Эффективность"
+        },
+        "feather_falling": {
+            "levelMax": "4",
+            "weight": "1",
+            "incompatible": [],
+            "items": ["boots"],
+            "stylized": "Падение пера"
+        },
+        "fire_aspect": {
+            "levelMax": "2",
+            "weight": "2",
+            "incompatible": [],
+            "items": ["sword"],
+            "stylized": "Огненное прикосновение"
+        },
+        "fire_protection": {
+            "levelMax": "4",
+            "weight": "1",
+            "incompatible": ["blast_protection", "protection", "projectile_protection"],
+            "items": ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
+            "stylized": "Защита от огня"
+        },
+        "flame": {
+            "levelMax": "1",
+            "weight": "2",
+            "incompatible": [],
+            "items": ["bow"],
+            "stylized": "Пламя"
+        },
+        "fortune": {
+            "levelMax": "3",
+            "weight": "2",
+            "incompatible": ["silk_touch"],
+            "items": ["pickaxe", "shovel", "axe", "hoe"],
+            "stylized": "Удача"
+        },
+        "frost_walker": {
+            "levelMax": "2",
+            "weight": "2",
+            "incompatible": ["depth_strider"],
+            "items": ["boots"],
+            "stylized": "Заморозка"
+        },
+        "impaling": {
+            "levelMax": "5",
+            "weight": "2",
+            "incompatible": [],
+            "items": ["trident"],
+            "stylized": "Пронзание"
+        },
+        "infinity": {
+            "levelMax": "1",
+            "weight": "4",
+            "incompatible": ["mending"],
+            "items": ["bow"],
+            "stylized": "Бесконечность"
+        },
+        "knockback": {
+            "levelMax": "2",
+            "weight": "1",
+            "incompatible": [],
+            "items": ["sword"],
+            "stylized": "Отбивание"
+        },
+        "looting": {
+            "levelMax": "3",
+            "weight": "2",
+            "incompatible": [],
+            "items": ["sword"],
+            "stylized": "Грабеж"
+        },
+        "loyalty": {
+            "levelMax": "3",
+            "weight": "1",
+            "incompatible": ["riptide"],
+            "items": ["trident"],
+            "stylized": "Верность"
+        },
+        "luck_of_the_sea": {
+            "levelMax": "3",
+            "weight": "2",
+            "incompatible": [],
+            "items": ["fishing_rod"],
+            "stylized": "Удача в море"
+        },
+        "lure": {
+            "levelMax": "3",
+            "weight": "2",
+            "incompatible": [],
+            "items": ["fishing_rod"],
+            "stylized": "Приманка"
+        },
+        "mending": {
+            "levelMax": "1",
+            "weight": "2",
+            "incompatible": ["infinity"],
+            "items": ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
+                "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "trident",
+                "turtle_shell", "crossbow"
+            ],
+            "stylized": "Заплатка"
+        },
+        "multishot": {
+            "levelMax": "1",
+            "weight": "2",
+            "incompatible": ["piercing"],
+            "items": ["crossbow"],
+            "stylized": "Многозарядность"
+        },
+        "piercing": {
+            "levelMax": "4",
+            "weight": "1",
+            "incompatible": ["multishot"],
+            "items": ["crossbow"],
+            "stylized": "Проникающий урон"
+        },
+        "power": {
+            "levelMax": "5",
+            "weight": "1",
+            "incompatible": [],
+            "items": ["bow"],
+            "stylized": "Мощь"
+        },
+        "projectile_protection": {
+            "levelMax": "4",
+            "weight": "1",
+            "incompatible": ["protection", "blast_protection", "fire_protection"],
+            "items": ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
+            "stylized": "Защита от снарядов"
+        },
+        "punch": {
+            "levelMax": "2",
+            "weight": "2",
+            "incompatible": [],
+            "items": ["bow"],
+            "stylized": "Удар"
+        },
+        "quick_charge": {
+            "levelMax": "3",
+            "weight": "1",
+            "incompatible": [],
+            "items": ["crossbow"],
+            "stylized": "Быстрая зарядка"
+        },
+        "respiration": {
+            "levelMax": "3",
+            "weight": "2",
+            "incompatible": [],
+            "items": ["helmet", "turtle_shell"],
+            "stylized": "Дыхание"
+        },
+        "riptide": {
+            "levelMax": "3",
+            "weight": "2",
+            "incompatible": ["channeling", "loyalty"],
+            "items": ["trident"],
+            "stylized": "Подводное течение"
+        },
+        "sharpness": {
+            "levelMax": "5",
+            "weight": "1",
+            "incompatible": ["bane_of_arthropods", "smite"],
+            "items": ["sword", "axe"],
+            "stylized": "Острота"
+        },
+        "silk_touch": {
+            "levelMax": "1",
+            "weight": "4",
+            "incompatible": ["fortune"],
+            "items": ["pickaxe", "shovel", "axe", "hoe"],
+            "stylized": "Шелковое прикосновение"
+        },
+        "smite": {
+            "levelMax": "5",
+            "weight": "1",
+            "incompatible": ["bane_of_arthropods", "sharpness"],
+            "items": ["sword", "axe"],
+            "stylized": "Истребление"
+        },
+        "soul_speed": {
+            "levelMax": "3",
+            "weight": "4",
+            "incompatible": [],
+            "items": ["boots"],
+            "stylized": "Скорость души"
+        },
+        "sweeping": {
+            "levelMax": "3",
+            "weight": "2",
+            "incompatible": [],
+            "items": ["sword"],
+            "stylized": "Мести"
+        },
+        "swift_sneak": {
+            "levelMax": "3",
+            "weight": "4",
+            "incompatible": [],
+            "items": ["leggings"],
+            "stylized": "Быстрые шаги"
+        },
+        "thorns": {
+            "levelMax": "3",
+            "weight": "4",
+            "incompatible": [],
+            "items": ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
+            "stylized": "Шипы"
+        },
+        "unbreaking": {
+            "levelMax": "3",
+            "weight": "1",
+            "incompatible": [],
+            "items": ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
+                "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "trident",
+                "turtle_shell", "crossbow"
+            ],
+            "stylized": "Нерушимость"
+        },
+        "binding_curse": {
+            "levelMax": "1",
+            "weight": "4",
+            "incompatible": [],
+            "items": ["helmet", "chestplate", "leggings", "boots", "elytra", "pumpkin", "helmet", "turtle_shell"],
+            "stylized": "Проклятие привязки"
+        },
+        "vanishing_curse": {
+            "levelMax": "1",
+            "weight": "4",
+            "incompatible": [],
+            "items": ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
+                "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "pumpkin",
+                "helmet", "trident", "turtle_shell", "crossbow"
+            ],
+            "stylized": "Проклятие исчезновения"
+        }
+    }
+}
