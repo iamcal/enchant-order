@@ -1,0 +1,358 @@
+{
+    "h1_title" :"Minecraft Enchantment Ordering Tool",
+    "paragraph_1" :"When enchanting items in Minecraft, the order in which you combine armor, weapons and tools with books in your anvil makes a huge difference. Each time you work on an anvil, you increase the <a href='https://minecraft.fandom.com/wiki/Anvil_mechanics'>work penalty</a> for future workings. Once that penalty gets too high, you simply can't add any more enchantments and the anvil says \"Too Expensive!\". This tool helps you plan the optimal order of combining and applying books, to give you the cheapest possible cost.",
+    "paragraph_2" : "This tool assume your gear and books start with zero \"work penalty\". That means you have not previously combined the books (e.g. to turn two level 1 books into a single level 2 book) or worked the items or books in an anvil in any way. To create gear with the maximum possible enchantment, you cannot combine lower-level books and must start with high-level books from villager trading.",
+    "paragraph_3": "Allowing incompatible enchantments may be useful for combining protection-type enchantments (1.14 to 1.14.3pre-1) and mending/infinity (1.9 to 1.11.1).",
+    
+    "choose_an_item_to_enchant": "Choose an item to enchant",
+
+    "checkbox_label_0": "<input type='checkbox' id='allow_incompatible' onchange='allowIncompatibleChanged()'> Allow incompatible enchantments",
+    "checkbox_label_1": "<input type='checkbox' id='allow_many' onchange='allowManyChanged()'> Allow more than 10 enchantments",
+
+    "calculate": "Calculate",
+    "optimize_for": "Optimize for: ",
+
+    "label_radio_1": "<input type='radio' name='cheapness-mode' checked='checked' value='levels'> Least XP/Levels  ",
+    "label_radio_2": "<input type='radio' name='cheapness-mode' value='prior_work'> Least Prior Work Penalty",
+
+
+    "optimal_solution_cumulative_levels": "Optimal solution found (by lowest cumulative levels)!",
+    "optimal_solution_prior_work": "Optimal solution found (by lowest prior work)!",
+
+    "total_cost": "Total cost: ",
+    "completed_in": "Completed in ",
+    "millisecond": " millisecond",
+    "second": " second",
+    "level": " level",
+    "steps": " Steps:",
+    "combine": " Combine",
+    "with": "with",
+    "cost": "Cost: ",
+    "prior_work_penalty":"Prior Work Penalty: ",
+    "no_solution_found": "No solution found!",
+    "button_enchant" : "Enchant",
+    "button_level": "Level",
+    "too_many_enchantments": "Too many enchantments!",
+    "more_than": " More than ",
+    "enchantments_are_not_recommended": " enchantments are not recommended.",
+    "please_select_enchantments": " Please deselect some enchantments or check the override near the bottom of the page.",
+    "calculating_solution": "Calculating solution...",
+    "note": "Note: The two XP values shown are the difference between saving up for all levels/XP at once versus earning levels/XP between each enchantment step.",
+    "light_mode": "Light Mode",
+    "dark_mode": "Dark Mode",
+
+    "items":{
+        "helmet": "Helmet",
+        "chestplate": "Chestplate",
+        "leggings": "Leggings",
+        "boots":"Boots",
+        "turtle_shell": "Turtle Shell",
+        "elytra" : "Elytra",
+        
+        "sword": "Sword",
+        "axe": "Axe",
+        "trident": "Trident",
+        "pickaxe": "Pickaxe",
+        "shovel": "Shovel",
+        "hoe": "Hoe",
+        "bow": "Bow",
+        "shield":"Shield",
+        "crossbow": "Crossbow",
+        "brush": "Brush",
+        
+        "fishing_rod": "Fishing Rod",
+        "shears": "Shears",
+        "flint_and_steel" : "Flint and Steel",
+        "carrot_on_a_stick": "Carrot on a Stick",
+        "warped_fungus_on_a_stick": "Warped Fungus on a Stick",
+        "pumpkin": "Pumpkin",
+        "book": "Book"
+    },
+
+    "enchants": {
+        
+            "protection": {
+                "levelMax": "4",
+                "weight": "1",
+                "incompatible": ["blast_protection", "fire_protection", "projectile_protection"],
+                "items": ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
+                "stylized": "Protection"
+            },
+            "aqua_affinity": {
+                "levelMax": "1",
+                "weight": "2",
+                "incompatible": [],
+                "items": ["helmet", "turtle_shell"],
+                "stylized": "Aqua Affinity"
+            },
+            "bane_of_arthropods": {
+                "levelMax": "5",
+                "weight": "1",
+                "incompatible": ["smite", "sharpness"],
+                "items": ["sword", "axe"],
+                "stylized": "Bane of Arthropods"
+            },
+            "blast_protection": {
+                "levelMax": "4",
+                "weight": "2",
+                "incompatible": ["fire_protection", "protection", "projectile_protection"],
+                "items": ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
+                "stylized": "Blast Protection"
+            },
+            "channeling": {
+                "levelMax": "1",
+                "weight": "4",
+                "incompatible": ["riptide"],
+                "items": ["trident"],
+                "stylized": "Channeling"
+            },
+            "depth_strider": {
+                "levelMax": "3",
+                "weight": "2",
+                "incompatible": ["frost_walker"],
+                "items": ["boots"],
+                "stylized": "Depth Strider"
+            },
+            "efficiency": {
+                "levelMax": "5",
+                "weight": "1",
+                "incompatible": [],
+                "items": ["pickaxe", "shovel", "axe", "hoe", "shears"],
+                "stylized": "Efficiency"
+            },
+            "feather_falling": {
+                "levelMax": "4",
+                "weight": "1",
+                "incompatible": [],
+                "items": ["boots"],
+                "stylized": "Feather Falling"
+            },
+            "fire_aspect": {
+                "levelMax": "2",
+                "weight": "2",
+                "incompatible": [],
+                "items": ["sword"],
+                "stylized": "Fire Aspect"
+            },
+            "fire_protection": {
+                "levelMax": "4",
+                "weight": "1",
+                "incompatible": ["blast_protection", "protection", "projectile_protection"],
+                "items": ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
+                "stylized": "Fire Protection"
+            },
+            "flame": {
+                "levelMax": "1",
+                "weight": "2",
+                "incompatible": [],
+                "items": ["bow"],
+                "stylized": "Flame"
+            },
+            "fortune": {
+                "levelMax": "3",
+                "weight": "2",
+                "incompatible": ["silk_touch"],
+                "items": ["pickaxe", "shovel", "axe", "hoe"],
+                "stylized": "Fortune"
+            },
+            "frost_walker": {
+                "levelMax": "2",
+                "weight": "2",
+                "incompatible": ["depth_strider"],
+                "items": ["boots"],
+                "stylized": "Frost Walker"
+            },
+            "impaling": {
+                "levelMax": "5",
+                "weight": "2",
+                "incompatible": [],
+                "items": ["trident"],
+                "stylized": "Impaling"
+            },
+            "infinity": {
+                "levelMax": "1",
+                "weight": "4",
+                "incompatible": ["mending"],
+                "items": ["bow"],
+                "stylized": "Infinity"
+            },
+            "knockback": {
+                "levelMax": "2",
+                "weight": "1",
+                "incompatible": [],
+                "items": ["sword"],
+                "stylized": "Knockback"
+            },
+            "looting": {
+                "levelMax": "3",
+                "weight": "2",
+                "incompatible": [],
+                "items": ["sword"],
+                "stylized": "Looting"
+            },
+            "loyalty": {
+                "levelMax": "3",
+                "weight": "1",
+                "incompatible": ["riptide"],
+                "items": ["trident"],
+                "stylized": "Loyalty"
+            },
+            "luck_of_the_sea": {
+                "levelMax": "3",
+                "weight": "2",
+                "incompatible": [],
+                "items": ["fishing_rod"],
+                "stylized": "Luck of the Sea"
+            },
+            "lure": {
+                "levelMax": "3",
+                "weight": "2",
+                "incompatible": [],
+                "items": ["fishing_rod"],
+                "stylized": "Lure"
+            },
+            "mending": {
+                "levelMax": "1",
+                "weight": "2",
+                "incompatible": ["infinity"],
+                "items": ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
+                    "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "trident",
+                    "turtle_shell", "crossbow"
+                ],
+                "stylized": "Mending"
+            },
+            "multishot": {
+                "levelMax": "1",
+                "weight": "2",
+                "incompatible": ["piercing"],
+                "items": ["crossbow"],
+                "stylized": "Multishot"
+            },
+            "piercing": {
+                "levelMax": "4",
+                "weight": "1",
+                "incompatible": ["multishot"],
+                "items": ["crossbow"],
+                "stylized": "Piercing"
+            },
+            "power": {
+                "levelMax": "5",
+                "weight": "1",
+                "incompatible": [],
+                "items": ["bow"],
+                "stylized": "Power"
+            },
+            "projectile_protection": {
+                "levelMax": "4",
+                "weight": "1",
+                "incompatible": ["protection", "blast_protection", "fire_protection"],
+                "items": ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
+                "stylized": "Projectile Protection"
+            },
+            "punch": {
+                "levelMax": "2",
+                "weight": "2",
+                "incompatible": [],
+                "items": ["bow"],
+                "stylized": "Punch"
+            },
+            "quick_charge": {
+                "levelMax": "3",
+                "weight": "1",
+                "incompatible": [],
+                "items": ["crossbow"],
+                "stylized": "Quick Charge"
+            },
+            "respiration": {
+                "levelMax": "3",
+                "weight": "2",
+                "incompatible": [],
+                "items": ["helmet", "turtle_shell"],
+                "stylized": "Respiration"
+            },
+            "riptide": {
+                "levelMax": "3",
+                "weight": "2",
+                "incompatible": ["channeling", "loyalty"],
+                "items": ["trident"],
+                "stylized": "Riptide"
+            },
+            "sharpness": {
+                "levelMax": "5",
+                "weight": "1",
+                "incompatible": ["bane_of_arthropods", "smite"],
+                "items": ["sword", "axe"],
+                "stylized": "Sharpness"
+            },
+            "silk_touch": {
+                "levelMax": "1",
+                "weight": "4",
+                "incompatible": ["fortune"],
+                "items": ["pickaxe", "shovel", "axe", "hoe"],
+                "stylized": "Silk Touch"
+            },
+            "smite": {
+                "levelMax": "5",
+                "weight": "1",
+                "incompatible": ["bane_of_arthropods", "sharpness"],
+                "items": ["sword", "axe"],
+                "stylized": "Smite"
+            },
+            "soul_speed": {
+                "levelMax": "3",
+                "weight": "4",
+                "incompatible": [],
+                "items": ["boots"],
+                "stylized": "Soul Speed"
+            },
+            "sweeping": {
+                "levelMax": "3",
+                "weight": "2",
+                "incompatible": [],
+                "items": ["sword"],
+                "stylized": "Sweeping"
+            },
+            "swift_sneak": {
+                "levelMax": "3",
+                "weight": "4",
+                "incompatible": [],
+                "items": ["leggings"],
+                "stylized": "Swift Sneak"
+            },
+            "thorns": {
+                "levelMax": "3",
+                "weight": "4",
+                "incompatible": [],
+                "items": ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
+                "stylized": "Thorns"
+            },
+            "unbreaking": {
+                "levelMax": "3",
+                "weight": "1",
+                "incompatible": [],
+                "items": ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
+                    "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "trident",
+                    "turtle_shell", "crossbow"
+                ],
+                "stylized": "Unbreaking"
+            },
+            "binding_curse": {
+                "levelMax": "1",
+                "weight": "4",
+                "incompatible": [],
+                "items": ["helmet", "chestplate", "leggings", "boots", "elytra", "pumpkin", "helmet", "turtle_shell"],
+                "stylized": "Binding Curse"
+            },
+            "vanishing_curse": {
+                "levelMax": "1",
+                "weight": "4",
+                "incompatible": [],
+                "items": ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
+                    "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "pumpkin",
+                    "helmet", "trident", "turtle_shell", "crossbow"
+                ],
+                "stylized": "Vanishing Curse"
+            }
+        
+    }
+}
