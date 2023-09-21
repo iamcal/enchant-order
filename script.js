@@ -635,14 +635,18 @@ function defineBrowserLanguage(){
 
 async function changePageLanguage(language){
     languageJson = await loadJsonLanguage(language).then(languageData => { return languageData});
-    chageLanguageByJson(languageJson);
+    if (languageJson){
+        chageLanguageByJson(languageJson);
+    }else if (language != 'en'){
+        changePageLanguage('en');
+    }
 }
 
 function loadJsonLanguage(language) {
     return fetch('languages/'+language+'.json')
       .then(response => {
         if (!response.ok) {
-          throw new Error('Can\' load file');
+          throw new Error('Can\'t load language file');
         }
         return response.json();
       })
@@ -658,6 +662,7 @@ function loadJsonLanguage(language) {
 
 
 function chageLanguageByJson(languageJson){
+console.log('setting language...');
     const h1Element = document.getElementsByTagName('h1')[0];
     h1Element.textContent = languageJson.h1_title;
 
@@ -671,55 +676,29 @@ function chageLanguageByJson(languageJson){
 
 
     /* selection */
-    const selectItem = document.getElementById("item");
-    selectItem.getElementsByTagName("option")[0].textContent = languageJson.choose_an_item_to_enchant;
-    selectItem.getElementsByTagName("option")[1].textContent = languageJson.items.helmet;
-    selectItem.getElementsByTagName("option")[2].textContent = languageJson.items.chestplate;
-    selectItem.getElementsByTagName("option")[3].textContent = languageJson.items.leggings;
-    selectItem.getElementsByTagName("option")[4].textContent = languageJson.items.boots;
-    selectItem.getElementsByTagName("option")[5].textContent = languageJson.items.turtle_shell;
-    selectItem.getElementsByTagName("option")[6].textContent = languageJson.items.elytra;
-    selectItem.getElementsByTagName("option")[7].textContent = languageJson.items.sword;
-    selectItem.getElementsByTagName("option")[8].textContent = languageJson.items.axe;
-    selectItem.getElementsByTagName("option")[9].textContent = languageJson.items.trident;
-    selectItem.getElementsByTagName("option")[10].textContent = languageJson.items.pickaxe;
-    selectItem.getElementsByTagName("option")[11].textContent = languageJson.items.shovel;
-    selectItem.getElementsByTagName("option")[12].textContent = languageJson.items.hoe;
-    selectItem.getElementsByTagName("option")[13].textContent = languageJson.items.bow;
-    selectItem.getElementsByTagName("option")[14].textContent = languageJson.items.shield;
-    selectItem.getElementsByTagName("option")[15].textContent = languageJson.items.crossbow;
-    selectItem.getElementsByTagName("option")[16].textContent = languageJson.items.brush;
-    selectItem.getElementsByTagName("option")[17].textContent = languageJson.items.fishing_rod;
-    selectItem.getElementsByTagName("option")[18].textContent = languageJson.items.shears;
-    selectItem.getElementsByTagName("option")[19].textContent = languageJson.items.flint_and_steel;
-    selectItem.getElementsByTagName("option")[20].textContent = languageJson.items.carrot_on_a_stick;
-    selectItem.getElementsByTagName("option")[21].textContent = languageJson.items.warped_fungus_on_a_stick;
-    selectItem.getElementsByTagName("option")[22].textContent = languageJson.items.pumpkin;
-    selectItem.getElementsByTagName("option")[23].textContent = languageJson.items.book;
+    const item_namespace2style = data.items;
+    const item_namespaces = Object.keys(item_namespace2style);
 
+    const options = document.getElementById("item").getElementsByTagName("option");
+    var i = 1;
 
-    const checkboxDiv = document.getElementById("overrides");
-    const labelsCheckBox = checkboxDiv.getElementsByTagName('label');
-    labelsCheckBox[0].innerHTML = languageJson.checkbox_label_0;
-    labelsCheckBox[1].innerHTML = languageJson.checkbox_label_1;
-    
+    options[0].textContent = languageJson.choose_an_item_to_enchant;
+    item_namespaces.forEach(item_namespace => {
+        options[i].textContent = languageJson.items[item_namespace];
+        i++;
+    });
+
+    /* other UI */
+    document.getElementById("override-incompatible").textContent = languageJson.checkbox_label_incompatible;
+    document.getElementById("override-max-number").textContent = languageJson.checkbox_label_max_number;
+
     document.getElementById("calculate").textContent = languageJson.calculate;
 
-    const modeSelection = document.getElementById("mode_selection");
-    
-    modeSelection.textContent = languageJson.optimize_for
-    
-    var labelRadio1 = document.createElement("label");
-    var labelRadio2 = document.createElement("label");
+    document.getElementById("optimize-label").textContent = languageJson.optimize_for;
+    document.getElementById("optimize-xp").textContent = languageJson.radio_label_optimize_xp;
+    document.getElementById("optimize-pwp").textContent = languageJson.radio_label_optimize_pwp;
 
-    labelRadio1.innerHTML = languageJson.label_radio_1;
-    labelRadio2.innerHTML = languageJson.label_radio_2;
-
-    modeSelection.appendChild(labelRadio1);
-    modeSelection.appendChild(labelRadio2);
-
-    const solutionDiv = document.getElementById("solution")
-    solutionDiv.getElementsByTagName("b")[0].textContent = languageJson.total_cost;
+    document.getElementById("total-cost-label").textContent = languageJson.total_cost;
 
     document.getElementById("xp-range-note").textContent = languageJson.note;
 }

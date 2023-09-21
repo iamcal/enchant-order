@@ -63,13 +63,13 @@
                         <div>
                             <label>
                                 <input type="checkbox" id="allow_incompatible" onchange="allowIncompatibleChanged()">
-                                Allow incompatible enchantments
+                                <span id="override-incompatible">Allow incompatible enchantments</span>
                             </label>
                         </div>
                         <div>
                             <label>
                                 <input type="checkbox" id="allow_many" onchange="allowManyChanged()">
-                                Allow more than 10 enchantments
+                                <span id="override-max-number">Allow more than 10 enchantments</span>
                             </label>
                         </div>
                     </div>
@@ -82,14 +82,14 @@
             <div id="right">
 
                 <p id="mode_selection">
-                    Optimize for:
+                    <span id="optimize-label">Optimize for:</span>
                     <label>
                         <input type="radio" name="cheapness-mode" checked="checked" value="levels">
-                        Least XP/Levels
+                        <span id="optimize-xp">Least XP/Levels</span>
                     </label>
                     <label>
                         <input type="radio" name="cheapness-mode" value="prior_work">
-                        Least Prior Work Penalty
+                        <span id="optimize-pwp">Least Prior Work Penalty</span>
                     </label>
                 </p>
 
@@ -102,7 +102,7 @@
                     <h2 id="solution-header">Optimal solution found!</h2>
 
                     <p id="timings">Completed in under a second</p>
-                    <p><b>Total cost:</b> <span id="level-cost">####</span></p>
+                    <p><b id="total-cost-label">Total cost:</b> <span id="level-cost">####</span></p>
                     <h3>Steps</h3>
                     <ol id="steps">
                     </ol>

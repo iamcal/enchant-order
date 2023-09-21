@@ -3,17 +3,17 @@
     "paragraph_1" :"在Minecraft中附魔物品时，您将装备、武器和工具与书籍在铁砧上组合的顺序将产生巨大的影响。每次使用铁砧工作，都会增加<a href='https://minecraft.fandom.com/wiki/Anvil_mechanics'>工作惩罚</a>以用于未来的工作。一旦这个惩罚变得太高，您就无法再添加更多附魔，铁砧会显示“太贵了！”。此工具可帮助您规划最佳的附魔组合和应用顺序，以提供最低成本。",
     "paragraph_2" : "此工具假定您的装备和书籍的“工作惩罚”都从零开始。这意味着您之前没有组合书籍（例如将两本1级书籍合并为1本2级书籍）或以任何方式在铁砧上工作这些物品或书籍。要制作具有尽可能多附魔的装备，您不能组合低级别的书籍，必须从与村民交易获得的更高级别的书籍开始。",
     "paragraph_3": "允许不兼容的附魔可能对组合保护（1.14至1.14.3pre-1）和修复/无限（1.9至1.11.1）类型的附魔非常有用。",
-    
+
     "choose_an_item_to_enchant": "选择要附魔的物品",
 
-    "checkbox_label_0": "<input type='checkbox' id='allow_incompatible' onchange='allowIncompatibleChanged()'> 允许不兼容的附魔",
-    "checkbox_label_1": "<input type='checkbox' id='allow_many' onchange='allowManyChanged()'> 允许超过10个附魔",
+    "checkbox_label_incompatible": "允许不兼容的附魔",
+    "checkbox_label_max_number": "允许超过10个附魔",
 
     "calculate": "计算",
     "optimize_for": "优化为: ",
 
-    "label_radio_1": "<input type='radio' name='cheapness-mode' checked='checked' value='levels'> 更少的经验/等级 ",
-    "label_radio_2": "<input type='radio' name='cheapness-mode' value='prior_work'> 先前的工作惩罚",
+    "radio_label_optimize_xp": "更少的经验/等级 ",
+    "radio_label_optimize_pwp": "先前的工作惩罚",
 
 
     "optimal_solution_cumulative_levels": "找到的最佳解决方案（通过累积最低等级）！",
