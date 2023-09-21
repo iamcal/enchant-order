@@ -9,10 +9,10 @@ onmessage = function(event) {
     if (event.data.msg === "set_data") {
         const event_data = event.data.data;
         const enchantments_metadata = event_data.enchants;
-        const item_namepace2style = event_data.items;
+        const item_namespaces = event_data.items;
 
-        for (let item_namespace in item_namepace2style) {
-            ITEM2ENCHANTMENTS[item_namespace] = [];
+        for (var i=0; i<item_namespaces.length; i++){
+            ITEM2ENCHANTMENTS[item_namespaces[i]] = [];
         }
 
         var enchantment_id = 0;

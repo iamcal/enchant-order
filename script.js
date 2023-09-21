@@ -17,7 +17,7 @@ var languages = {
 
 window.onload = function() {
 
-    worker = new Worker("work.js?5");
+    worker = new Worker("work.js?6");
     worker.onmessage = function(event) {
         if (event.data.msg == "complete") {
             afterFoundOptimalSolution(event.data);
@@ -46,15 +46,10 @@ function buildFilters() {
 }
 
 function buildItemSelection() {
-    //convert json into map
-    const item_namespace2style = data.items;
-    const item_namespaces = Object.keys(item_namespace2style);
-
-    item_namespaces.forEach(item_namespace => {
-        const item_name = item_namespace2style[item_namespace];
+    data.items.forEach(item_namespace => {
         const item_listbox_metadata = { value: item_namespace };
         const item_listbox = $("<option/>", item_listbox_metadata);
-        item_listbox.text(item_name).appendTo("select#item");
+        item_listbox.text(item_namespace).appendTo("select#item");
     });
 }
 
@@ -698,14 +693,11 @@ function chageLanguageByJson(languageJson){
 
 
     /* selection */
-    const item_namespace2style = data.items;
-    const item_namespaces = Object.keys(item_namespace2style);
-
     const options = document.getElementById("item").getElementsByTagName("option");
     var i = 1;
 
     options[0].textContent = languageJson.choose_an_item_to_enchant;
-    item_namespaces.forEach(item_namespace => {
+    data.items.forEach(item_namespace => {
         options[i].textContent = languageJson.items[item_namespace];
         i++;
     });
