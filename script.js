@@ -694,4 +694,6 @@ function chageLanguageByJson(languageJson){
     document.getElementById("total-cost-label").textContent = languageJson.total_cost;
 
     document.getElementById("xp-range-note").textContent = languageJson.note;
+
+    $("select#item").change();
 }
