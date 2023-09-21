@@ -717,4 +717,6 @@ function chageLanguageByJson(languageJson){
     document.getElementById("xp-range-note").textContent = languageJson.note;
 
     $("select#item").change();
+    $("#solution").hide();
+    $("#error").hide();
 }
