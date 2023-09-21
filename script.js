@@ -21,7 +21,6 @@ window.onload = function() {
     buildEnchantmentSelection();
     buildCalculateButton();
     buildFilters();
-    setupDarkmode();
 };
 
 function buildCalculateButton() {
@@ -606,32 +605,4 @@ function startCalculating(item_namespace, enchantment_foundation, mode) {
 
     $("#progress .lbl").text("Calculating solution...");
     $("#progress").show();
-}
-
-function setupDarkmode() {
-    const dark_mode_toggle = document.getElementById("darkModeToggle");
-    const body = document.body;
-
-    dark_mode_toggle.addEventListener("click", function() {
-        body.classList.toggle("dark-mode");
-
-        // Save user preference in localStorage
-        if (body.classList.contains("dark-mode")) {
-            localStorage.setItem("darkMode", "enabled");
-            dark_mode_toggle.textContent = "Light Mode";
-        } else {
-            localStorage.setItem("darkMode", "disabled");
-            dark_mode_toggle.textContent = "Dark Mode";
-        }
-    });
-
-    // Check user preference on page load
-    const user_preference = localStorage.getItem("darkMode");
-    if (user_preference === "enabled") {
-        body.classList.add("dark-mode");
-        dark_mode_toggle.textContent = "Light Mode";
-    } else {
-        body.classList.remove("dark-mode");
-        dark_mode_toggle.textContent = "Dark Mode";
-    }
 }
