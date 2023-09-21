@@ -8,7 +8,7 @@ var languageJson;
 
 
 window.onload = function() {
-    
+
     worker = new Worker("work.js?5");
     worker.onmessage = function(event) {
         if (event.data.msg == "complete") {
@@ -20,7 +20,7 @@ window.onload = function() {
         data: data
     });
 
-    
+
     buildItemSelection();
     buildEnchantmentSelection();
     buildCalculateButton();
@@ -41,7 +41,7 @@ function buildItemSelection() {
     //convert json into map
     const item_namespace2style = data.items;
     const item_namespaces = Object.keys(item_namespace2style);
-    
+
     item_namespaces.forEach(item_namespace => {
         const item_name = item_namespace2style[item_namespace];
         const item_listbox_metadata = { value: item_namespace };
@@ -52,7 +52,7 @@ function buildItemSelection() {
 
 function incompatibleGroupFromNamespace(enchantment_namespace) {
     const enchantments_metadata = data.enchants;
-    
+
     var incompatible_namespaces_queue = [enchantment_namespace];
     var incompatible_namespaces = [];
 
@@ -61,9 +61,9 @@ function incompatibleGroupFromNamespace(enchantment_namespace) {
         const incompatible_already_grouped = incompatible_namespaces.includes(incompatible_namespace);
 
         if (!incompatible_already_grouped) {
-            incompatible_namespaces.push(incompatible_namespace);            
+            incompatible_namespaces.push(incompatible_namespace);
             const enchantment_metadata = enchantments_metadata[incompatible_namespace];
-            var new_incompatible_namespaces = enchantment_metadata.incompatible; 
+            var new_incompatible_namespaces = enchantment_metadata.incompatible;
 
             new_incompatible_namespaces.forEach(new_incompatible_namespace => {
                 const new_incompatible_already_grouped = incompatible_namespaces.includes(new_incompatible_namespace);
@@ -151,12 +151,11 @@ function buildEnchantList(item_namespace_chosen) {
         enchantment_group.forEach(enchantment_namespace => {
             const enchantment_metadata = enchantments_metadata[enchantment_namespace];
             const enchantment_max_level = enchantment_metadata.levelMax;
-            const enchantment_name = enchantment_metadata["stylized"];
-            
+            const enchantment_name = languageJson.enchants[enchantment_namespace];
 
             var enchantment_row = $("<tr>");
-            enchantment_row.addClass(group_toggle_color ? "group1" : "group2");            
-            enchantment_row.append($("<td>").append(languageJson.enchants[enchantment_namespace].stylized));
+            enchantment_row.addClass(group_toggle_color ? "group1" : "group2");
+            enchantment_row.append($("<td>").append(enchantment_name));
             for (let enchantment_level = 1; enchantment_level <= enchantment_level_maxmax; enchantment_level++) {
                 if (enchantment_max_level >= enchantment_level) {
                     const enchantment_button_data = {
@@ -308,8 +307,8 @@ function displayInstructionText(instruction) {
 
 function displayEnchantmentText(enchantment_obj) {
     const enchantment_namespace = enchantment_obj.namespace;
-    const enchantment_metadata = languageJson.enchants[enchantment_namespace];
-    const enchantment_name = enchantment_metadata["stylized"];
+    const enchantment_metadata = data.enchants[enchantment_namespace];
+    const enchantment_name = languageJson.enchants[enchantment_namespace];
     const enchantment_max_level = enchantment_metadata.levelMax;
 
     var text = enchantment_name;
@@ -417,8 +416,7 @@ function enchantmentNamespaceFromStylized(enchantment_name) {
 
     var namespace_match = "";
     enchantment_namespaces.forEach(enchantment_namespace => {
-        const enchantment_metadata = enchantments_metadata[enchantment_namespace];
-        const enchantment_name_check = enchantment_metadata["stylized"];
+        const enchantment_name_check = languageJson.enchants[enchantment_namespace];
         if (enchantment_name_check == enchantment_name) namespace_match = enchantment_namespace;
     });
 
@@ -459,8 +457,7 @@ function filterEnchantmentButtons(incompatible_namespaces) {
     const enchantment_buttons = $("#enchants button");
 
     incompatible_namespaces.forEach(incompatible_namespace => {
-        const incompatible_metadata = enchantments_metadata[incompatible_namespace];
-        const incompatible_name = incompatible_metadata["stylized"];
+        const incompatible_name = languageJson.enchants[incompatible_namespace];
 
         var matching_buttons = enchantment_buttons.filter(function() {
             const this_button = $(this);
@@ -491,7 +488,8 @@ function updateLevelButtonForOnState(level_button) {
     if (!allow_incompatible) {
         const enchantment_namespace = enchantmentNamespaceFromStylized(enchantment_name);
         const enchantment_metadata = enchantments_metadata[enchantment_namespace];
-        var incompatible_namespaces = enchantment_metadata.incompatible;       
+console.log(enchantment_namespace, enchantment_metadata);
+        var incompatible_namespaces = enchantment_metadata.incompatible;
         filterEnchantmentButtons(incompatible_namespaces);
     }
 }
