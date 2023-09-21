@@ -99,6 +99,7 @@ body h1, body h2 {
     background-position: right 6px center;
     background-size: 12px 12px;
     padding: 8px 24px 8px 12px;
+    border-radius: 3px;
 }
 
 .inner {
@@ -153,7 +154,7 @@ a:hover {
 
 #enchants button.on {
     box-shadow: 0 0 0 var(--echlevel-shadow);
-    margin: 4px 0px 0px 0px;
+    margin: 0px;
     color: var(--echlevel-color);
     background-color: var(--enchantment-results);
 }
@@ -275,9 +276,9 @@ a:hover {
 .selectLanguage {
     appearance: none;
     font-size: 14px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    color: #191715;
+    border: 1px solid var(--table-group2);
+    background-color: var(--table-group1);
+    color: var(--table-text);
     background-image: url("images/down.png");
     background-repeat: no-repeat;
     background-position: right 6px center;
