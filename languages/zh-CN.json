@@ -48,7 +48,7 @@
         "boots":"靴子",
         "turtle_shell": "海龟壳",
         "elytra" : "鞘翅",
-        
+
         "sword": "剑",
         "axe": "斧头",
         "trident": "三叉戟",
@@ -59,7 +59,7 @@
         "shield":"盾牌",
         "crossbow": "弩",
         "brush": "刷子",
-        
+
         "fishing_rod": "钓鱼竿",
         "shears": "剪刀",
         "flint_and_steel" : "打火机",
@@ -70,288 +70,44 @@
     },
 
     "enchants": {
-        
-            "protection": {
-                "levelMax": "4",
-                "weight": "1",
-                "incompatible": ["blast_protection", "fire_protection", "projectile_protection"],
-                "items": ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
-                "stylized": "保护"
-            },
-            "aqua_affinity": {
-                "levelMax": "1",
-                "weight": "2",
-                "incompatible": [],
-                "items": ["helmet", "turtle_shell"],
-                "stylized": "水下呼吸"
-            },
-            "bane_of_arthropods": {
-                "levelMax": "5",
-                "weight": "1",
-                "incompatible": ["smite", "sharpness"],
-                "items": ["sword", "axe"],
-                "stylized": "蛛网毒素"
-            },
-            "blast_protection": {
-                "levelMax": "4",
-                "weight": "2",
-                "incompatible": ["fire_protection", "protection", "projectile_protection"],
-                "items": ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
-                "stylized": "爆炸保护"
-            },
-            "channeling": {
-                "levelMax": "1",
-                "weight": "4",
-                "incompatible": ["riptide"],
-                "items": ["trident"],
-                "stylized": "通道"
-            },
-            "depth_strider": {
-                "levelMax": "3",
-                "weight": "2",
-                "incompatible": ["frost_walker"],
-                "items": ["boots"],
-                "stylized": "深层行者"
-            },
-            "efficiency": {
-                "levelMax": "5",
-                "weight": "1",
-                "incompatible": [],
-                "items": ["pickaxe", "shovel", "axe", "hoe", "shears"],
-                "stylized": "效率"
-            },
-            "feather_falling": {
-                "levelMax": "4",
-                "weight": "1",
-                "incompatible": [],
-                "items": ["boots"],
-                "stylized": "摔落保护"
-            },
-            "fire_aspect": {
-                "levelMax": "2",
-                "weight": "2",
-                "incompatible": [],
-                "items": ["sword"],
-                "stylized": "火焰附加"
-            },
-            "fire_protection": {
-                "levelMax": "4",
-                "weight": "1",
-                "incompatible": ["blast_protection", "protection", "projectile_protection"],
-                "items": ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
-                "stylized": "火焰保护"
-            },
-            "flame": {
-                "levelMax": "1",
-                "weight": "2",
-                "incompatible": [],
-                "items": ["bow"],
-                "stylized": "火焰"
-            },
-            "fortune": {
-                "levelMax": "3",
-                "weight": "2",
-                "incompatible": ["silk_touch"],
-                "items": ["pickaxe", "shovel", "axe", "hoe"],
-                "stylized": "时运"
-            },
-            "frost_walker": {
-                "levelMax": "2",
-                "weight": "2",
-                "incompatible": ["depth_strider"],
-                "items": ["boots"],
-                "stylized": "冰霜行者"
-            },
-            "impaling": {
-                "levelMax": "5",
-                "weight": "2",
-                "incompatible": [],
-                "items": ["trident"],
-                "stylized": "穿刺"
-            },
-            "infinity": {
-                "levelMax": "1",
-                "weight": "4",
-                "incompatible": ["mending"],
-                "items": ["bow"],
-                "stylized": "无限"
-            },
-            "knockback": {
-                "levelMax": "2",
-                "weight": "1",
-                "incompatible": [],
-                "items": ["sword"],
-                "stylized": "击退"
-            },
-            "looting": {
-                "levelMax": "3",
-                "weight": "2",
-                "incompatible": [],
-                "items": ["sword"],
-                "stylized": "掠夺"
-            },
-            "loyalty": {
-                "levelMax": "3",
-                "weight": "1",
-                "incompatible": ["riptide"],
-                "items": ["trident"],
-                "stylized": "忠诚"
-            },
-            "luck_of_the_sea": {
-                "levelMax": "3",
-                "weight": "2",
-                "incompatible": [],
-                "items": ["fishing_rod"],
-                "stylized": "海之幸运"
-            },
-            "lure": {
-                "levelMax": "3",
-                "weight": "2",
-                "incompatible": [],
-                "items": ["fishing_rod"],
-                "stylized": "鱼饵"
-            },
-            "mending": {
-                "levelMax": "1",
-                "weight": "2",
-                "incompatible": ["infinity"],
-                "items": ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
-                    "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "trident",
-                    "turtle_shell", "crossbow"
-                ],
-                "stylized": "修复"
-            },
-            "multishot": {
-                "levelMax": "1",
-                "weight": "2",
-                "incompatible": ["piercing"],
-                "items": ["crossbow"],
-                "stylized": "多重射击"
-            },
-            "piercing": {
-                "levelMax": "4",
-                "weight": "1",
-                "incompatible": ["multishot"],
-                "items": ["crossbow"],
-                "stylized": "穿透"
-            },
-            "power": {
-                "levelMax": "5",
-                "weight": "1",
-                "incompatible": [],
-                "items": ["bow"],
-                "stylized": "力量"
-            },
-            "projectile_protection": {
-                "levelMax": "4",
-                "weight": "1",
-                "incompatible": ["protection", "blast_protection", "fire_protection"],
-                "items": ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
-                "stylized": "抗弹道"
-            },
-            "punch": {
-                "levelMax": "2",
-                "weight": "2",
-                "incompatible": [],
-                "items": ["bow"],
-                "stylized": "冲击"
-            },
-            "quick_charge": {
-                "levelMax": "3",
-                "weight": "1",
-                "incompatible": [],
-                "items": ["crossbow"],
-                "stylized": "快速装填"
-            },
-            "respiration": {
-                "levelMax": "3",
-                "weight": "2",
-                "incompatible": [],
-                "items": ["helmet", "turtle_shell"],
-                "stylized": "水下呼吸"
-            },
-            "riptide": {
-                "levelMax": "3",
-                "weight": "2",
-                "incompatible": ["channeling", "loyalty"],
-                "items": ["trident"],
-                "stylized": "激流"
-            },
-            "sharpness": {
-                "levelMax": "5",
-                "weight": "1",
-                "incompatible": ["bane_of_arthropods", "smite"],
-                "items": ["sword", "axe"],
-                "stylized": "锋利"
-            },
-            "silk_touch": {
-                "levelMax": "1",
-                "weight": "4",
-                "incompatible": ["fortune"],
-                "items": ["pickaxe", "shovel", "axe", "hoe"],
-                "stylized": "精准触控"
-            },
-            "smite": {
-                "levelMax": "5",
-                "weight": "1",
-                "incompatible": ["bane_of_arthropods", "sharpness"],
-                "items": ["sword", "axe"],
-                "stylized": "神圣打击"
-            },
-            "soul_speed": {
-                "levelMax": "3",
-                "weight": "4",
-                "incompatible": [],
-                "items": ["boots"],
-                "stylized": "灵魂之速"
-            },
-            "sweeping": {
-                "levelMax": "3",
-                "weight": "2",
-                "incompatible": [],
-                "items": ["sword"],
-                "stylized": "横扫"
-            },
-            "swift_sneak": {
-                "levelMax": "3",
-                "weight": "4",
-                "incompatible": [],
-                "items": ["leggings"],
-                "stylized": "迅捷潜行"
-            },
-            "thorns": {
-                "levelMax": "3",
-                "weight": "4",
-                "incompatible": [],
-                "items": ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
-                "stylized": "荆棘"
-            },
-            "unbreaking": {
-                "levelMax": "3",
-                "weight": "1",
-                "incompatible": [],
-                "items": ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
-                    "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "trident",
-                    "turtle_shell", "crossbow"
-                ],
-                "stylized": "不灭"
-            },
-            "binding_curse": {
-                "levelMax": "1",
-                "weight": "4",
-                "incompatible": [],
-                "items": ["helmet", "chestplate", "leggings", "boots", "elytra", "pumpkin", "helmet", "turtle_shell"],
-                "stylized": "束缚诅咒"
-            },
-            "vanishing_curse": {
-                "levelMax": "1",
-                "weight": "4",
-                "incompatible": [],
-                "items": ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
-                    "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "pumpkin",
-                    "helmet", "trident", "turtle_shell", "crossbow"
-                ],
-                "stylized": "消失诅咒"
-            }
+        "protection": "保护",
+        "aqua_affinity": "水下呼吸",
+        "bane_of_arthropods": "蛛网毒素",
+        "blast_protection": "爆炸保护",
+        "channeling": "通道",
+        "depth_strider": "深层行者",
+        "efficiency": "效率",
+        "feather_falling": "摔落保护",
+        "fire_aspect": "火焰附加",
+        "fire_protection": "火焰保护",
+        "flame": "火焰",
+        "fortune": "时运",
+        "frost_walker": "冰霜行者",
+        "impaling": "穿刺",
+        "infinity": "无限",
+        "knockback": "击退",
+        "looting": "掠夺",
+        "loyalty": "忠诚",
+        "luck_of_the_sea": "海之幸运",
+        "lure": "鱼饵",
+        "mending": "修复",
+        "multishot": "多重射击",
+        "piercing": "穿透",
+        "power": "力量",
+        "projectile_protection": "抗弹道",
+        "punch": "冲击",
+        "quick_charge": "快速装填",
+        "respiration": "水下呼吸",
+        "riptide": "激流",
+        "sharpness": "锋利",
+        "silk_touch": "精准触控",
+        "smite": "神圣打击",
+        "soul_speed": "灵魂之速",
+        "sweeping": "横扫",
+        "swift_sneak": "迅捷潜行",
+        "thorns": "荆棘",
+        "unbreaking": "不灭",
+        "binding_curse": "束缚诅咒",
+        "vanishing_curse": "消失诅咒"
     }
 }
