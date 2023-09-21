@@ -488,7 +488,6 @@ function updateLevelButtonForOnState(level_button) {
     if (!allow_incompatible) {
         const enchantment_namespace = enchantmentNamespaceFromStylized(enchantment_name);
         const enchantment_metadata = enchantments_metadata[enchantment_namespace];
-console.log(enchantment_namespace, enchantment_metadata);
         var incompatible_namespaces = enchantment_metadata.incompatible;
         filterEnchantmentButtons(incompatible_namespaces);
     }
@@ -614,20 +613,20 @@ function startCalculating(item_namespace, enchantment_foundation, mode) {
 }
 
 function languageChangeListener(){
-    const selectLanguage = document.getElementById('language');    
+    const selectLanguage = document.getElementById('language');
     selectLanguage.addEventListener('change', function() {
         const selectedValue = selectLanguage.value;
         changePageLanguage(selectedValue);
     });
 }
 
-async function setupLanguage(){    
+async function setupLanguage(){
     defineBrowserLanguage();
     languageChangeListener();
 }
 
 function defineBrowserLanguage(){
-    const browserLanguage = navigator.language || navigator.userLanguage;    
+    const browserLanguage = navigator.language || navigator.userLanguage;
     changePageLanguage(browserLanguage);
 }
 
@@ -649,27 +648,23 @@ function loadJsonLanguage(language) {
         return response.json();
       })
       .then(data => {
-       
         return data;
       })
       .catch(error => {
         console.error('Language file error:', error);
-        return null; 
+        return null;
       });
 }
 
 
 function chageLanguageByJson(languageJson){
-console.log('setting language...');
     const h1Element = document.getElementsByTagName('h1')[0];
     h1Element.textContent = languageJson.h1_title;
 
     /* paragraphs */
     const paragraphs = document.getElementsByTagName('p');
     paragraphs[1].innerHTML = languageJson.paragraph_1;
-
     paragraphs[2].innerHTML = languageJson.paragraph_2;
-    
     paragraphs[3].innerHTML = languageJson.paragraph_3;
 
 
