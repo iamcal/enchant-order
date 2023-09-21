@@ -3,17 +3,17 @@
     "paragraph_1" :"When enchanting items in Minecraft, the order in which you combine armor, weapons and tools with books in your anvil makes a huge difference. Each time you work on an anvil, you increase the <a href='https://minecraft.fandom.com/wiki/Anvil_mechanics'>work penalty</a> for future workings. Once that penalty gets too high, you simply can't add any more enchantments and the anvil says \"Too Expensive!\". This tool helps you plan the optimal order of combining and applying books, to give you the cheapest possible cost.",
     "paragraph_2" : "This tool assume your gear and books start with zero \"work penalty\". That means you have not previously combined the books (e.g. to turn two level 1 books into a single level 2 book) or worked the items or books in an anvil in any way. To create gear with the maximum possible enchantment, you cannot combine lower-level books and must start with high-level books from villager trading.",
     "paragraph_3": "Allowing incompatible enchantments may be useful for combining protection-type enchantments (1.14 to 1.14.3pre-1) and mending/infinity (1.9 to 1.11.1).",
-    
+
     "choose_an_item_to_enchant": "Choose an item to enchant",
 
-    "checkbox_label_0": "<input type='checkbox' id='allow_incompatible' onchange='allowIncompatibleChanged()'> Allow incompatible enchantments",
-    "checkbox_label_1": "<input type='checkbox' id='allow_many' onchange='allowManyChanged()'> Allow more than 10 enchantments",
+    "checkbox_label_incompatible": "Allow incompatible enchantments",
+    "checkbox_label_max_number": "Allow more than 10 enchantments",
 
     "calculate": "Calculate",
     "optimize_for": "Optimize for: ",
 
-    "label_radio_1": "<input type='radio' name='cheapness-mode' checked='checked' value='levels'> Least XP/Levels  ",
-    "label_radio_2": "<input type='radio' name='cheapness-mode' value='prior_work'> Least Prior Work Penalty",
+    "radio_label_optimize_xp": "Least XP/Levels",
+    "radio_label_optimize_pwp": "Least Prior Work Penalty",
 
 
     "optimal_solution_cumulative_levels": "Optimal solution found (by lowest cumulative levels)!",

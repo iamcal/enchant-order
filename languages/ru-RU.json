@@ -5,14 +5,14 @@
     "paragraph_3": "Разрешение несовместимых чар может быть полезно для сочетания чар типа защита (с 1.14 по 1.14.3pre-1) и чары восстановления/бесконечность (с 1.9 по 1.11.1).",
     "choose_an_item_to_enchant": "Выберите предмет для наложения чар",
 
-    "checkbox_label_0": "<input type='checkbox' id='allow_incompatible' onchange='allowIncompatibleChanged()'> Разрешить несовместимые чары",
-    "checkbox_label_1": "<input type='checkbox' id='allow_many' onchange='allowManyChanged()'> Разрешить более 10 чар",
+    "checkbox_label_incompatible": "Разрешить несовместимые чары",
+    "checkbox_label_max_number": "Разрешить более 10 чар",
 
     "calculate": "Вычислить",
     "optimize_for": "Оптимизировать для: ",
 
-    "label_radio_1": "<input type='radio' name='cheapness-mode' checked='checked' value='levels'> Меньше опыта/уровней ",
-    "label_radio_2": "<input type='radio' name='cheapness-mode' value='prior_work'> Предыдущие штрафы за работу",
+    "radio_label_optimize_xp": "Меньше опыта/уровней",
+    "radio_label_optimize_pwp": "Предыдущие штрафы за работу",
 
     "optimal_solution_cumulative_levels": "Найдено лучшее решение (с наименьшим совокупным уровнем)!",
     "optimal_solution_prior_work": "Найдено оптимальное решение (с меньшим предыдущим штрафом за работу)!",

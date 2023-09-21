@@ -3,17 +3,17 @@
     "paragraph_1" :"Quando encantando itens no Minecraft, a ordem em que você combina armaduras, armas e ferramentas com livros na sua bigorna faz uma enorme diferença. Cada vez que você trabalha em uma bigorna, você aumenta a <a href='https://minecraft.fandom.com/wiki/Anvil_mechanics'>penalidade de trabalho</a> para trabalhos futuros. Uma vez que essa penalidade se torna muito alta, você simplesmente não pode adicionar mais encantamentos e a bigorna diz \"Muito Caro!\". Esta ferramenta ajuda você a planejar a ordem ótima de combinação e aplicação de livros, para lhe proporcionar o custo mais barato possível.",
     "paragraph_2" : "Esta ferramenta assume que seus equipamentos e livros começam com uma 'penalidade de trabalho' de zero. Isso significa que você não combinou previamente os livros (por exemplo, para transformar dois livros de nível 1 em um único livro de nível 2) ou trabalhou os itens ou livros em uma bigorna de forma alguma. Para criar equipamentos com o máximo possível de encantamento, você não pode combinar livros de níveis mais baixos e deve começar com livros de nível mais alto obtidos por meio de negociações com aldeões.",
     "paragraph_3": "Permitir encantamentos incompatíveis pode ser útil para combinar encantamentos do tipo proteção (1.14 a 1.14.3pre-1) e mending/infinity (1.9 a 1.11.1).",
-    
+
     "choose_an_item_to_enchant": "Escolha um item para encantar",
 
-    "checkbox_label_0": "<input type='checkbox' id='allow_incompatible' onchange='allowIncompatibleChanged()'> Permitir encantamentos incompatíveis",
-    "checkbox_label_1": "<input type='checkbox' id='allow_many' onchange='allowManyChanged()'> Permitir mais de 10 encantamentos",
+    "checkbox_label_incompatible": "Permitir encantamentos incompatíveis",
+    "checkbox_label_max_number": "Permitir mais de 10 encantamentos",
 
     "calculate": "Calcular",
     "optimize_for": "Otimizar para: ",
 
-    "label_radio_1": "<input type='radio' name='cheapness-mode' checked='checked' value='levels'> Menos XP/Níveis ",
-    "label_radio_2": "<input type='radio' name='cheapness-mode' value='prior_work'> Penalidades de trabalho anterior",
+    "radio_label_optimize_xp": "Menos XP/Níveis",
+    "radio_label_optimize_pwp": "Penalidades de trabalho anterior",
 
 
     "optimal_solution_cumulative_levels": "Melhor solução encontrada (pelo menor nível cumulativo)!",
