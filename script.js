@@ -5,7 +5,7 @@ var start_time;
 var total_steps;
 var total_tries;
 var languageJson;
-
+var languageId;
 
 window.onload = function() {
 
@@ -631,6 +631,7 @@ function defineBrowserLanguage(){
 }
 
 async function changePageLanguage(language){
+    languageId = language;
     languageJson = await loadJsonLanguage(language).then(languageData => { return languageData});
     if (languageJson){
         chageLanguageByJson(languageJson);
@@ -658,6 +659,15 @@ function loadJsonLanguage(language) {
 
 
 function chageLanguageByJson(languageJson){
+    /* check for duplicate names */
+    var map = {};
+    for (var i in languageJson.enchants){
+        if (map[languageJson.enchants[i]]){
+            console.error("Duplicate string for enchant names (must be unique)", languageId, i, map[languageJson.enchants[i]]);
+        }
+        map[languageJson.enchants[i]] = i;
+    }
+
     const h1Element = document.getElementsByTagName('h1')[0];
     h1Element.textContent = languageJson.h1_title;
 
