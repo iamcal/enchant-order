@@ -7,6 +7,14 @@ var total_tries;
 var languageJson;
 var languageId;
 
+var languages = {
+	//key   : ['LABEL', cache-id],
+	'en'    : ['English', 1],
+	'pt-BR' : ['Português', 1],
+	'ru-RU' : ['Русский', 1],
+	'zh-CN' : ['中文', 1],
+};
+
 window.onload = function() {
 
     worker = new Worker("work.js?5");
@@ -621,27 +629,38 @@ function languageChangeListener(){
 }
 
 async function setupLanguage(){
+    for (var i in languages){
+        $("<option/>", {'value': i}).text(languages[i][0]).appendTo('#language');
+    }
     defineBrowserLanguage();
     languageChangeListener();
 }
 
 function defineBrowserLanguage(){
     const browserLanguage = navigator.language || navigator.userLanguage;
-    changePageLanguage(browserLanguage);
-}
-
-async function changePageLanguage(language){
-    languageId = language;
-    languageJson = await loadJsonLanguage(language).then(languageData => { return languageData});
-    if (languageJson){
-        chageLanguageByJson(languageJson);
-    }else if (language != 'en'){
+    if (languages[browserLanguage]){
+        changePageLanguage(browserLanguage);
+    }else{
         changePageLanguage('en');
     }
 }
 
+async function changePageLanguage(language){
+    if (!languages[language]){
+        console.error("Trying to switch to unknown language:", language);
+        return;
+    }
+
+    languageId = language;
+    languageJson = await loadJsonLanguage(language).then(languageData => { return languageData});
+    if (languageJson){
+        chageLanguageByJson(languageJson);
+    }
+}
+
 function loadJsonLanguage(language) {
-    return fetch('languages/'+language+'.json')
+    var cache_key = languages[language][1];
+    return fetch('languages/'+language+'.json?'+cache_key)
       .then(response => {
         if (!response.ok) {
           throw new Error('Can\'t load language file');
