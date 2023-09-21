@@ -4,141 +4,121 @@ var data = {
             levelMax: "4",
             weight: "1",
             incompatible: ["blast_protection", "fire_protection", "projectile_protection"],
-            items: ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
-            stylized: "Protection"
+            items: ["helmet", "chestplate", "leggings", "boots", "turtle_shell"]
         },
         aqua_affinity: {
             levelMax: "1",
             weight: "2",
             incompatible: [],
-            items: ["helmet", "turtle_shell"],
-            stylized: "Aqua Affinity"
+            items: ["helmet", "turtle_shell"]
         },
         bane_of_arthropods: {
             levelMax: "5",
             weight: "1",
             incompatible: ["smite", "sharpness"],
-            items: ["sword", "axe"],
-            stylized: "Bane of Arthropods"
+            items: ["sword", "axe"]
         },
         blast_protection: {
             levelMax: "4",
             weight: "2",
             incompatible: ["fire_protection", "protection", "projectile_protection"],
-            items: ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
-            stylized: "Blast Protection"
+            items: ["helmet", "chestplate", "leggings", "boots", "turtle_shell"]
         },
         channeling: {
             levelMax: "1",
             weight: "4",
             incompatible: ["riptide"],
-            items: ["trident"],
-            stylized: "Channeling"
+            items: ["trident"]
         },
         depth_strider: {
             levelMax: "3",
             weight: "2",
             incompatible: ["frost_walker"],
-            items: ["boots"],
-            stylized: "Depth Strider"
+            items: ["boots"]
         },
         efficiency: {
             levelMax: "5",
             weight: "1",
             incompatible: [],
-            items: ["pickaxe", "shovel", "axe", "hoe", "shears"],
-            stylized: "Efficiency"
+            items: ["pickaxe", "shovel", "axe", "hoe", "shears"]
         },
         feather_falling: {
             levelMax: "4",
             weight: "1",
             incompatible: [],
-            items: ["boots"],
-            stylized: "Feather Falling"
+            items: ["boots"]
         },
         fire_aspect: {
             levelMax: "2",
             weight: "2",
             incompatible: [],
-            items: ["sword"],
-            stylized: "Fire Aspect"
+            items: ["sword"]
         },
         fire_protection: {
             levelMax: "4",
             weight: "1",
             incompatible: ["blast_protection", "protection", "projectile_protection"],
-            items: ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
-            stylized: "Fire Protection"
+            items: ["helmet", "chestplate", "leggings", "boots", "turtle_shell"]
         },
         flame: {
             levelMax: "1",
             weight: "2",
             incompatible: [],
-            items: ["bow"],
-            stylized: "Flame"
+            items: ["bow"]
         },
         fortune: {
             levelMax: "3",
             weight: "2",
             incompatible: ["silk_touch"],
-            items: ["pickaxe", "shovel", "axe", "hoe"],
-            stylized: "Fortune"
+            items: ["pickaxe", "shovel", "axe", "hoe"]
         },
         frost_walker: {
             levelMax: "2",
             weight: "2",
             incompatible: ["depth_strider"],
-            items: ["boots"],
-            stylized: "Frost Walker"
+            items: ["boots"]
         },
         impaling: {
             levelMax: "5",
             weight: "2",
             incompatible: [],
-            items: ["trident"],
-            stylized: "Impaling"
+            items: ["trident"]
         },
         infinity: {
             levelMax: "1",
             weight: "4",
             incompatible: ["mending"],
-            items: ["bow"],
-            stylized: "Infinity"
+            items: ["bow"]
         },
         knockback: {
             levelMax: "2",
             weight: "1",
             incompatible: [],
-            items: ["sword"],
-            stylized: "Knockback"
+            items: ["sword"]
         },
         looting: {
             levelMax: "3",
             weight: "2",
             incompatible: [],
-            items: ["sword"],
-            stylized: "Looting"
+            items: ["sword"]
         },
         loyalty: {
             levelMax: "3",
             weight: "1",
             incompatible: ["riptide"],
-            items: ["trident"],
-            stylized: "Loyalty"
+            items: ["trident"]
         },
         luck_of_the_sea: {
             levelMax: "3",
             weight: "2",
             incompatible: [],
-            items: ["fishing_rod"],
-            stylized: "Luck of the Sea"
+            items: ["fishing_rod"]
         },
         lure: {
             levelMax: "3",
             weight: "2",
             incompatible: [],
-            items: ["fishing_rod"],
-            stylized: "Lure"
+            items: ["fishing_rod"]
         },
         mending: {
             levelMax: "1",
@@ -147,113 +127,97 @@ var data = {
             items: ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
                 "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "trident",
                 "turtle_shell", "crossbow"
-            ],
-            stylized: "Mending"
+            ]
         },
         multishot: {
             levelMax: "1",
             weight: "2",
             incompatible: ["piercing"],
-            items: ["crossbow"],
-            stylized: "Multishot"
+            items: ["crossbow"]
         },
         piercing: {
             levelMax: "4",
             weight: "1",
             incompatible: ["multishot"],
-            items: ["crossbow"],
-            stylized: "Piercing"
+            items: ["crossbow"]
         },
         power: {
             levelMax: "5",
             weight: "1",
             incompatible: [],
-            items: ["bow"],
-            stylized: "Power"
+            items: ["bow"]
         },
         projectile_protection: {
             levelMax: "4",
             weight: "1",
             incompatible: ["protection", "blast_protection", "fire_protection"],
-            items: ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
-            stylized: "Projectile Protection"
+            items: ["helmet", "chestplate", "leggings", "boots", "turtle_shell"]
         },
         punch: {
             levelMax: "2",
             weight: "2",
             incompatible: [],
-            items: ["bow"],
-            stylized: "Punch"
+            items: ["bow"]
         },
         quick_charge: {
             levelMax: "3",
             weight: "1",
             incompatible: [],
-            items: ["crossbow"],
-            stylized: "Quick Charge"
+            items: ["crossbow"]
         },
         respiration: {
             levelMax: "3",
             weight: "2",
             incompatible: [],
-            items: ["helmet", "turtle_shell"],
-            stylized: "Respiration"
+            items: ["helmet", "turtle_shell"]
         },
         riptide: {
             levelMax: "3",
             weight: "2",
             incompatible: ["channeling", "loyalty"],
-            items: ["trident"],
-            stylized: "Riptide"
+            items: ["trident"]
         },
         sharpness: {
             levelMax: "5",
             weight: "1",
             incompatible: ["bane_of_arthropods", "smite"],
-            items: ["sword", "axe"],
-            stylized: "Sharpness"
+            items: ["sword", "axe"]
         },
         silk_touch: {
             levelMax: "1",
             weight: "4",
             incompatible: ["fortune"],
-            items: ["pickaxe", "shovel", "axe", "hoe"],
-            stylized: "Silk Touch"
+            items: ["pickaxe", "shovel", "axe", "hoe"]
         },
         smite: {
             levelMax: "5",
             weight: "1",
             incompatible: ["bane_of_arthropods", "sharpness"],
-            items: ["sword", "axe"],
-            stylized: "Smite"
+            items: ["sword", "axe"]
         },
         soul_speed: {
             levelMax: "3",
             weight: "4",
             incompatible: [],
-            items: ["boots"],
-            stylized: "Soul Speed"
+            items: ["boots"]
         },
         sweeping: {
             levelMax: "3",
             weight: "2",
             incompatible: [],
-            items: ["sword"],
-            stylized: "Sweeping Edge"
+            items: ["sword"]
         },
         swift_sneak: {
             levelMax: "3",
             weight: "4",
             incompatible: [],
-            items: ["leggings"],
-            stylized: "Swift Sneak"
+            items: ["leggings"]
         },
         thorns: {
             levelMax: "3",
             weight: "4",
             incompatible: [],
-            items: ["helmet", "chestplate", "leggings", "boots", "turtle_shell"],
-            stylized: "Thorns"
+            items: ["helmet", "chestplate", "leggings", "boots", "turtle_shell"]
         },
         unbreaking: {
             levelMax: "3",
@@ -263,15 +227,13 @@ var data = {
             items: ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
                 "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "trident",
                 "turtle_shell", "crossbow"
-            ],
-            stylized: "Unbreaking"
+            ]
         },
         binding_curse: {
             levelMax: "1",
             weight: "4",
             incompatible: [],
-            items: ["helmet", "chestplate", "leggings", "boots", "elytra", "pumpkin", "helmet", "turtle_shell"],
-            stylized: "Curse of Binding"
+            items: ["helmet", "chestplate", "leggings", "boots", "elytra", "pumpkin", "helmet", "turtle_shell"]
         },
         vanishing_curse: {
             levelMax: "1",
@@ -280,8 +242,7 @@ var data = {
             items: ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
                 "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "pumpkin",
                 "helmet", "trident", "turtle_shell", "crossbow"
-            ],
-            stylized: "Curse of Vanishing"
+            ]
         }
     },
     items: {
