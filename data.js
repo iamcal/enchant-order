@@ -245,31 +245,31 @@ var data = {
             ]
         }
     },
-    items: {
-        helmet: "Helmet",
-        chestplate: "Chestplate",
-        leggings: "Leggings",
-        boots: "Boots",
-        turtle_shell: "Turtle Shell",
-        elytra: "Elytra",
+    items: [
+        'helmet',
+        'chestplate',
+        'leggings',
+        'boots',
+        'turtle_shell',
+        'elytra',
 
-        sword: "Sword",
-        axe: "Axe",
-        trident: "Trident",
-        pickaxe: "Pickaxe",
-        shovel: "Shovel",
-        hoe: "Hoe",
-        bow: "Bow",
-        shield: "Shield",
-        crossbow: "Crossbow",
-        brush: "Brush",
+        'sword',
+        'axe',
+        'trident',
+        'pickaxe',
+        'shovel',
+        'hoe',
+        'bow',
+        'shield',
+        'crossbow',
+        'brush',
 
-        fishing_rod: "Fishing Rod",
-        shears: "Shears",
-        flint_and_steel: "Flint & Steel",
-        carrot_on_a_stick: "Carrot on a Stick",
-        warped_fungus_on_a_stick: "Warped Fungus on a Stick",
-        pumpkin: "Pumpkin",
-        book: "Book"
-    }
+        'fishing_rod',
+        'shears',
+        'flint_and_steel',
+        'carrot_on_a_stick',
+        'warped_fungus_on_a_stick',
+        'pumpkin',
+        'book',
+    ]
 };
