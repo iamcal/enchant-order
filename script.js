@@ -13,7 +13,7 @@ var languages = {
 	'pt-BR' : ['Português', 2],
 	'ru-RU' : ['Русский', 1],
 	'zh-CN' : ['中文', 2],
-  'nl' : ['Nederlands', 1],
+    'nl' : ['Nederlands', 1],
 };
 
 window.onload = function() {
@@ -633,11 +633,17 @@ async function setupLanguage(){
 }
 
 function defineBrowserLanguage(){
-    const browserLanguage = navigator.language || navigator.userLanguage;
-    if (languages[browserLanguage]){
-        changePageLanguage(browserLanguage);
-    }else{
-        changePageLanguage('en');
+    if (!localStorage.getItem("savedlanguage")) {
+        // language isn't saved and has to be detected
+        const browserLanguage = navigator.language || navigator.userLanguage;
+        if (languages[browserLanguage]){
+            changePageLanguage(browserLanguage);
+        } else {
+            changePageLanguage('en');
+        }
+    } else {
+        // language is saved, load from save
+        changePageLanguage(localStorage.getItem("savedlanguage"));
     }
 }
 
@@ -651,6 +657,8 @@ async function changePageLanguage(language){
     languageJson = await loadJsonLanguage(language).then(languageData => { return languageData});
     if (languageJson){
         chageLanguageByJson(languageJson);
+        localStorage.setItem("savedlanguage", language);
+        // ^ Save language choice to localstorage
     }
 }
 
