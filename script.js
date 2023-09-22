@@ -13,6 +13,7 @@ var languages = {
 	'pt-BR' : ['Português', 2],
 	'ru-RU' : ['Русский', 1],
 	'zh-CN' : ['中文', 2],
+  'nl' : ['Nederlands', 1],
 };
 
 window.onload = function() {
