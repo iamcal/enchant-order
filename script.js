@@ -517,8 +517,8 @@ function levelButtonClicked(button_clicked) {
         if (is_too_many) {
             var alert_text = "";
             alert_text += languageJson.too_many_enchantments;
-            alert_text += languageJson.more_than + ENCHANTMENT_LIMIT_INCLUSIVE + languageJson.enchantments_are_not_recomended;
-            alert_text += languageJson.plese_select_enchantments;
+            alert_text += languageJson.more_than + ENCHANTMENT_LIMIT_INCLUSIVE + languageJson.enchantments_are_not_recommended;
+            alert_text += languageJson.please_select_enchantments;
             alert(alert_text);
         } else {
             updateLevelButtonForOnState(button_clicked);
