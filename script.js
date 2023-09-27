@@ -9,11 +9,11 @@ var languageId;
 
 var languages = {
     //key   : ['LABEL', cache-id],
-    'en'    : ['English', 1],
-    'pt-BR' : ['Português', 2],
-    'ru-RU' : ['Русский', 1],
-    'zh-CN' : ['中文', 2],
-    'nl'    : ['Nederlands', 1],
+    'en'    : ['English', 2],
+    'pt-BR' : ['Português', 3],
+    'ru-RU' : ['Русский', 2],
+    'zh-CN' : ['中文', 3],
+    'nl'    : ['Nederlands', 2],
     'de'    : ['Deutsch', 1],
 };
 
