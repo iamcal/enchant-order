@@ -12,6 +12,7 @@ var languages = {
     'en'    : ['English', 2],
     'pt-BR' : ['Português', 3],
     'ru-RU' : ['Русский', 2],
+    'ua-UA' : ['Українська', 2],
     'zh-CN' : ['中文', 3],
     'nl'    : ['Nederlands', 2],
     'de'    : ['Deutsch', 1],
