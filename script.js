@@ -242,26 +242,70 @@ function buildEnchantmentSelection() {
 function displayTime(time_milliseconds) {
     var time_text;
 
-    if (time_milliseconds < 1) {
-        const time_microseconds = Math.round(time_milliseconds * 1000);
-        time_text = Math.round(time_microseconds) + (languageJson.microsecond ?? " microseconds");
-    } else if (time_milliseconds < 1000) {
-        const time_round = Math.round(time_milliseconds);
-        time_text = time_round + languageJson.millisecond;
-        if (time_round != 1) time_text += "s";
+    if (languageId === 'ua-UA' || languageId === 'ru-RU') {
+        if (time_milliseconds < 1) {
+            const time_microseconds = Math.round(time_milliseconds * 1000);
+            time_text = Math.round(time_microseconds) + (languageJson.microsecond ?? " microseconds");
+
+        } else if (time_milliseconds < 1000) {
+            const time_round = Math.round(time_milliseconds);
+
+            if ((time_round % 10 === 1) && (time_round < 10 || time_round > 15)) {
+                time_text = time_round + languageJson.millisecond;
+            } else if ((time_round % 10 === 2 || time_round % 10 === 3 || time_round % 10 === 4) && (time_round < 10 || time_round > 15)) {
+                time_text = time_round + languageJson.millisecond_low;
+            } else {
+                time_text = time_round + languageJson.millisecond_high;
+            }
+
+        } else {
+            const time_seconds = Math.round(time_milliseconds / 1000);
+
+            if ((time_seconds % 10 === 1) && (time_seconds < 10 || time_seconds > 15)) {
+                time_text = time_seconds + languageJson.second;
+            } else if ((time_seconds % 10 === 2 || time_seconds % 10 === 3 || time_seconds % 10 === 4) && (time_seconds < 10 || time_seconds > 15)) {
+                time_text = time_seconds + languageJson.second_low;
+            } else {
+                time_text = time_seconds + languageJson.msecond_high;
+            }
+
+        }
     } else {
-        const time_seconds = Math.round(time_milliseconds / 1000);
-        time_text = time_seconds + languageJson.second;
-        if (time_seconds != 1) time_text += "s";
+        if (time_milliseconds < 1) {
+            const time_microseconds = Math.round(time_milliseconds * 1000);
+            time_text = Math.round(time_microseconds) + (languageJson.microsecond ?? " microseconds");
+
+        } else if (time_milliseconds < 1000) {
+            const time_round = Math.round(time_milliseconds);
+            time_text = time_round + languageJson.millisecond;
+            if (time_round !== 1) time_text += "s";
+
+        } else {
+            const time_seconds = Math.round(time_milliseconds / 1000);
+            time_text = time_seconds + languageJson.second;
+            if (time_seconds !== 1) time_text += "s";
+        }
     }
 
     return time_text;
 }
 
 function displayLevelsText(levels) {
-    var level_text = levels + languageJson.level;
-    if (levels != 1) {
-        level_text += "s";
+    var level_text = levels;
+    if (languageId === 'ua-UA' || languageId === 'ru-RU') {
+        if ((levels % 10 === 1) && (levels < 10 || levels > 15)) {
+            level_text += languageJson.level;
+        } else if ((levels % 10 === 2 || levels % 10 === 3 || levels % 10 === 4) && (levels < 10 || levels > 15)) {
+            level_text += languageJson.level_low;
+        } else {
+            level_text += languageJson.level_high;
+        }
+    } else {
+        if (levels !== 1) {
+            level_text += languageJson.level + "s";
+        } else {
+            level_text += languageJson.level;
+        }
     }
     return level_text;
 }
