@@ -21,6 +21,7 @@
 
     "total_cost": "Total cost: ",
     "completed_in": "Completed in ",
+    "microsecond": " microseconds",
     "millisecond": " millisecond",
     "second": " second",
     "level": " level",

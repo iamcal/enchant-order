@@ -244,7 +244,7 @@ function displayTime(time_milliseconds) {
 
     if (time_milliseconds < 1) {
         const time_microseconds = Math.round(time_milliseconds * 1000);
-        time_text = Math.round(time_microseconds) + " microseconds";
+        time_text = Math.round(time_microseconds) + (languageJson.microsecond ?? " microseconds");
     } else if (time_milliseconds < 1000) {
         const time_round = Math.round(time_milliseconds);
         time_text = time_round + languageJson.millisecond;

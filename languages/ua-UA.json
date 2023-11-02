@@ -21,6 +21,7 @@
 
     "total_cost": "Загальна вартість: ",
     "completed_in": "Завершено за ",
+    "microsecond": " мікросекунд",
     "millisecond": " мс",
     "second": " с",
     "level": " рівень",

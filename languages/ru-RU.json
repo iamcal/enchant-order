@@ -19,6 +19,7 @@
 
     "total_cost": "Общая стоимость: ",
     "completed_in": "Завершено за ",
+    "microsecond": " микросекунд",
     "millisecond": " миллисекунд",
     "second": " секунду",
     "level": " уровень",
