@@ -9,7 +9,8 @@ var languageId;
 
 var languages = {
     //key   : ['LABEL', cache-id],
-    'en'    : ['English', 2],
+    'es-ES' : ['Español', ],
+    'en-EN' : ['English', 2],
     'pt-BR' : ['Português', 3],
     'ru-RU' : ['Русский', 2],
     'zh-CN' : ['中文', 3],
