@@ -1,6 +1,6 @@
 {
     "h1_title" :"Herramienta Orden de Encantamientos - Minecraft",
-    "paragraph_1" :"When enchanting items in Minecraft, the order in which you combine armor, weapons and tools with books in your anvil makes a huge difference. Each time you work on an anvil, you increase the <a href='https://minecraft.wiki/w/Anvil_mechanics'>work penalty</a> for future workings. Once that penalty gets too high, you simply can't add any more enchantments and the anvil says \"Too Expensive!\". This tool helps you plan the optimal order of combining and applying books, to give you the cheapest possible cost.",
+    "paragraph_1" :"Cuando encantamos objetos en Minecraft, el orden en el que combinas la armadura, armas y herramientas con libros en el yunque marca una gran diferencia. Each time you work on an anvil, you increase the <a href='https://minecraft.wiki/w/Anvil_mechanics'>work penalty</a> for future workings. Once that penalty gets too high, you simply can't add any more enchantments and the anvil says \"Too Expensive!\". This tool helps you plan the optimal order of combining and applying books, to give you the cheapest possible cost.",
     "paragraph_2" : "This tool assume your gear and books start with zero \"work penalty\". That means you have not previously combined the books (e.g. to turn two level 1 books into a single level 2 book) or worked the items or books in an anvil in any way. To create gear with the maximum possible enchantment, you cannot combine lower-level books and must start with high-level books from villager trading.",
     "paragraph_3": "Allowing incompatible enchantments may be useful for combining protection-type enchantments (1.14 to 1.14.3pre-1) and mending/infinity (1.9 to 1.11.1).",
 
@@ -12,7 +12,7 @@
     "calculate": "Calcular",
     "optimize_for": "Optimizar para: ",
 
-    "radio_label_optimize_xp": "Least XP/Levels",
+    "radio_label_optimize_xp": "Menor XP/Niveles",
     "radio_label_optimize_pwp": "Least Prior Work Penalty",
 
 
@@ -63,8 +63,8 @@
         "fishing_rod": "Caña de Pescar",
         "shears": "Tijeras",
         "flint_and_steel" : "Mechero",
-        "carrot_on_a_stick": "Carrot on a Stick",
-        "warped_fungus_on_a_stick": "Warped Fungus on a Stick",
+        "carrot_on_a_stick": "Zanahoria con Palo",
+        "warped_fungus_on_a_stick": "Caña con hongo distorsionado",
         "pumpkin": "Calabaza",
         "book": "Libro"
     },
@@ -75,7 +75,7 @@
         "bane_of_arthropods": "Perdición de los Artrópodos",
         "blast_protection": "Protección contra Explosiones",
         "channeling": "Conductividad",
-        "depth_strider": "Depth Strider",
+        "depth_strider": "Agilidad Acuática",
         "efficiency": "Eficiencia",
         "feather_falling": "Caída de Pluma",
         "fire_aspect": "Aspecto Ígneo",
@@ -92,10 +92,10 @@
         "lure": "Atracción",
         "mending": "Reparación",
         "multishot": "Multidisparo",
-        "piercing": "Piercing",
+        "piercing": "Penetración",
         "power": "Poder",
         "projectile_protection": "Protección contra Proyectiles",
-        "punch": "Punch",
+        "punch": "Retroceso",
         "quick_charge": "Carga Rápida",
         "respiration": "Respiración",
         "riptide": "Propulsión Acuática",
