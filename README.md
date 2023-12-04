@@ -1,6 +1,6 @@
 # Minecraft Enchantment Ordering Tool
 
-Esta es una herramienta web que permite encontrar la mejor manera de combinar los libros de encantamientos de Minecraft para así gastar menos XP
+Esta es una herramienta web que permite encontrar la mejor manera de combinar los libros de encantamientos de Minecraft para así gastar menos XP.
 
 Puedes usarla aquí: https://koryfroste05.github.io/orden-encantamientos-mc/
 
