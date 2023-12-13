@@ -13,16 +13,16 @@
     "optimize_for": "Optimizar para: ",
 
     "radio_label_optimize_xp": "Menor XP/Niveles",
-    "radio_label_optimize_pwp": "Least Prior Work Penalty",
+    "radio_label_optimize_pwp": "Menor Penalización de Trabajo",
 
 
     "optimal_solution_cumulative_levels": "Solución optima encontrada (by lowest cumulative levels)!",
-    "optimal_solution_prior_work": "Optimal solution found (by lowest prior work)!",
+    "optimal_solution_prior_work": "Solución optima encontrada (para menos by lowest prior work)!",
 
     "total_cost": "Coste total: ",
     "completed_in": "Completado en ",
     "millisecond": " milisegundo",
-    "second": " second",
+    "second": " segundo",
     "level": " nivel",
     "steps": " Pasos:",
     "combine": " Combinar",
@@ -33,11 +33,11 @@
     "button_enchant" : "Encantar",
     "button_level": "Nivel",
     "too_many_enchantments": "Demasiados Encantamientos!",
-    "more_than": " More than ",
+    "more_than": " Más que ",
     "enchantments_are_not_recommended": " encantamientos no recomendados.",
-    "please_select_enchantments": " Please deselect some enchantments or check the override near the bottom of the page.",
+    "please_select_enchantments": " Deseleccione algunos encantamientos o compruebe la anulación cerca de la parte inferior de la página.",
     "calculating_solution": "Calculando solución...",
-    "note": "Nota: The two XP values shown are the difference between saving up for all levels/XP at once versus earning levels/XP between each enchantment step.",
+    "note": "Nota: Los dos valores de XP mostrados son la diferencia entre ahorrar para todos los niveles/XP a la vez versus ganar niveles/XP entre cada paso de encantamiento.",
     "light_mode": "Modo Claro",
     "dark_mode": "Modo Oscuro",
 
