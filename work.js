@@ -542,7 +542,7 @@ function experienceFromLevel(level) {
     if (level == 0) {
         return 0;
     } else if (level <= 16) {
-        return level * level + 7;
+        return level * level + 6 * level
     } else if (level <= 31) {
         return 2.5 * level * level - 40.5 * level + 360;
     } else {
