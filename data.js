@@ -223,7 +223,6 @@ var data = {
             levelMax: "3",
             weight: "1",
             incompatible: [],
-            weight: "1",
             items: ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
                 "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "trident",
                 "turtle_shell", "crossbow"
