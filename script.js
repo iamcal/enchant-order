@@ -1,27 +1,26 @@
 const ENCHANTMENT_LIMIT_INCLUSIVE = 10;
 
-var worker;
-var start_time;
-var total_steps;
-var total_tries;
-var languageJson;
-var languageId;
+let worker;
+let start_time;
+let total_steps;
+let total_tries;
+let languageJson;
+let languageId;
+let enchants_list;
 
-var languages = {
+const languages = {
     //key   : ['LABEL', cache-id],
-    'en'    : ['English', 2],
-    'pt-BR' : ['Português', 3],
-    'ru-RU' : ['Русский', 2],
-    'zh-CN' : ['中文', 3],
-    'nl'    : ['Nederlands', 2],
-    'de'    : ['Deutsch', 1],
+    'en': ['English', 2],
+    'pt-BR': ['Português', 3],
+    'ru-RU': ['Русский', 2],
+    'zh-CN': ['中文', 3],
+    'nl': ['Nederlands', 2],
+    'de': ['Deutsch', 1],
 };
-
 window.onload = function() {
-
-    worker = new Worker("work.js?6");
+    worker = new Worker("work.js?5");
     worker.onmessage = function(event) {
-        if (event.data.msg == "complete") {
+        if (event.data.msg === "complete") {
             afterFoundOptimalSolution(event.data);
         }
     };
@@ -29,7 +28,6 @@ window.onload = function() {
         msg: "set_data",
         data: data
     });
-
 
     buildItemSelection();
     buildEnchantmentSelection();
@@ -58,8 +56,8 @@ function buildItemSelection() {
 function incompatibleGroupFromNamespace(enchantment_namespace) {
     const enchantments_metadata = data.enchants;
 
-    var incompatible_namespaces_queue = [enchantment_namespace];
-    var incompatible_namespaces = [];
+    const incompatible_namespaces_queue = [enchantment_namespace];
+    const incompatible_namespaces = [];
 
     while (incompatible_namespaces_queue.length) {
         const incompatible_namespace = incompatible_namespaces_queue.shift();
@@ -68,7 +66,7 @@ function incompatibleGroupFromNamespace(enchantment_namespace) {
         if (!incompatible_already_grouped) {
             incompatible_namespaces.push(incompatible_namespace);
             const enchantment_metadata = enchantments_metadata[incompatible_namespace];
-            var new_incompatible_namespaces = enchantment_metadata.incompatible;
+            const new_incompatible_namespaces = enchantment_metadata.incompatible;
 
             new_incompatible_namespaces.forEach(new_incompatible_namespace => {
                 const new_incompatible_already_grouped = incompatible_namespaces.includes(new_incompatible_namespace);
@@ -94,8 +92,8 @@ function buildEnchantList(item_namespace_chosen) {
     // first, filter out which enchants apply to this item
     //
 
-    var item_enchantment_namespaces = [];
-    var enchantment_level_maxmax = 0;
+    const item_enchantment_namespaces = [];
+    let enchantment_level_maxmax = 0;
 
     const enchantment_namespaces = Object.keys(enchantments_metadata);
     enchantment_namespaces.forEach(enchantment_namespace => {
@@ -103,12 +101,12 @@ function buildEnchantList(item_namespace_chosen) {
         const enchantment_metadata = enchantments_metadata[enchantment_namespace];
         const item_namespaces = enchantment_metadata.items;
 
-        var allow_enchantment = false;
-        if (item_namespace_chosen == "book") {
+        let allow_enchantment = false;
+        if (item_namespace_chosen === "book") {
             allow_enchantment = true;
         } else {
             item_namespaces.forEach(item_namespace => {
-                if (item_namespace == item_namespace_chosen) {
+                if (item_namespace === item_namespace_chosen) {
                     allow_enchantment = true;
                 }
             });
@@ -125,19 +123,18 @@ function buildEnchantList(item_namespace_chosen) {
     // next, group them by incompatible enchants
     //
 
-    var enchantment_groups = [];
-    var enchantments_grouped = [];
+    const enchantment_groups = [];
+    const enchantments_grouped = [];
 
     function filterEnchantmentGroup(enchantment_namespace) {
-        const is_valid_enchantment = item_enchantment_namespaces.includes(enchantment_namespace);
-        return is_valid_enchantment;
+        return item_enchantment_namespaces.includes(enchantment_namespace);
     }
 
     item_enchantment_namespaces.forEach(enchantment_namespace => {
         const namespace_already_grouped = enchantments_grouped.includes(enchantment_namespace);
         if (namespace_already_grouped) return;
 
-        var enchantment_group = incompatibleGroupFromNamespace(enchantment_namespace);
+        let enchantment_group = incompatibleGroupFromNamespace(enchantment_namespace);
         enchantment_group = enchantment_group.filter(filterEnchantmentGroup);
 
         enchantment_group.forEach(enchantment_namespace => {
@@ -150,7 +147,7 @@ function buildEnchantList(item_namespace_chosen) {
         enchantment_groups.push(enchantment_group);
     });
 
-    var group_toggle_color = true;
+    let group_toggle_color = true;
 
     enchantment_groups.forEach(enchantment_group => {
         enchantment_group.forEach(enchantment_namespace => {
@@ -158,7 +155,7 @@ function buildEnchantList(item_namespace_chosen) {
             const enchantment_max_level = enchantment_metadata.levelMax;
             const enchantment_name = languageJson.enchants[enchantment_namespace];
 
-            var enchantment_row = $("<tr>");
+            const enchantment_row = $("<tr>");
             enchantment_row.addClass(group_toggle_color ? "group1" : "group2");
             enchantment_row.append($("<td>").append(enchantment_name));
             for (let enchantment_level = 1; enchantment_level <= enchantment_level_maxmax; enchantment_level++) {
@@ -167,7 +164,7 @@ function buildEnchantList(item_namespace_chosen) {
                         level: enchantment_level,
                         enchant: enchantment_name
                     };
-                    var enchantment_button = $("<button>");
+                    const enchantment_button = $("<button>");
                     enchantment_button.append(enchantment_level);
                     enchantment_button.addClass("off");
                     enchantment_button.addClass("level-button");
@@ -192,14 +189,12 @@ function buildEnchantList(item_namespace_chosen) {
 
 function doAllowIncompatibleEnchantments() {
     const allow_incompatible_checkbox = $("#allow_incompatible");
-    const allow_incompatible = allow_incompatible_checkbox.is(":checked");
-    return allow_incompatible;
+    return allow_incompatible_checkbox.is(":checked");
 }
 
 function doAllowManyEnchantments() {
     const allow_many_checkbox = $("#allow_many");
-    const allow_many = allow_many_checkbox.is(":checked");
-    return allow_many;
+    return allow_many_checkbox.is(":checked");
 }
 
 function allowIncompatibleChanged() {
@@ -223,7 +218,7 @@ function turnOffLevelButtons() {
 
 function buildEnchantmentSelection() {
     $("select#item").change(function() {
-        var item_namespace_selected = $("select#item option:selected").val();
+        const item_namespace_selected = $("select#item option:selected").val();
         if (item_namespace_selected) {
             buildEnchantList(item_namespace_selected);
             $("#overrides").show();
@@ -239,7 +234,7 @@ function buildEnchantmentSelection() {
 }
 
 function displayTime(time_milliseconds) {
-    var time_text;
+    let time_text;
 
     if (time_milliseconds < 1) {
         const time_microseconds = Math.round(time_milliseconds * 1000);
@@ -247,26 +242,26 @@ function displayTime(time_milliseconds) {
     } else if (time_milliseconds < 1000) {
         const time_round = Math.round(time_milliseconds);
         time_text = time_round + languageJson.millisecond;
-        if (time_round != 1) time_text += "s";
+        if (time_round !== 1) time_text += "s";
     } else {
         const time_seconds = Math.round(time_milliseconds / 1000);
         time_text = time_seconds + languageJson.second;
-        if (time_seconds != 1) time_text += "s";
+        if (time_seconds !== 1) time_text += "s";
     }
 
     return time_text;
 }
 
 function displayLevelsText(levels) {
-    var level_text = levels + languageJson.level;
-    if (levels != 1) {
+    let level_text = levels + languageJson.level;
+    if (levels !== 1) {
         level_text += "s";
     }
     return level_text;
 }
 
 function displayXpText(xp, minimum_xp = -1) {
-    var xp_text = "";
+    let xp_text = "";
     if (minimum_xp >= 0) {
         xp_text += commaify(minimum_xp) + "-";
     }
@@ -275,8 +270,8 @@ function displayXpText(xp, minimum_xp = -1) {
 }
 
 function commaify(n) {
-    var out = "";
-    var nstr = "" + n;
+    let out = "";
+    let nstr = "" + n;
     while (nstr.length > 3) {
         out = "," + nstr.substr(nstr.length - 3) + out;
         nstr = nstr.substr(0, nstr.length - 3);
@@ -287,70 +282,99 @@ function commaify(n) {
 function displayLevelXpText(levels, xp, minimum_xp = -1) {
     const level_text = displayLevelsText(levels);
     const xp_text = displayXpText(xp, minimum_xp);
-    const cost_text = level_text + " (" + xp_text + ")";
-    return cost_text;
+    return level_text + " (" + xp_text + ")";
 }
 
 function displayInstructionText(instruction) {
     const left_item_obj = instruction[0];
     const right_item_obj = instruction[1];
     const levels = instruction[2];
-    const xp = instruction[3];
-    const prior_work = instruction[4];
+    const xp = instruction[3]
+    const work = instruction[4];
 
     const left_item_text = displayItemText(left_item_obj);
     const right_item_text = displayItemText(right_item_obj);
-    const prior_work_penalty = 2 ** prior_work - 1;
 
     const instruction_text = languageJson.combine + " <i>" + left_item_text + "</i> " + languageJson.with + " <i>" + right_item_text + "</i>";
     const cost_text = languageJson.cost + displayLevelXpText(levels, xp);
-    const prior_work_text = languageJson.prior_work_penalty + displayLevelsText(prior_work_penalty);
+    const prior_work_text = languageJson.prior_work_penalty + displayLevelsText(work);
 
-    const display_text = instruction_text + "<br><small>" + cost_text + ", " + prior_work_text + "</small>";
-    return display_text;
+    return instruction_text + "<br><small>" + cost_text + ", " + prior_work_text + "</small>";
 }
 
-function displayEnchantmentText(enchantment_obj) {
-    const enchantment_namespace = enchantment_obj.namespace;
-    const enchantment_metadata = data.enchants[enchantment_namespace];
-    const enchantment_name = languageJson.enchants[enchantment_namespace];
-    const enchantment_max_level = enchantment_metadata.levelMax;
+function displayEnchantmentsText(enchants) {
+    let count = enchants.length
+    //let max_level = data.enchants[enchants].levelMax;
 
-    var text = enchantment_name;
-    if (enchantment_max_level >= 2) {
-        const enchantment_level = enchantment_obj.level;
-        text += " " + enchantment_level;
-    }
-    return text;
-}
+    let text = "";
+    if (count >= 1) text += "(";
+    enchants.forEach((enchant, index) => {
+        if (languageJson.enchants.hasOwnProperty(enchant)) {
+            text += languageJson.enchants[enchant];
+            if (data.enchants[enchant].levelMax > 1) {
+                text += ' ' + enchants_list.find(([entry]) => entry === enchant)[1]
+            }
 
-function displayEnchantmentsText(enchantments_obj) {
-    const enchantment_objs = enchantments_obj.enchantment_objs;
-    const enchantment_count = enchantment_objs.length;
+            if (index !== count - 1) text += ", ";
+        }
 
-    var text = "";
-    if (enchantment_count >= 1) text += "(";
-    enchantment_objs.forEach((enchantment_obj, enchantment_index) => {
-        const enchantment_text = displayEnchantmentText(enchantment_obj);
-        text += enchantment_text;
-        if (enchantment_index != enchantment_count - 1) text += ", ";
     });
-    if (enchantment_count >= 1) text += ")";
+    if (count >= 1) text += ")";
 
     return text;
 }
 
 function displayItemText(item_obj) {
-    const item_namespace = item_obj.item_namespace;
+
+    let item_namespace;
+    let enchantments_obj = [];
+    if (languageJson.enchants.hasOwnProperty(item_obj.I)) {
+        enchantments_obj.push(item_obj.I)
+        item_namespace = 'book'
+    } else if (typeof(item_obj.I) === 'string') {
+        item_namespace = item_obj.I
+    } else {
+        item_namespace = languageJson.enchants.hasOwnProperty(item_obj.L.I) ? 'book' : item_obj.L.I;
+        enchants = findEnchantments(item_obj)
+        enchantments_obj = enchants
+    }
+    if (typeof(item_namespace) === 'undefined') {
+        item_namespace = findItemNamespace(item_obj.L)
+    }
     const icon_text = '<img src="./images/' + item_namespace + '.gif" class="icon">';
     const items_metadata = languageJson.items;
     const item_name = items_metadata[item_namespace];
-
-    const enchantments_obj = item_obj.enchantments_obj;
     const enchantments_text = displayEnchantmentsText(enchantments_obj);
 
-    const display_name = icon_text + " " + item_name + " " + enchantments_text;
-    return display_name;
+    return icon_text + " " + item_name + " " + enchantments_text;
+}
+
+function findItemNamespace(item) {
+    if (item.L.I) {
+        name = languageJson.enchants.hasOwnProperty(item.L.I) ? 'book' : item.L.I;
+    }
+    else {
+        findItemNamespace(item.L)
+    }
+    return name
+}
+
+function findEnchantments(item) {
+    let enchants = []
+    let child_enchants;
+    for (const key in item) {
+        if (key === "L" || key === "R") {
+            if (!item[key].I) {
+                child_enchants = findEnchantments(item[key])
+                child_enchants.forEach(enchant => {
+                    enchants.push(enchant);
+                })
+            } else {
+                enchants.push(item[key].I)
+            }
+        }
+    }
+    return enchants;
 }
 
 function updateTime(time_milliseconds) {
@@ -358,6 +382,7 @@ function updateTime(time_milliseconds) {
     $("#timings").text(timing_text);
     $("#timings").show();
 }
+
 
 function updateCumulativeCost(cumulative_levels, cumulative_xp, minimum_xp = -1) {
     const cost_text = displayLevelXpText(cumulative_levels, cumulative_xp, minimum_xp);
@@ -367,29 +392,31 @@ function updateCumulativeCost(cumulative_levels, cumulative_xp, minimum_xp = -1)
 
 function addInstructionDisplay(instruction) {
     const display_text = displayInstructionText(instruction);
-    var solution_steps = $("#steps");
+    const solution_steps = $("#steps");
     solution_steps.append($("<li>").html(display_text));
 }
+
 
 function afterFoundOptimalSolution(msg) {
     $("#progress").hide();
     $("#phone-warn").hide();
-
     const instructions = msg.instructions;
     const instructions_count = instructions.length;
+    enchants_list = msg.enchants
 
     const current_time = performance.now();
     const elapsed_time_milliseconds = current_time - start_time;
     updateTime(elapsed_time_milliseconds);
 
-    var solution_section = $("#solution");
-    var solution_header = $("#solution-header");
-    var solution_steps = $("#steps");
-    var steps_header = $("#solution h3");
+    const solution_section = $("#solution");
+    const solution_header = $("#solution-header");
+    const solution_steps = $("#steps");
+    const steps_header = $("#solution h3");
 
     solution_steps.html("");
     solution_section.show();
 
+    let minimum_xp;
     if (instructions_count === 0) {
         solution_header.html(languageJson.no_solution_found);
         steps_header.html("");
@@ -397,17 +424,17 @@ function afterFoundOptimalSolution(msg) {
     } else {
         steps_header.html(languageJson.steps);
 
-        const final_item_obj = msg.item_obj;
-        const cumulative_levels = final_item_obj.cumulative_levels;
-        const minimum_xp = final_item_obj.cumulative_minimum_xp;
-        const maximum_xp = final_item_obj.maximum_xp;
+        const item = msg.item_obj;
+        const cumulative_levels = msg.extra[0];
+        minimum_xp = item.x;
+        const maximum_xp = msg.extra[1]; // UNUSED
         updateCumulativeCost(cumulative_levels, maximum_xp, minimum_xp);
 
         instructions.forEach(instruction => {
             addInstructionDisplay(instruction);
         });
 
-        if (minimum_xp && minimum_xp != maximum_xp) {
+        if (minimum_xp && minimum_xp !== maximum_xp) {
             $("#xp-range-note").show();
         } else {
             $("#xp-range-note").hide();
@@ -419,10 +446,10 @@ function enchantmentNamespaceFromStylized(enchantment_name) {
     const enchantments_metadata = data.enchants;
     const enchantment_namespaces = Object.keys(enchantments_metadata);
 
-    var namespace_match = "";
+    let namespace_match = "";
     enchantment_namespaces.forEach(enchantment_namespace => {
         const enchantment_name_check = languageJson.enchants[enchantment_namespace];
-        if (enchantment_name_check == enchantment_name) namespace_match = enchantment_namespace;
+        if (enchantment_name_check === enchantment_name) namespace_match = enchantment_namespace;
     });
 
     return namespace_match;
@@ -430,14 +457,12 @@ function enchantmentNamespaceFromStylized(enchantment_name) {
 
 function buttonMatchesName(button, enchantment_name) {
     const button_name = button.data("enchant");
-    const button_matches_name = button_name == enchantment_name;
-    return button_matches_name;
+    return button_name === enchantment_name;
 }
 
 function buttonMatchesLevel(button, enchantment_level) {
     const button_level = button.data("level");
-    const button_matches_level = button_level == enchantment_level;
-    return button_matches_level;
+    return button_level === enchantment_level;
 }
 
 function filterButton(button, enchantment_name, enchantment_level = -1) {
@@ -464,10 +489,9 @@ function filterEnchantmentButtons(incompatible_namespaces) {
     incompatible_namespaces.forEach(incompatible_namespace => {
         const incompatible_name = languageJson.enchants[incompatible_namespace];
 
-        var matching_buttons = enchantment_buttons.filter(function() {
+        const matching_buttons = enchantment_buttons.filter(function () {
             const this_button = $(this);
-            const button_matches_name = filterButton(this_button, incompatible_name);
-            return button_matches_name;
+            return filterButton(this_button, incompatible_name);
         });
         turnOffButtons(matching_buttons);
     });
@@ -483,7 +507,7 @@ function updateLevelButtonForOnState(level_button) {
     const enchantment_name = button_data.enchant;
     const enchantment_level = button_data.level;
 
-    var matching_buttons = enchantment_buttons.filter(function() {
+    const matching_buttons = enchantment_buttons.filter(function () {
         const this_button = $(this);
         return filterButton(this_button, enchantment_name, enchantment_level);
     });
@@ -493,7 +517,7 @@ function updateLevelButtonForOnState(level_button) {
     if (!allow_incompatible) {
         const enchantment_namespace = enchantmentNamespaceFromStylized(enchantment_name);
         const enchantment_metadata = enchantments_metadata[enchantment_namespace];
-        var incompatible_namespaces = enchantment_metadata.incompatible;
+        const incompatible_namespaces = enchantment_metadata.incompatible;
         filterEnchantmentButtons(incompatible_namespaces);
     }
 }
@@ -501,8 +525,7 @@ function updateLevelButtonForOnState(level_button) {
 function isTooManyEnchantments(enchantment_count) {
     const allow_many = doAllowManyEnchantments();
     const many_selected = enchantment_count > ENCHANTMENT_LIMIT_INCLUSIVE;
-    const is_too_many = !allow_many && many_selected;
-    return is_too_many;
+    return !allow_many && many_selected;
 }
 
 function levelButtonClicked(button_clicked) {
@@ -516,7 +539,7 @@ function levelButtonClicked(button_clicked) {
         const is_too_many = isTooManyEnchantments(enchantment_count + 1);
 
         if (is_too_many) {
-            var alert_text = "";
+            let alert_text = "";
             alert_text += languageJson.too_many_enchantments;
             alert_text += languageJson.more_than + ENCHANTMENT_LIMIT_INCLUSIVE + languageJson.enchantments_are_not_recommended;
             alert_text += languageJson.please_select_enchantments;
@@ -528,7 +551,7 @@ function levelButtonClicked(button_clicked) {
 }
 
 function retrieveEnchantmentFoundation() {
-    var enchantment_foundation = [];
+    const enchantment_foundation = [];
     const buttons_on = $("#enchants button.on");
 
     buttons_on.each(function(button_index, button) {
@@ -542,18 +565,16 @@ function retrieveEnchantmentFoundation() {
 }
 
 function retrieveCheapnessMode() {
-    const selected_mode = $('input[name="cheapness-mode"]:checked').val();
-    return selected_mode;
+    return $('input[name="cheapness-mode"]:checked').val();
 }
 
 function retrieveSelectedItem() {
-    const item_namespace = $("select#item option:selected").val();
-    return item_namespace;
+    return $("select#item option:selected").val();
 }
 
 function updateCalculateButtonState() {
     const enchantment_foundation = retrieveEnchantmentFoundation();
-    if (enchantment_foundation.length == 0) {
+    if (enchantment_foundation.length === 0) {
         $("#calculate").attr("disabled", true);
     } else {
         $("#calculate").attr("disabled", false);
@@ -562,7 +583,7 @@ function updateCalculateButtonState() {
 
 function calculate() {
     const enchantment_foundation = retrieveEnchantmentFoundation();
-    const no_enchantments_selected = enchantment_foundation.length == 0;
+    const no_enchantments_selected = enchantment_foundation.length === 0;
     if (no_enchantments_selected) return;
 
     const cheapness_mode = retrieveCheapnessMode();
@@ -612,7 +633,6 @@ function startCalculating(item_namespace, enchantment_foundation, mode) {
         enchants: enchantment_foundation,
         mode: mode
     });
-
     $("#progress .lbl").text(languageJson.calculating_solution);
     $("#progress").show();
 }
@@ -626,7 +646,7 @@ function languageChangeListener(){
 }
 
 async function setupLanguage(){
-    for (var i in languages){
+    for (const i in languages){
         $("<option/>", {'value': i}).text(languages[i][0]).appendTo('#language');
     }
     defineBrowserLanguage();
@@ -657,14 +677,14 @@ async function changePageLanguage(language){
     languageId = language;
     languageJson = await loadJsonLanguage(language).then(languageData => { return languageData});
     if (languageJson){
-        chageLanguageByJson(languageJson);
+        changeLanguageByJson(languageJson);
         localStorage.setItem("savedlanguage", language);
         // ^ Save language choice to localstorage
     }
 }
 
 function loadJsonLanguage(language) {
-    var cache_key = languages[language][1];
+    const cache_key = languages[language][1];
     return fetch('languages/'+language+'.json?'+cache_key)
       .then(response => {
         if (!response.ok) {
@@ -682,10 +702,10 @@ function loadJsonLanguage(language) {
 }
 
 
-function chageLanguageByJson(languageJson){
+function changeLanguageByJson(languageJson){
     /* check for duplicate names */
-    var map = {};
-    for (var i in languageJson.enchants){
+    const map = {};
+    for (let i in languageJson.enchants){
         if (map[languageJson.enchants[i]]){
             console.error("Duplicate string for enchant names (must be unique)", languageId, i, map[languageJson.enchants[i]]);
         }
@@ -704,7 +724,7 @@ function chageLanguageByJson(languageJson){
 
     /* selection */
     const options = document.getElementById("item").getElementsByTagName("option");
-    var i = 1;
+    let i = 1;
 
     options[0].textContent = languageJson.choose_an_item_to_enchant;
     data.items.forEach(item_namespace => {
