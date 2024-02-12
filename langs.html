@@ -96,7 +96,7 @@ async function loadLangs(){
 }
 
 function loadJsonLanguage(language) {
-    const cache_key = languages[language][1];
+    const cache_key = Date.now();
     return fetch('languages/'+language+'.json?'+cache_key)
       .then(response => {
         if (!response.ok) {
