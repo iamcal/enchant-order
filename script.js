@@ -10,15 +10,17 @@ let enchants_list;
 
 const languages = {
     //key   : ['LABEL', cache-id],
-    'en': ['English', 3],
-    'pt-BR': ['Português', 4],
-    'ru-RU': ['Русский', 3],
-    'zh-CN': ['中文', 4],
-    'nl': ['Nederlands', 3],
-    'de': ['Deutsch', 2],
+    'en'    : ['English', 3],
+    'pt-BR' : ['Português', 4],
+    'ru-RU' : ['Русский', 3],
+    'ua-UA' : ['Українська', 2],
+    'zh-CN' : ['中文', 4],
+    'nl'    : ['Nederlands', 3],
+    'de'    : ['Deutsch', 2],
 };
 window.onload = function() {
-    worker = new Worker("work.js?5");
+
+    worker = new Worker("work.js?6");
     worker.onmessage = function(event) {
         if (event.data.msg === "complete") {
             afterFoundOptimalSolution(event.data);
