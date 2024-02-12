@@ -10,12 +10,12 @@ let enchants_list;
 
 const languages = {
     //key   : ['LABEL', cache-id],
-    'en': ['English', 2],
-    'pt-BR': ['Português', 3],
-    'ru-RU': ['Русский', 2],
-    'zh-CN': ['中文', 3],
-    'nl': ['Nederlands', 2],
-    'de': ['Deutsch', 1],
+    'en': ['English', 3],
+    'pt-BR': ['Português', 4],
+    'ru-RU': ['Русский', 3],
+    'zh-CN': ['中文', 4],
+    'nl': ['Nederlands', 3],
+    'de': ['Deutsch', 2],
 };
 window.onload = function() {
     worker = new Worker("work.js?5");
@@ -241,18 +241,10 @@ function displayTime(time_milliseconds) {
         time_text = Math.round(time_microseconds) + languageJson.microseconds;
     } else if (time_milliseconds < 1000) {
         const time_round = Math.round(time_milliseconds);
-        if (time_round === 1) {
-          time_text = time_round + languageJson.millisecond;
-        } else {
-          time_text = time_round + languageJson.millisecond_s;
-        }
+        time_text = pluralize(time_round, 'millisecond');
     } else {
         const time_seconds = Math.round(time_milliseconds / 1000);
-        if (time_seconds === 1) {
-          time_text = time_seconds + languageJson.second;
-        } else {
-          time_text = time_seconds + languageJson.second_s;
-        }
+        time_text = pluralize(time_seconds, 'second');
     }
 
     return time_text;
@@ -260,12 +252,27 @@ function displayTime(time_milliseconds) {
 
 function displayLevelsText(levels) {
     let level_text;
-    if (levels === 1) {
-      level_text = levels + languageJson.level;
-    } else {
-      level_text = levels + languageJson.level_s;
-    }
+    level_text = pluralize(levels, 'level');
     return level_text;
+}
+
+function pluralize(num, key_root) {
+
+    if (languageJson.use_russain_plurals) {
+      if ((num % 10 === 1) && (num < 10 || num > 15)) {
+        return String(num) + languageJson[key_root];
+      } else if ((num % 10 === 2 || num % 10 === 3 || num % 10 === 4) && (num < 10 || num > 15)) {
+        return String(num) + languageJson[key_root + '_low'];
+      } else {
+        return String(num) + languageJson[key_root + '_high'];
+      }
+    }
+
+    if (num === 1) {
+      return String(num) + languageJson[key_root];
+    } else {
+      return String(num) + languageJson[key_root + '_s'];
+    }
 }
 
 function displayXpText(xp, minimum_xp = -1) {
