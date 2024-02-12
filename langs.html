@@ -17,6 +17,7 @@ const languages = {
 };
 
 var unpack_keys = ['items', 'enchants'];
+var skip_keys = ['use_russain_plurals'];
 var dicts = {};
 var keys = {};
 
@@ -37,6 +38,10 @@ async function loadLangs(){
 				keys[str_id] = 1;
 			}
 		}
+	}
+
+	for (var i=0; i<skip_keys.length; i++){
+		delete keys[skip_keys[i]];
 	}
 
 	var s_keys = Object.keys(keys);
@@ -79,17 +84,32 @@ async function loadLangs(){
 				val = dicts[lang_id][parts[0]][parts[1]];
 			}
 
-			if (val === undefined){
-				cell.text('missing');
-				cell.css('backgroundColor', 'red');
+			// should we skip this string?
+			var skip_cell = false;
+			if (key.match(/_(s)$/) && dicts[lang_id].use_russain_plurals) skip_cell = true;
+			if (key.match(/_(low|high)$/) && !dicts[lang_id].use_russain_plurals) skip_cell = true;
+
+			if (key.match(/_(s)$/)) skip_cell = true;
+
+			if (skip_cell){
+
+				cell.text('not applicable');
+				cell.css('color', '#666');
+				cell.css('fontStyle', 'italic');
 			}else{
-				var has_pre_space = (val.substring(0, 1) === ' ');
 
-				if (has_pre_space) val = '>>' + val;
-				cell.text(val);
+				if (val === undefined){
+					cell.text('missing');
+					cell.css('backgroundColor', 'red');
+				}else{
+					var has_pre_space = (String(val).substring(0, 1) === ' ');
 
-				num_strs++;
-				if (has_pre_space) num_pre_spaces++;
+					if (has_pre_space) val = '>>' + val;
+					cell.text(val);
+
+					num_strs++;
+					if (has_pre_space) num_pre_spaces++;
+				}
 			}
 
 			if (num_pre_spaces && num_pre_spaces != num_strs){
