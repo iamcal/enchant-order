@@ -66,6 +66,9 @@ async function loadLangs(){
 		cell.text(key);
 		tr.append(cell);
 
+		var num_pre_spaces = 0;
+		var num_strs = 0;
+
 		for (const lang_id in languages){
 
 			var cell = $('<td>');
@@ -80,7 +83,17 @@ async function loadLangs(){
 				cell.text('missing');
 				cell.css('backgroundColor', 'red');
 			}else{
+				var has_pre_space = (val.substring(0, 1) === ' ');
+
+				if (has_pre_space) val = '>>' + val;
 				cell.text(val);
+
+				num_strs++;
+				if (has_pre_space) num_pre_spaces++;
+			}
+
+			if (num_pre_spaces && num_pre_spaces != num_strs){
+				tr.css('backgroundColor', 'yellow');
 			}
 
 			tr.append(cell);
