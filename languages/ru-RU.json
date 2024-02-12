@@ -21,8 +21,8 @@
 
     "total_cost": "Общая стоимость: ",
     "completed_in": "Завершено за ",
-    "microseconds": " микросекунды",
-    "millisecond": " миллисекунд",
+    "microseconds": " микросекунд",
+    "millisecond": " миллисекунду",
     "millisecond_low": " миллисекунды",
     "millisecond_high": " миллисекунд",
     "second": " секунду",
