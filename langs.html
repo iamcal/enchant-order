@@ -91,8 +91,6 @@ async function loadLangs(){
 			if (key.match(/_(s)$/) && dicts[lang_id].use_russain_plurals) skip_cell = true;
 			if (key.match(/_(low|high)$/) && !dicts[lang_id].use_russain_plurals) skip_cell = true;
 
-			if (key.match(/_(s)$/)) skip_cell = true;
-
 			if (skip_cell){
 
 				cell.text('not applicable');
