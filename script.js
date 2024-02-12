@@ -238,24 +238,32 @@ function displayTime(time_milliseconds) {
 
     if (time_milliseconds < 1) {
         const time_microseconds = Math.round(time_milliseconds * 1000);
-        time_text = Math.round(time_microseconds) + " microseconds";
+        time_text = Math.round(time_microseconds) + languageJson.microseconds;
     } else if (time_milliseconds < 1000) {
         const time_round = Math.round(time_milliseconds);
-        time_text = time_round + languageJson.millisecond;
-        if (time_round !== 1) time_text += "s";
+        if (time_round === 1) {
+          time_text = time_round + languageJson.millisecond;
+        } else {
+          time_text = time_round + languageJson.millisecond_s;
+        }
     } else {
         const time_seconds = Math.round(time_milliseconds / 1000);
-        time_text = time_seconds + languageJson.second;
-        if (time_seconds !== 1) time_text += "s";
+        if (time_seconds === 1) {
+          time_text = time_seconds + languageJson.second;
+        } else {
+          time_text = time_seconds + languageJson.second_s;
+        }
     }
 
     return time_text;
 }
 
 function displayLevelsText(levels) {
-    let level_text = levels + languageJson.level;
-    if (levels !== 1) {
-        level_text += "s";
+    let level_text;
+    if (levels === 1) {
+      level_text = levels + languageJson.level;
+    } else {
+      level_text = levels + languageJson.level_s;
     }
     return level_text;
 }
@@ -265,7 +273,7 @@ function displayXpText(xp, minimum_xp = -1) {
     if (minimum_xp >= 0) {
         xp_text += commaify(minimum_xp) + "-";
     }
-    xp_text += commaify(xp) + " xp";
+    xp_text += commaify(xp) + languageJson.xp;
     return xp_text;
 }
 
