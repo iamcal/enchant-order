@@ -1,0 +1,138 @@
+<html lang="en">
+<head>
+<title>Language Verifier</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<script>
+
+const languages = {
+    //key   : ['LABEL', cache-id],
+    'en': ['English', 2],
+    'pt-BR': ['Português', 3],
+    'ru-RU': ['Русский', 2],
+    'zh-CN': ['中文', 3],
+    'nl': ['Nederlands', 2],
+    'de': ['Deutsch', 1],
+};
+
+var unpack_keys = ['items', 'enchants'];
+var dicts = {};
+var keys = {};
+
+loadLangs();
+
+async function loadLangs(){
+
+	// Load language data
+
+	for (const lang_id in languages){
+		dicts[lang_id] = await loadJsonLanguage(lang_id);
+		for (const str_id in dicts[lang_id]){
+			if (unpack_keys.includes(str_id)){
+				for (const str_id2 in dicts[lang_id][str_id]){
+					keys[str_id + '/' + str_id2] = 1;
+				}
+			}else{
+				keys[str_id] = 1;
+			}
+		}
+	}
+
+	var s_keys = Object.keys(keys);
+	s_keys.sort();
+
+
+	// build output table
+
+	var tb = $('table tbody');
+
+	var tr = $('<tr>');
+	var cell = $('<th>');
+	cell.text('ID');
+	tr.append(cell);
+	for (const lang_id in languages){
+		var cell = $('<th>');
+		cell.text(lang_id + ': ' + languages[lang_id][0]);
+		tr.append(cell);
+	}
+	tb.append(tr);
+
+	for (var i=0; i<s_keys.length; i++){
+		var key = s_keys[i];
+
+		var tr = $('<tr>');
+		var cell = $('<td>');
+		cell.text(key);
+		tr.append(cell);
+
+		for (const lang_id in languages){
+
+			var cell = $('<td>');
+
+			var val = dicts[lang_id][key];
+			if (key.includes('/')){
+				var parts = key.split('/');
+				val = dicts[lang_id][parts[0]][parts[1]];
+			}
+
+			if (val === undefined){
+				cell.text('missing');
+				cell.css('backgroundColor', 'red');
+			}else{
+				cell.text(val);
+			}
+
+			tr.append(cell);
+		}
+
+		tb.append(tr);
+	}
+	
+
+	//add_row(tb, ['a', 'b', 'c'], 1);
+	//add_row(tb, ['a', 'b', 'd']);
+	console.log(keys);
+}
+
+function loadJsonLanguage(language) {
+    const cache_key = languages[language][1];
+    return fetch('languages/'+language+'.json?'+cache_key)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Can\'t load language file');
+        }
+        return response.json();
+      })
+      .then(data => {
+        return data;
+      })
+      .catch(error => {
+        console.error('Language file error:', error);
+        return null;
+      });
+}
+
+function add_row(tb, cells, header){
+
+	var tr = $('<tr>');
+	for (var i=0; i<cells.length; i++){
+		var td = header ? $('<th>') : $('<td>');
+		td.text(cells[i]);
+		tr.append(td);
+	}
+	tb.append(tr);
+}
+
+
+</script>
+</head>
+<body>
+
+<table border="1">
+	<tbody>
+	</tbody>
+</table>
+
+</body>
+</html>
