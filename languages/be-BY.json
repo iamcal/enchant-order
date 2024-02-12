@@ -19,9 +19,11 @@
 
     "total_cost": "Агульны кошт: ",
     "completed_in": "Скончана за ",
+    "microseconds": " мікрасекунды",
     "millisecond": " мілісекунд(-ы)",
     "second": " секунд(-ы)",
     "level": " узровень",
+    "xp": " xp",
     "steps": " Этапаў:",
     "combine": " Сумясціць",
     "with": "з",
