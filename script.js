@@ -18,7 +18,8 @@ const languages = {
     'zh-CN' : ['中文', 4],
     'nl'    : ['Nederlands', 3],
     'de'    : ['Deutsch', 2],
-    'es-ES'    : ['Español', 5],
+    'es-ES' : ['Español', 5],
+    'it-IT' : ['Italiano', 3],
 };
 window.onload = function() {
 
