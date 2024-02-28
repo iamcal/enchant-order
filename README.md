@@ -1,6 +1,6 @@
 # Minecraft Enchantment Ordering Tool
 
-This web-based tools allows you to find the optimal order for combining enchant books in Minecraft to minimize XP cost.
+This web-based tool allows you to find the optimal order for combining enchant books in Minecraft to minimize XP cost.
 
 You can use it here: https://iamcal.github.io/enchant-order/
 
