@@ -1,13 +1,18 @@
 let ID_LIST = {};
 let ENCHANTMENT2WEIGHT = [];
-const MAXIMUM_MERGE_LEVELS = 39;
+let MAXIMUM_MERGE_LEVELS = 39;
 let ITEM_NAME;
 let results = {};
 
 
 onmessage = onmessage = event => {
     if (event.data.msg === 'set_data') {
+        console.log('WORKER DATA:')
+        console.log(event.data)
         const { enchants } = event.data.data;
+        MAXIMUM_MERGE_LEVELS = event.data.merge_level ? event.data.merge_level: 39;
+        ID_LIST = {};
+        ENCHANTMENT2WEIGHT = {};
 
         let id = 0;
         for (let enchant in enchants) {
@@ -19,10 +24,9 @@ onmessage = onmessage = event => {
             ENCHANTMENT2WEIGHT[id] = weight;
             id++;
         }
-        Object.freeze(ENCHANTMENT2WEIGHT);
-        Object.freeze(ID_LIST);
     }
     if (event.data.msg === 'process') {
+        console.log("worker input " + JSON.stringify(event.data))
         process(event.data.item, event.data.enchants, event.data.mode);
     }
 };
@@ -81,8 +85,15 @@ function process(item, enchants, mode = 'levels') {
         }
     }
     const cheapest_item = cheapest_items[cheapest_key]
-
-    let instructions = getInstructions(cheapest_item.c);
+    let instructions;
+    try {
+        instructions = getInstructions(cheapest_item.c);
+    } catch {
+        postMessage({
+            msg: 'complete'
+        })
+        return
+    }
 
     let max_levels = 0
     instructions.forEach(key => {
@@ -403,6 +414,7 @@ class MergeEnchants extends item_obj {
         this.c = {L: left.c, R: right.c, l: merge_cost, w: this.w, v: this.l} // instructions
     }
 }
+
 
 const experience = level => {
     if (level === 0) {

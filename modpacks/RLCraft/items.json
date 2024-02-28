@@ -1,0 +1,32 @@
+{
+  "bs_battleaxe": "Better Survival Battleaxe",
+  "battleaxe": "Spartan Battle Axe",
+  "bs_dagger": "Better Survival Dagger",
+  "bs_hammer": "Hammer",
+  "nunchaku": "Nunchaku",
+  "alt_weapon": "Alternative Weapon",
+  "throwable_weapon": "Throwable Weapon",
+
+  "flint_hatchet": "Flint Hatchet",
+  "flint_knife": "Flint Knife",
+  "flint_hoe": "Flint Hoe",
+  "flint_pickaxe": "Flint Pickaxe",
+  "mattock": "Mattock",
+  "saw": "Saw",
+  "knife": "Knife",
+
+  "baubles_shield": "Bountiful Baubles Shield",
+  "bs_shield": "Better Survival Shield",
+  "spartan_shield": "Spartan Shield",
+
+  "switch-bow": "Switch-Bow",
+  "switch-crossbow": "Switch-Crossbow",
+  "umbra_blaster": "Umbra Blaster",
+  "ravager": "The Ravager",
+
+  "launcher": "Advanced Hook Launcher",
+  "lifebelt": "Lifebelt",
+  "concussion_smasher": "Concussion Smasher",
+  "lock": "Lock",
+  "wolf_armor": "Wolf Armor"
+}

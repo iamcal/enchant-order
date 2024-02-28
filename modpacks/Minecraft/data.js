@@ -1,4 +1,4 @@
-var data = {
+export const data = {
     enchants: {
         protection: {
             levelMax: "4",
@@ -259,8 +259,8 @@ var data = {
         'shovel',
         'hoe',
         'bow',
-        'shield',
         'crossbow',
+        'shield',
         'brush',
 
         'fishing_rod',
