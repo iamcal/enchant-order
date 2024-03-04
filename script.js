@@ -20,6 +20,7 @@ const languages = {
     'de'    : ['Deutsch', 2],
     'es-ES' : ['Español', 5],
     'it-IT' : ['Italiano', 3],
+    'ja-JP' : ['日本語', 1],
 };
 window.onload = function() {
 
