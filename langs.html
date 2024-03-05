@@ -21,6 +21,10 @@ const languages = {
     'ja-JP' : ['日本語', 1],
 };
 
+const special_space_handling = {
+	'ja-JP' : true,
+};
+
 var unpack_keys = ['items', 'enchants'];
 var skip_keys = ['use_russain_plurals'];
 var dicts = {};
@@ -111,7 +115,12 @@ async function loadLangs(){
 					cell.text(val);
 
 					num_strs++;
-					if (has_pre_space) num_pre_spaces++;
+					if (special_space_handling[lang_id]){
+						// skip space prefix processing for some languaes (e.g. japanese)
+						if (num_pre_spaces) num_pre_spaces++;
+					}else{
+						if (has_pre_space) num_pre_spaces++;
+					}
 				}
 			}
 
