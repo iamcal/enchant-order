@@ -11,17 +11,21 @@ let enchants_list;
 const languages = {
     //key   : ['LABEL', cache-id],
     'en'    : ['English', 3],
-    'pt-BR' : ['Português', 4],
-    'ru-RU' : ['Русский', 3],
-    'ua-UA' : ['Українська', 2],
-    'be-BY' : ['Беларуская', 1],
-    'zh-CN' : ['中文', 4],
-    'nl'    : ['Nederlands', 3],
-    'de'    : ['Deutsch', 2],
+
+    // in alphabetical order
+    'de'    : ['Deutsch', 1],
     'es-ES' : ['Español', 5],
+    'fr-FR' : ['Français', 1],
     'it-IT' : ['Italiano', 3],
+    'nl'    : ['Nederlands', 2],
+    'pt-BR' : ['Português', 3],
+    'be-BY' : ['Беларуская', 1],
+    'ru-RU' : ['Русский', 2],
+    'ua-UA' : ['Українська', 2],
+    'zh-CN' : ['中文', 3],
     'ja-JP' : ['日本語', 1],
 };
+
 window.onload = function() {
 
     worker = new Worker("work.js?6");
