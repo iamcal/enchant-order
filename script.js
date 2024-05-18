@@ -25,6 +25,7 @@ const languages = {
     'ua-UA' : ['Українська', 2],
     'zh-CN' : ['中文', 3],
     'ja-JP' : ['日本語', 1],
+    'vi-VN' : ['Tiếng Việt', 4],
 };
 
 window.onload = function() {
