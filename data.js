@@ -15,8 +15,8 @@ var data = {
         bane_of_arthropods: {
             levelMax: "5",
             weight: "1",
-            incompatible: ["smite", "sharpness"],
-            items: ["sword", "axe"]
+            incompatible: ["smite", "sharpness", "density", "breach"],
+            items: ["sword", "axe", "mace"]
         },
         blast_protection: {
             levelMax: "4",
@@ -52,7 +52,7 @@ var data = {
             levelMax: "2",
             weight: "2",
             incompatible: [],
-            items: ["sword"]
+            items: ["sword", "mace"]
         },
         fire_protection: {
             levelMax: "4",
@@ -126,7 +126,7 @@ var data = {
             incompatible: ["infinity"],
             items: ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
                 "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "trident",
-                "turtle_shell", "crossbow"
+                "turtle_shell", "crossbow", "mace"
             ]
         },
         multishot: {
@@ -192,8 +192,8 @@ var data = {
         smite: {
             levelMax: "5",
             weight: "1",
-            incompatible: ["bane_of_arthropods", "sharpness"],
-            items: ["sword", "axe"]
+            incompatible: ["bane_of_arthropods", "sharpness", "density", "breach"],
+            items: ["sword", "axe", "mace"]
         },
         soul_speed: {
             levelMax: "3",
@@ -225,7 +225,7 @@ var data = {
             incompatible: [],
             items: ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
                 "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "trident",
-                "turtle_shell", "crossbow"
+                "turtle_shell", "crossbow", "mace"
             ]
         },
         binding_curse: {
@@ -242,6 +242,24 @@ var data = {
                 "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "pumpkin",
                 "helmet", "trident", "turtle_shell", "crossbow"
             ]
+        },
+        density: {
+            levelMax: "5",
+            weight: "1",
+            incompatible: ["breach", "smite", "bane_of_arthropods"],
+            items: ["mace"]
+        },
+        breach: {
+            levelMax: "4",
+            weight: "1",
+            incompatible: ["density", "smite", "bane_of_arthropods"],
+            items: ["mace"]
+        },
+        wind_burst: {
+            levelMax: "3",
+            weight: "2",
+            incompatible: [],
+            items: ["mace"]
         }
     },
     items: [
@@ -254,6 +272,7 @@ var data = {
 
         'sword',
         'axe',
+        'mace',
         'trident',
         'pickaxe',
         'shovel',
