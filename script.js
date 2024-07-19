@@ -9,24 +9,25 @@ let languageId;
 let enchants_list;
 
 const languages = {
-    //key   : ['LABEL', cache-id],
-    'en'    : ['English', 3],
+    'en'    : 'English',
 
     // in alphabetical order
-    'de'    : ['Deutsch', 1],
-    'es-ES' : ['Español', 5],
-    'fr-FR' : ['Français', 1],
-    'it-IT' : ['Italiano', 3],
-    'nl'    : ['Nederlands', 2],
-    'pt-BR' : ['Português', 3],
-    'tr-TR' : ['Türkçe', 3],
-    'be-BY' : ['Беларуская', 1],
-    'ru-RU' : ['Русский', 2],
-    'ua-UA' : ['Українська', 2],
-    'zh-CN' : ['中文', 3],
-    'ja-JP' : ['日本語', 1],
-    'vi-VN' : ['Tiếng Việt', 4],
+    'de'    : 'Deutsch',
+    'es-ES' : 'Español',
+    'fr-FR' : 'Français',
+    'it-IT' : 'Italiano',
+    'nl'    : 'Nederlands',
+    'pt-BR' : 'Português',
+    'tr-TR' : 'Türkçe',
+    'be-BY' : 'Беларуская',
+    'ru-RU' : 'Русский',
+    'ua-UA' : 'Українська',
+    'zh-CN' : '中文',
+    'ja-JP' : '日本語',
+    'vi-VN' : 'Tiếng Việt',
 };
+
+const languages_cache_key = 6;
 
 window.onload = function() {
 
@@ -674,7 +675,7 @@ function languageChangeListener(){
 
 async function setupLanguage(){
     for (const i in languages){
-        $("<option/>", {'value': i}).text(languages[i][0]).appendTo('#language');
+        $("<option/>", {'value': i}).text(languages[i]).appendTo('#language');
     }
     defineBrowserLanguage();
     languageChangeListener();
@@ -711,8 +712,7 @@ async function changePageLanguage(language){
 }
 
 function loadJsonLanguage(language) {
-    const cache_key = languages[language][1];
-    return fetch('languages/'+language+'.json?'+cache_key)
+    return fetch('languages/'+language+'.json?'+languages_cache_key)
       .then(response => {
         if (!response.ok) {
           throw new Error('Can\'t load language file');

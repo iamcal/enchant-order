@@ -7,23 +7,22 @@
 <script>
 
 const languages = {
-    //key   : ['LABEL', cache-id],
-    'en'    : ['English', 2],
+    'en'    : 'English',
 
     // in alphabetical order
-    'de'    : ['Deutsch', 1],
-    'es-ES' : ['Español', 5],
-    'fr-FR' : ['Français', 1],
-    'it-IT' : ['Italiano', 3],
-    'nl'    : ['Nederlands', 2],
-    'pt-BR' : ['Português', 3],
-    'tr-TR' : ['Türkçe', 3],
-    'be-BY' : ['Беларуская', 1],
-    'ru-RU' : ['Русский', 2],
-    'ua-UA' : ['Українська', 2],
-    'zh-CN' : ['中文', 3],
-    'ja-JP' : ['日本語', 1],
-    'vi-VN' : ['Tiếng Việt', 4],
+    'de'    : 'Deutsch',
+    'es-ES' : 'Español',
+    'fr-FR' : 'Français',
+    'it-IT' : 'Italiano',
+    'nl'    : 'Nederlands',
+    'pt-BR' : 'Português',
+    'tr-TR' : 'Türkçe',
+    'be-BY' : 'Беларуская',
+    'ru-RU' : 'Русский',
+    'ua-UA' : 'Українська',
+    'zh-CN' : '中文',
+    'ja-JP' : '日本語',
+    'vi-VN' : 'Tiếng Việt',
 };
 
 const special_space_handling = {
@@ -72,7 +71,7 @@ async function loadLangs(){
 	tr.append(cell);
 	for (const lang_id in languages){
 		var cell = $('<th>');
-		cell.text(lang_id + ': ' + languages[lang_id][0]);
+		cell.text(lang_id + ': ' + languages[lang_id]);
 		tr.append(cell);
 	}
 	tb.append(tr);
