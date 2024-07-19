@@ -56,6 +56,7 @@
 
         "sword": "Zwaard",
         "axe": "Bijl",
+        "mace": "(Mace)",
         "trident": "Drietand",
         "pickaxe": "Houweel",
         "shovel": "Schep",
@@ -113,6 +114,9 @@
         "thorns": "Doornen",
         "unbreaking": "Duurzaamheid",
         "binding_curse": "Vloek der verdwijning",
-        "vanishing_curse": "Vloek der binding"
+        "vanishing_curse": "Vloek der binding",
+        "density": "(Density)",
+        "breach": "(Breach)",
+        "wind_burst": "(Wind Burst)"
     }
 }

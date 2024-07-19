@@ -56,6 +56,7 @@
 
         "sword": "Kiếm",
         "axe": "Rìu",
+        "mace": "(Mace)",
         "trident": "Đinh ba",
         "pickaxe": "Cuốc chim",
         "shovel": "Xẻng",
@@ -113,6 +114,9 @@
         "thorns": "Gai",
         "unbreaking": "Chậm hỏng",
         "binding_curse": "Lời nguyền ràng buộc",
-        "vanishing_curse": "Lời nguyền biến mất"
+        "vanishing_curse": "Lời nguyền biến mất",
+        "density": "(Density)",
+        "breach": "(Breach)",
+        "wind_burst": "(Wind Burst)"
     }
 }
