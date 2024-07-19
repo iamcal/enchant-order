@@ -56,6 +56,7 @@
 
         "sword": "Épée",
         "axe": "Hache",
+        "mace": "Masse",
         "trident": "Trident",
         "pickaxe": "Pioche",
         "shovel": "Pelle",
@@ -113,6 +114,9 @@
         "thorns": "Épines",
         "unbreaking": "Solidité",
         "binding_curse": "Malédiction du lien éternel",
-        "vanishing_curse": "Malédiction de disparition"
+        "vanishing_curse": "Malédiction de disparition",
+        "density": "Densité",
+        "breach": "Brèche",
+        "wind_burst": "Rafale de vent"
     }
 }

@@ -60,6 +60,7 @@
 
         "sword": "Меч",
         "axe": "Топор",
+        "mace": "Булава",
         "trident": "Трезубец",
         "pickaxe": "Кирка",
         "shovel": "Лопата",
@@ -117,6 +118,9 @@
         "thorns": "Шипы",
         "unbreaking": "Прочность",
         "binding_curse": "Проклятие несъёмности",
-        "vanishing_curse": "Проклятье утраты"
+        "vanishing_curse": "Проклятье утраты",
+        "density": "Плотность",
+        "breach": "Пробитие",
+        "wind_burst": "Порыв ветра"
     }
 }

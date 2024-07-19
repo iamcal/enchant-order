@@ -56,6 +56,7 @@
 
         "sword": "Espada",
         "axe": "Hacha",
+        "mace": "Maza",
         "trident": "Tridente",
         "pickaxe": "Pico",
         "shovel": "Pala",
@@ -113,6 +114,9 @@
         "thorns": "Espinas",
         "unbreaking": "Irrompibilidad",
         "binding_curse": "Maldición de ligamiento",
-        "vanishing_curse": "Maldición de desaparición"
+        "vanishing_curse": "Maldición de desaparición",
+        "density": "Densidad",
+        "breach": "Fisura",
+        "wind_burst": "Aeroimpulso"
     }
 }

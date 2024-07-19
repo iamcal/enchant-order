@@ -56,6 +56,7 @@
 
         "sword": "剣",
         "axe": "斧",
+        "mace": "メイス",
         "trident": "トライデント",
         "pickaxe": "ツルハシ",
         "shovel": "シャベル",
@@ -113,6 +114,9 @@
         "thorns": "棘の鎧",
         "unbreaking": "耐久力",
         "binding_curse": "束縛の呪い",
-        "vanishing_curse": "消滅の呪い"
+        "vanishing_curse": "消滅の呪い",
+        "density": "重撃",
+        "breach": "防具貫通",
+        "wind_burst": "ウィンドバースト"
     }
 }
