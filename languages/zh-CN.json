@@ -56,6 +56,7 @@
 
         "sword": "剑",
         "axe": "斧头",
+        "mace": "椎",
         "trident": "三叉戟",
         "pickaxe": "镐",
         "shovel": "铲",
@@ -113,6 +114,10 @@
         "thorns": "荆棘",
         "unbreaking": "耐久",
         "binding_curse": "绑定诅咒",
-        "vanishing_curse": "消失诅咒"
+        "vanishing_curse": "消失诅咒",
+        "density": "致密",
+        "breach": "破甲",
+        "wind_burst": "风爆"
+
     }
 }

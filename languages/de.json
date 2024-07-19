@@ -55,6 +55,7 @@
 
     "sword": "Schwert",
     "axe": "Axt",
+    "mace": "Streitkolben",
     "trident": "Dreizack",
     "pickaxe": "Spitzhacke",
     "shovel": "Schaufel",
@@ -112,6 +113,9 @@
     "thorns": "Dornen",
     "unbreaking": "Haltbarkeit",
     "binding_curse": "Fluch der Bindung",
-    "vanishing_curse": "Fluch des Verschwindens"
+    "vanishing_curse": "Fluch des Verschwindens",
+    "density": "Dichte",
+    "breach": "Durchbruch",
+    "wind_burst": "Windstoß"
   }
 }
