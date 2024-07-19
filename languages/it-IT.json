@@ -56,6 +56,7 @@
 
         "sword": "Spada",
         "axe": "Ascia",
+        "mace": "(Mace)",
         "trident": "Tridente",
         "pickaxe": "Piccone",
         "shovel": "Pala",
@@ -113,6 +114,9 @@
         "thorns": "Spine",
         "unbreaking": "Indistruttibilità",
         "binding_curse": "Maledizione della scomparsa",
-        "vanishing_curse": "Maledizione del legame"
+        "vanishing_curse": "Maledizione del legame",
+        "density": "(Density)",
+        "breach": "(Breach)",
+        "wind_burst": "(Wind Burst)"
     }
 }
