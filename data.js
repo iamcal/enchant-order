@@ -251,7 +251,7 @@ var data = {
         },
         breach: {
             levelMax: "4",
-            weight: "1",
+            weight: "2",
             incompatible: ["density", "smite", "bane_of_arthropods"],
             items: ["mace"]
         },
