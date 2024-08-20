@@ -240,7 +240,7 @@ var data = {
             incompatible: [],
             items: ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
                 "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "pumpkin",
-                "helmet", "trident", "turtle_shell", "crossbow"
+                "helmet", "trident", "turtle_shell", "crossbow", "mace"
             ]
         },
         density: {
