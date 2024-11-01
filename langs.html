@@ -32,7 +32,7 @@ const special_space_handling = {
 };
 
 var unpack_keys = ['items', 'enchants'];
-var skip_keys = ['use_russain_plurals'];
+var skip_keys = ['use_russian_plurals'];
 var dicts = {};
 var keys = {};
 
@@ -101,8 +101,8 @@ async function loadLangs(){
 
 			// should we skip this string?
 			var skip_cell = false;
-			if (key.match(/_(s)$/) && dicts[lang_id].use_russain_plurals) skip_cell = true;
-			if (key.match(/_(low|high)$/) && !dicts[lang_id].use_russain_plurals) skip_cell = true;
+			if (key.match(/_(s)$/) && dicts[lang_id].use_russian_plurals) skip_cell = true;
+			if (key.match(/_(low|high)$/) && !dicts[lang_id].use_russian_plurals) skip_cell = true;
 
 			if (skip_cell){
 
