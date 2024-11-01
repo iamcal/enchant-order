@@ -272,7 +272,7 @@ function displayLevelsText(levels) {
 
 function pluralize(num, key_root) {
 
-    if (languageJson.use_russain_plurals) {
+    if (languageJson.use_russian_plurals) {
       if ((num % 10 === 1) && (num < 10 || num > 15)) {
         return String(num) + languageJson[key_root];
       } else if ((num % 10 === 2 || num % 10 === 3 || num % 10 === 4) && (num < 10 || num > 15)) {
