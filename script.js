@@ -27,6 +27,8 @@ const languages = {
     'ja-JP' : '日本語',
     'th-TH' : 'ภาษาไทย',
     'vi-VN' : 'Tiếng Việt',
+    'ko-KR' : '한국어',
+
 };
 
 const languages_cache_key = 6;
