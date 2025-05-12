@@ -16,6 +16,15 @@
   }
 }
 
+@keyframes outputFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 body {
   font-family: arial, serif;
   position: relative;
@@ -36,39 +45,37 @@ body {
 /* Remember these for every theme ;) */
 
 html[data-theme="light"] {
-  --bg-primary: #e3e4eb;
-  --bg-secondary: white;
+  --bg-primary: #e7e7e7;
+  --bg-secondary: #ffffff;
   --fg-primary: #2b2b2b;
-  --fg-secondary: #474747;
+  --selection-color: #007b42;
+  --enchantment-selection: #41b041;
   --link-primary: #2140ba;
   --link-hover: #2c54ce;
   --table-text: #191715;
   --table-group1: #eee;
   --table-group2: #ddd;
   --echlevel-color: var(--link-primary);
-  --echlevel-bg: white;
   --echlevel-shadow: #888;
-  --enchantment-results: #cfc;
-  --progress-color: #ffc;
-  --error: #f99;
-  --phone-warn: #fa9;
-  --solution: #cfc;
+  --progress-color: #caca1a;
+  --error: #ad3737;
+  --phone-warn: #fff200;
+  --solution: #4dc14d;
 }
 
 html[data-theme="dark"] {
-  --bg-primary: #333;
-  --bg-secondary: #222;
+  --bg-primary: #373737;
+  --bg-secondary: #212121;
   --fg-primary: white;
-  --fg-secondary: #eee;
+  --selection-color: #00dc76;
+  --enchantment-selection: #0e754d;
   --link-primary: #66b3ff;
   --link-hover: #4d8ac3;
   --table-text: #333;
-  --table-group1: #ccc;
-  --table-group2: #bbb;
+  --table-group1: #c6c6c6;
+  --table-group2: #d7d7d7;
   --echlevel-color: var(--link-primary);
-  --echlevel-bg: white;
   --echlevel-shadow: #888;
-  --enchantment-results: #0e754d;
   --progress-color: #f1a32f;
   --error: #f90601;
   --phone-warn: #e7cc03;
@@ -79,25 +86,25 @@ html[data-theme="crimson"] {
   --bg-primary: #331320;
   --bg-secondary: #4d1d31;
   --fg-primary: white;
-  --fg-secondary: #eee;
+  --selection-color: var(--enchantment-selection);
+  --enchantment-selection: #006666;
   --link-primary: #66b3ff;
   --link-hover: #4d8ac3;
   --table-text: #ddd;
   --table-group1: #813151;
   --table-group2: #672741;
   --echlevel-color: var(--table-text);
-  --echlevel-bg: var(--table-group1);
   --echlevel-shadow: var(--table-group2);
-  --enchantment-results: #006666;
   --progress-color: #f1a32f;
   --error: #f90601;
   --phone-warn: #e7cc03;
-  --solution: var(--enchantment-results);
+  --solution: var(--enchantment-selection);
 }
 
 /* TODO: fix enchantment results variable name, misnomer */
 
-.selectItem:focus, .selectLanguage:focus {
+.selectItem:focus,
+.selectLanguage:focus {
   outline: none;
 }
 
@@ -126,7 +133,7 @@ body h2 {
 
 #mode_selection > label > input[type="radio"]:checked + span {
   transition: color 0.3s ease;
-  color: var(--link-primary);
+  color: var(--selection-color);
   font-weight: bold;
 }
 
@@ -199,13 +206,14 @@ a:hover {
   color: var(--fg-primary);
   margin: 2px 0px 2px 0px;
   border-radius: 10px;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
   border: none;
 }
 
 #enchants button.on {
   box-shadow: none;
-  background-color: var(--enchantment-results);
+  transform: scale(1.05);
+  background-color: var(--enchantment-selection);
 }
 
 #calculate {
@@ -214,7 +222,11 @@ a:hover {
 }
 
 #calculate:hover {
-  background-color: var(--solution);
+  background-color: var(--selection-color);
+}
+
+#calculate:active {
+  transform: translateY(2px);
 }
 
 #options-paragraph {
@@ -235,12 +247,11 @@ a:hover {
   border: 1px solid var(--fg-primary);
   border-radius: 10px;
   padding: 5px 10px;
-
 }
 
 #overrides > div > label > input[type="checkbox"]:checked + span {
   transition: color 0.3s ease;
-  color: var(--link-primary);
+  color: var(--selection-color);
   font-weight: bold;
 }
 
@@ -256,6 +267,8 @@ a:hover {
 }
 
 #progress {
+  animation: outputFadeIn 0.5s ease forwards;
+  border-radius: 10px;
   margin-top: 40px;
   line-height: 20px;
   background-color: var(--progress-color);
@@ -267,6 +280,8 @@ a:hover {
 }
 
 #error {
+  animation: outputFadeIn 0.5s ease forwards;
+  border-radius: 10px;
   margin-top: 40px;
   line-height: 20px;
   background-color: var(--error);
@@ -274,6 +289,8 @@ a:hover {
 }
 
 #phone-warn {
+  animation: outputFadeIn 0.5s ease forwards;
+  border-radius: 10px;
   margin-top: 40px;
   line-height: 20px;
   background-color: var(--phone-warn);
@@ -281,6 +298,7 @@ a:hover {
 }
 
 #solution {
+  animation: outputFadeIn 0.5s ease forwards;
   background-color: var(--solution);
   border-radius: 10px;
   padding: 20px;
@@ -312,8 +330,35 @@ a:hover {
 #steps li:nth-child(5) {
   animation-delay: 1s;
 }
-#steps li:nth-child(n+6) { /* n+6 means 6 and up */
+#steps li:nth-child(6) {
   animation-delay: 1.2s;
+}
+#steps li:nth-child(7) {
+  animation-delay: 1.4s;
+}
+#steps li:nth-child(8) {
+  animation-delay: 1.6s;
+}
+#steps li:nth-child(9) {
+  animation-delay: 1.8s;
+}
+#steps li:nth-child(10) {
+  animation-delay: 2s;
+}
+#steps li:nth-child(11) {
+  animation-delay: 2.2s;
+}
+#steps li:nth-child(12) {
+  animation-delay: 2.4s;
+}
+#steps li:nth-child(13) {
+  animation-delay: 2.6s;
+}
+#steps li:nth-child(14) {
+  animation-delay: 2.8s;
+}
+#steps li:nth-child(15) {
+  animation-delay: 3s;
 }
 
 .footer {
@@ -407,7 +452,6 @@ a:hover {
 
 #theme-switcher-form input[type="radio"] {
   display: none;
-  outline: 1px solid var(--fg-secondary);
 }
 
 #theme-switcher-form label {
@@ -422,7 +466,6 @@ a:hover {
 #theme-switcher-form input[type="radio"]:checked + label {
   outline: 2px solid var(--fg-primary);
 }
-
 
 @media only screen and (max-width: 422px) {
   .footer {
