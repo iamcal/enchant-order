@@ -20,7 +20,7 @@
     "optimal_solution_prior_work": "找到的最佳解决方案（具有較低的累積懲罰）！",
 
     "total_cost": "總成本: ",
-    "completed_in": "完成于 ",
+    "completed_in": "完成於 ",
     "microseconds": " 微秒",
     "millisecond": " 毫秒",
     "millisecond_s": " 毫秒",
