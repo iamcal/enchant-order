@@ -64,9 +64,12 @@ function buildFilters() {
 
 function buildItemSelection() {
     data.items.forEach(item_namespace => {
-        const item_listbox_metadata = { value: item_namespace };
-        const item_listbox = $("<option/>", item_listbox_metadata);
-        item_listbox.text(item_namespace).appendTo("select#item");
+        const item_listbox_metadata = { "data-value": item_namespace };
+        const item_listbox_icon = `<img class="item-icon" src="./images/${item_namespace}.gif">`;
+        const item_listbox_label = `<span class="label">${item_namespace}</span>`;
+        const item_listbox_body = `${item_listbox_icon} ${item_listbox_label}`;
+        const item_listbox = $("<li/>", item_listbox_metadata);
+        item_listbox.html(item_listbox_body).appendTo(".dropdown .menu");
     });
 }
 
@@ -234,8 +237,8 @@ function turnOffLevelButtons() {
 }
 
 function buildEnchantmentSelection() {
-    $("select#item").change(function() {
-        const item_namespace_selected = $("select#item option:selected").val();
+    $(".dropdown .menu").on("click", "li", function () {
+        const item_namespace_selected = $(this).data("value");  
         if (item_namespace_selected) {
             buildEnchantList(item_namespace_selected);
             $("#overrides").show();
@@ -601,7 +604,7 @@ function retrieveCheapnessMode() {
 }
 
 function retrieveSelectedItem() {
-    return $("select#item option:selected").val();
+    return $(".dropdown .menu li.active").data("value");
 }
 
 function updateCalculateButtonState() {
@@ -752,16 +755,27 @@ function changeLanguageByJson(languageJson){
     paragraphs[2].innerHTML = languageJson.paragraph_2;
     paragraphs[3].innerHTML = languageJson.paragraph_3;
 
+    /* selected item */
+    const selectedItem = document.getElementById("selectedItem");
+    const selectedValue = selectedItem.dataset.value;
+    const label = selectedItem.querySelector(".label");
+    (label || selectedItem).textContent = languageJson.items[selectedValue] || languageJson.choose_an_item_to_enchant;
 
-    /* selection */
-    const options = document.getElementById("item").getElementsByTagName("option");
+    /* selection item list */
+    const options = document.getElementById("item").getElementsByTagName("li");
     let i = 1;
 
     options[0].textContent = languageJson.choose_an_item_to_enchant;
     data.items.forEach(item_namespace => {
-        options[i].textContent = languageJson.items[item_namespace];
+        options[i].querySelector('.label').textContent = languageJson.items[item_namespace];
         i++;
     });
+
+    /* enchant list */
+    buildEnchantmentSelection();
+    const item_namespace_selected = $(".dropdown .menu li.active").data("value")  ;   
+    if (item_namespace_selected) buildEnchantList(item_namespace_selected);
+
 
     /* other UI */
     document.getElementById("override-incompatible").textContent = languageJson.checkbox_label_incompatible;
@@ -777,7 +791,6 @@ function changeLanguageByJson(languageJson){
 
     document.getElementById("xp-range-note").textContent = languageJson.note;
 
-    $("select#item").change();
     $("#solution").hide();
     $("#error").hide();
 }

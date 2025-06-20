@@ -5,8 +5,9 @@
         <meta charset="utf-8">
         <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
         <script src="data.js?10"></script>
-        <script src="script.js?15"></script>
-        <link rel="stylesheet" type="text/css" href="style.css?3">
+        <script src="script.js?16"></script>
+        <script src="dropdown.js?1"></script>
+        <link rel="stylesheet" type="text/css" href="style.css?4">
         <script src="https://unpkg.com/@hungrybluedev/theme-switcher@latest/dist/switch.js" type="module" defer></script>
         <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png">
@@ -18,7 +19,8 @@
         <div class="inner">
             
             <div class="top-container">
-                <p>
+                <h1>Minecraft Enchantment Ordering Tool</h1>
+                <p class="languageMenu">
                     <label for="language"></label>
                     <select id="language" class="selectLanguage">
                         <option value="">Choose a language</option>
@@ -26,8 +28,6 @@
                 </p>
                 
             </div>
-            
-            <h1>Minecraft Enchantment Ordering Tool</h1>
 
             <p>
                 When enchanting items in Minecraft, the order in which you combine armor, weapons and tools with books in your
@@ -51,10 +51,18 @@
             <div id="left">
 
                 <p>
-                    <label for="item"></label>
-                    <select id="item" class="selectItem">
-                        <option value="">Choose an item to enchant</option>
-                    </select>
+                    <div class="dropdown">
+                        <div class="select" >
+                            <span class="selected" id="selectedItem">
+                                Choose an item to enchant
+                            </span>
+                            <div class="caret" ></div>
+            
+                        </div>
+                        <ul id="item" class="menu"  >
+                            <li data-value="" class="active"> Choose an item to enchant</li>
+                        </ul>
+                    </div>
                 </p>
 
                 <div id="enchants" style="display: none">
