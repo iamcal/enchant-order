@@ -19,29 +19,35 @@
         <div class="inner">
             
             <div class="top-container">
+                <div class="languageMenu">
+                    <div class="dropdown">
+                        <div class="select">
+                            <span class="selected" id="selectLanguage">
+                                Choose a language
+                            </span>
+                            <div class="caret"></div>
+                        </div>
+                        <ul class="menu" id="language">
+                            <li data-value="" class="active">Choose a language</li>
+                        </ul>
+                    </div>
+                </div>
                 <h1>Minecraft Enchantment Ordering Tool</h1>
-                <p class="languageMenu">
-                    <label for="language"></label>
-                    <select id="language" class="selectLanguage">
-                        <option value="">Choose a language</option>
-                    </select>
-                </p>
-                
             </div>
 
-            <p>
+            <p id="paragraph_1">
                 When enchanting items in Minecraft, the order in which you combine armor, weapons and tools with books in your
                 anvil makes a huge difference. Each time you work on an anvil, you increase the <a href="https://minecraft.wiki/w/Anvil_mechanics">work penalty</a> for future workings. Once that
                 penalty gets too high, you simply can't add any more enchantments and the anvil says "Too Expensive!". This tool
                 helps you plan the optimal order of combining and applying books, to give you the cheapest possible cost.
             </p>
-            <p>
+            <p id="paragraph_2">
                 This tool assume your gear and books start with zero "work penalty". That means you have not previously combined
                 the books (e.g. to turn two level 1 books into a single level 2 book) or worked the items or books in an anvil
                 in any way. To create gear with the maximum possible enchantment, you cannot combine lower-level books and must
                 start with high-level books from villager trading.
             </p>
-            <p>
+            <p id="paragraph_3">
                 Allowing incompatible enchantments may be useful for combining protection-type enchantments (1.14 to 1.14.3pre-1)
                 and mending/infinity (1.9 to 1.11.1).
             </p>
@@ -50,20 +56,19 @@
 
             <div id="left">
 
-                <p>
+                <div class="itemMenu">
                     <div class="dropdown">
-                        <div class="select" >
+                        <div class="select">
                             <span class="selected" id="selectedItem">
                                 Choose an item to enchant
                             </span>
-                            <div class="caret" ></div>
-            
+                            <div class="caret"></div>
                         </div>
-                        <ul id="item" class="menu"  >
-                            <li data-value="" class="active"> Choose an item to enchant</li>
+                        <ul class="menu" id="item">
+                            <li data-value="" class="active">Choose an item to enchant</li>
                         </ul>
                     </div>
-                </p>
+                </div>
 
                 <div id="enchants" style="display: none">
                     <table></table>

@@ -69,7 +69,7 @@ function buildItemSelection() {
         const item_listbox_label = `<span class="label">${item_namespace}</span>`;
         const item_listbox_body = `${item_listbox_icon} ${item_listbox_label}`;
         const item_listbox = $("<li/>", item_listbox_metadata);
-        item_listbox.html(item_listbox_body).appendTo(".dropdown .menu");
+        item_listbox.html(item_listbox_body).appendTo(".dropdown .menu#item");
     });
 }
 
@@ -237,7 +237,7 @@ function turnOffLevelButtons() {
 }
 
 function buildEnchantmentSelection() {
-    $(".dropdown .menu").on("click", "li", function () {
+    $(".dropdown .menu#item").on("click", "li", function () {
         const item_namespace_selected = $(this).data("value");  
         if (item_namespace_selected) {
             buildEnchantList(item_namespace_selected);
@@ -604,7 +604,7 @@ function retrieveCheapnessMode() {
 }
 
 function retrieveSelectedItem() {
-    return $(".dropdown .menu li.active").data("value");
+    return $(".dropdown .menu#item li.active").data("value");
 }
 
 function updateCalculateButtonState() {
@@ -673,16 +673,17 @@ function startCalculating(item_namespace, enchantment_foundation, mode) {
 }
 
 function languageChangeListener(){
-    const selectLanguage = document.getElementById('language');
-    selectLanguage.addEventListener('change', function() {
-        const selectedValue = selectLanguage.value;
+    const languageMenu = document.querySelector(".dropdown .menu#language");
+    $(languageMenu).on("click", "li", function () {
+        const selectedValue = $(this).data("value");
+        if (!selectedValue) return;
         changePageLanguage(selectedValue);
     });
 }
 
 async function setupLanguage(){
     for (const i in languages){
-        $("<option/>", {'value': i}).text(languages[i]).appendTo('#language');
+        $("<li/>", {'data-value': i}).text(languages[i]).appendTo('.dropdown .menu#language');
     }
     defineBrowserLanguage();
     languageChangeListener();
@@ -750,10 +751,9 @@ function changeLanguageByJson(languageJson){
     h1Element.textContent = languageJson.h1_title;
 
     /* paragraphs */
-    const paragraphs = document.getElementsByTagName('p');
-    paragraphs[1].innerHTML = languageJson.paragraph_1;
-    paragraphs[2].innerHTML = languageJson.paragraph_2;
-    paragraphs[3].innerHTML = languageJson.paragraph_3;
+    document.getElementById("paragraph_1").innerHTML = languageJson.paragraph_1;
+    document.getElementById("paragraph_2").innerHTML = languageJson.paragraph_2;
+    document.getElementById("paragraph_3").innerHTML = languageJson.paragraph_3;
 
     /* selected item */
     const selectedItem = document.getElementById("selectedItem");
@@ -772,10 +772,8 @@ function changeLanguageByJson(languageJson){
     });
 
     /* enchant list */
-    buildEnchantmentSelection();
-    const item_namespace_selected = $(".dropdown .menu li.active").data("value")  ;   
+    const item_namespace_selected = $(".dropdown .menu#item li.active").data("value");
     if (item_namespace_selected) buildEnchantList(item_namespace_selected);
-
 
     /* other UI */
     document.getElementById("override-incompatible").textContent = languageJson.checkbox_label_incompatible;

@@ -53,8 +53,8 @@ html[data-theme="dark"] {
   --table-group2: #BBB;
   --table-group3: #DDD;
   --table-border:#888;
-  --scrollbar:#666;
-  --scrollbar-hover:#444;
+  --scrollbar:#777;
+  --scrollbar-hover:#555;
   --echlevel-color: var(--link-primary);
   --echlevel-bg: white;
   --echlevel-shadow: #888;
@@ -91,10 +91,6 @@ html[data-theme="crimson"] {
 
 /* TODO: fix enchantment results variable name, misnomer */
 
-.selectLanguage:focus {
-  outline: none
-}
-
 body {
     background-color: var(--bg-primary);
     color: var(--fg-primary);
@@ -102,19 +98,23 @@ body {
 
 body h1, body h2 {
     color: var(--fg-primary);
-    margin-block-end: 0;
 }
 
 .inner {
     display: table;
     margin: 30px auto;
     width: 1000px;
-    padding-bottom: 30px;
+    padding-bottom: 50px;
     overflow: auto;
 }
 
 .languageMenu {
-  margin-block: 14px;
+  float: right;
+  margin-left: 8px;
+}
+
+.itemMenu {
+  margin-block: 12px;
 }
 
 a {
@@ -276,24 +276,8 @@ a:hover {
 
 /* Top container */
 .top-container{
-    display:flex;
-    justify-content: space-between;
-}
-
-.selectLanguage {
-    appearance: none;
-    font-size: 14px;
-    border: 1px solid var(--table-group2);
-    background-color: var(--table-group1);
-    color: var(--table-text);
-    background-image: url("images/down.png");
-    background-repeat: no-repeat;
-    background-position: right 6px center;
-    background-size: 13px 12px;
-    margin-top: 6px;
-    margin-left: 15px;
-    padding: 5px 24px 8px 12px;
-    border-radius: 3px;
+  position: relative;
+  margin: 20px auto;
 }
 
 #theme-switcher-form {
@@ -342,6 +326,11 @@ a:hover {
   .dark-mode-toggle-container {
     margin-top: 12px;
   }
+
+  .top-container {
+    position: relative;
+    margin: 12px auto;
+  }
 } /* smol screens */
 
 @media only screen and (min-width: 423px) {
@@ -359,13 +348,16 @@ a:hover {
     margin-left: 12px;
   }
   
+  .top-container {
+    position: relative;
+    margin: 12px auto;
+  }
+
   /*#theme-switcher-form {
     width: 90px;
   }*/
 } /* bigger screens */
 
-
-/*----------------------------------------*/
 .dropdown {
   display: flex;
   position: relative;
@@ -373,7 +365,7 @@ a:hover {
 
 .select {
   display: flex;
-  min-width: 160px;
+  min-width: 120px;
   align-items: center;
   justify-content: space-between;
   font-size: 16px;
@@ -406,7 +398,6 @@ a:hover {
   opacity: 0;
   position: absolute;
   list-style: none;
-  padding: 0;
   background: var(--table-group1);
   color: var(--table-text);
   border-radius: 8px;
@@ -420,8 +411,8 @@ a:hover {
   display: block;
   opacity: 1;
   padding: 4px;
-  margin: 0px;
-  overflow:auto;
+  margin-block: 4px;
+  overflow: auto;
 }
 
 .menu.upwards {
@@ -450,8 +441,8 @@ a:hover {
 }
 
 .selected{
-  display:flex;
-  align-items:center;
+  display: flex;
+  align-items: center;
 }
 
 .selected-item-icon {
