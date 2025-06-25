@@ -110,7 +110,7 @@ body h1, body h2 {
 
 .languageMenu {
   float: right;
-  margin-left: 8px;
+  margin-left: 12px;
 }
 
 .itemMenu {
@@ -437,19 +437,31 @@ a:hover {
   display: inline-block;
   width: 16px;
   height: 16px;
-  margin-right: 6px;
+  margin-right: 8px;
+}
+
+.item-icon.selected-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.languages-icon {
+  display: inline-block;
+  width: 20px;
+  height: 15px;
+  margin-right: 8px;
+}
+
+.languages-icon.selected-icon {
+  width: 24px;
+  height: 18px;
+  margin-right: 10px;
 }
 
 .selected{
   display: flex;
   align-items: center;
-}
-
-.selected-item-icon {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
 }
 
 .menu li.active {

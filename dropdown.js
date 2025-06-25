@@ -74,9 +74,15 @@ $(function () {
             const value = option.dataset.value || option.getAttribute("data-value") || "";
             selected.setAttribute("data-value", value);
 
-            const icon = option.querySelector(".item-icon");
-            const iconHtml = icon ? icon.outerHTML.replace("item-icon", "selected-item-icon") : "";
-            const label = option.querySelector(".label");
+            const icon = option.querySelector("img");
+            let iconHtml = "";
+            if (icon) {
+                icon.classList.add("selected-icon");
+                iconHtml = icon.outerHTML;
+                icon.classList.remove("selected-icon");
+            }
+
+            const label = option.querySelector(".menu-item-label");
             const labelHtml = label ? label.outerHTML : option.textContent;
             selected.innerHTML = iconHtml + " " + labelHtml;
 

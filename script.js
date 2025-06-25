@@ -66,7 +66,7 @@ function buildItemSelection() {
     data.items.forEach(item_namespace => {
         const item_listbox_metadata = { "data-value": item_namespace };
         const item_listbox_icon = `<img class="item-icon" src="./images/${item_namespace}.gif">`;
-        const item_listbox_label = `<span class="label">${item_namespace}</span>`;
+        const item_listbox_label = `<span class="menu-item-label">${item_namespace}</span>`;
         const item_listbox_body = `${item_listbox_icon} ${item_listbox_label}`;
         const item_listbox = $("<li/>", item_listbox_metadata);
         item_listbox.html(item_listbox_body).appendTo(".dropdown .menu#item");
@@ -683,7 +683,12 @@ function languageChangeListener(){
 
 async function setupLanguage(){
     for (const i in languages){
-        $("<li/>", {'data-value': i}).text(languages[i]).appendTo('.dropdown .menu#language');
+        const languages_listbox_metadata = { "data-value": i };
+        const languages_listbox_icon = `<img class="languages-icon" src="./images/languages/${i}.png">`;
+        const languages_listbox_label = `<span class="menu-item-label">${languages[i]}</span>`;
+        const languages_listbox_body = `${languages_listbox_icon} ${languages_listbox_label}`;
+        const languages_listbox = $("<li/>", languages_listbox_metadata);
+        languages_listbox.html(languages_listbox_body).appendTo(".dropdown .menu#language");
     }
     defineBrowserLanguage();
     languageChangeListener();
@@ -758,7 +763,7 @@ function changeLanguageByJson(languageJson){
     /* selected item */
     const selectedItem = document.getElementById("selectedItem");
     const selectedValue = selectedItem.dataset.value;
-    const label = selectedItem.querySelector(".label");
+    const label = selectedItem.querySelector(".menu-item-label");
     (label || selectedItem).textContent = languageJson.items[selectedValue] || languageJson.choose_an_item_to_enchant;
 
     /* selection item list */
@@ -767,7 +772,7 @@ function changeLanguageByJson(languageJson){
 
     options[0].textContent = languageJson.choose_an_item_to_enchant;
     data.items.forEach(item_namespace => {
-        options[i].querySelector('.label').textContent = languageJson.items[item_namespace];
+        options[i].querySelector('.menu-item-label').textContent = languageJson.items[item_namespace];
         i++;
     });
 
