@@ -64,9 +64,12 @@ function buildFilters() {
 
 function buildItemSelection() {
     data.items.forEach(item_namespace => {
-        const item_listbox_metadata = { value: item_namespace };
-        const item_listbox = $("<option/>", item_listbox_metadata);
-        item_listbox.text(item_namespace).appendTo("select#item");
+        const item_listbox_metadata = { "data-value": item_namespace };
+        const item_listbox_icon = `<img class="item-icon" src="./images/${item_namespace}.gif">`;
+        const item_listbox_label = `<span class="menu-item-label">${item_namespace}</span>`;
+        const item_listbox_body = `${item_listbox_icon} ${item_listbox_label}`;
+        const item_listbox = $("<li/>", item_listbox_metadata);
+        item_listbox.html(item_listbox_body).appendTo(".dropdown .menu#item");
     });
 }
 
@@ -234,8 +237,8 @@ function turnOffLevelButtons() {
 }
 
 function buildEnchantmentSelection() {
-    $("select#item").change(function() {
-        const item_namespace_selected = $("select#item option:selected").val();
+    $(".dropdown .menu#item").on("click", "li", function () {
+        const item_namespace_selected = $(this).data("value");  
         if (item_namespace_selected) {
             buildEnchantList(item_namespace_selected);
             $("#overrides").show();
@@ -601,7 +604,7 @@ function retrieveCheapnessMode() {
 }
 
 function retrieveSelectedItem() {
-    return $("select#item option:selected").val();
+    return $(".dropdown .menu#item li.active").data("value");
 }
 
 function updateCalculateButtonState() {
@@ -670,16 +673,22 @@ function startCalculating(item_namespace, enchantment_foundation, mode) {
 }
 
 function languageChangeListener(){
-    const selectLanguage = document.getElementById('language');
-    selectLanguage.addEventListener('change', function() {
-        const selectedValue = selectLanguage.value;
+    const languageMenu = document.querySelector(".dropdown .menu#language");
+    $(languageMenu).on("click", "li", function () {
+        const selectedValue = $(this).data("value");
+        if (!selectedValue) return;
         changePageLanguage(selectedValue);
     });
 }
 
 async function setupLanguage(){
     for (const i in languages){
-        $("<option/>", {'value': i}).text(languages[i]).appendTo('#language');
+        const languages_listbox_metadata = { "data-value": i };
+        const languages_listbox_icon = `<img class="languages-icon" src="./images/languages/${i}.png">`;
+        const languages_listbox_label = `<span class="menu-item-label">${languages[i]}</span>`;
+        const languages_listbox_body = `${languages_listbox_icon} ${languages_listbox_label}`;
+        const languages_listbox = $("<li/>", languages_listbox_metadata);
+        languages_listbox.html(languages_listbox_body).appendTo(".dropdown .menu#language");
     }
     defineBrowserLanguage();
     languageChangeListener();
@@ -747,21 +756,29 @@ function changeLanguageByJson(languageJson){
     h1Element.textContent = languageJson.h1_title;
 
     /* paragraphs */
-    const paragraphs = document.getElementsByTagName('p');
-    paragraphs[1].innerHTML = languageJson.paragraph_1;
-    paragraphs[2].innerHTML = languageJson.paragraph_2;
-    paragraphs[3].innerHTML = languageJson.paragraph_3;
+    document.getElementById("paragraph_1").innerHTML = languageJson.paragraph_1;
+    document.getElementById("paragraph_2").innerHTML = languageJson.paragraph_2;
+    document.getElementById("paragraph_3").innerHTML = languageJson.paragraph_3;
 
+    /* selected item */
+    const selectedItem = document.getElementById("selectedItem");
+    const selectedValue = selectedItem.dataset.value;
+    const label = selectedItem.querySelector(".menu-item-label");
+    (label || selectedItem).textContent = languageJson.items[selectedValue] || languageJson.choose_an_item_to_enchant;
 
-    /* selection */
-    const options = document.getElementById("item").getElementsByTagName("option");
+    /* selection item list */
+    const options = document.getElementById("item").getElementsByTagName("li");
     let i = 1;
 
     options[0].textContent = languageJson.choose_an_item_to_enchant;
     data.items.forEach(item_namespace => {
-        options[i].textContent = languageJson.items[item_namespace];
+        options[i].querySelector('.menu-item-label').textContent = languageJson.items[item_namespace];
         i++;
     });
+
+    /* enchant list */
+    const item_namespace_selected = $(".dropdown .menu#item li.active").data("value");
+    if (item_namespace_selected) buildEnchantList(item_namespace_selected);
 
     /* other UI */
     document.getElementById("override-incompatible").textContent = languageJson.checkbox_label_incompatible;
@@ -777,7 +794,6 @@ function changeLanguageByJson(languageJson){
 
     document.getElementById("xp-range-note").textContent = languageJson.note;
 
-    $("select#item").change();
     $("#solution").hide();
     $("#error").hide();
 }

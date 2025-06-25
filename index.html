@@ -5,8 +5,9 @@
         <meta charset="utf-8">
         <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
         <script src="data.js?10"></script>
-        <script src="script.js?15"></script>
-        <link rel="stylesheet" type="text/css" href="style.css?3">
+        <script src="script.js?16"></script>
+        <script src="dropdown.js?1"></script>
+        <link rel="stylesheet" type="text/css" href="style.css?4">
         <script src="https://unpkg.com/@hungrybluedev/theme-switcher@latest/dist/switch.js" type="module" defer></script>
         <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png">
@@ -18,30 +19,35 @@
         <div class="inner">
             
             <div class="top-container">
-                <p>
-                    <label for="language"></label>
-                    <select id="language" class="selectLanguage">
-                        <option value="">Choose a language</option>
-                    </select>
-                </p>
-                
+                <div class="languageMenu">
+                    <div class="dropdown">
+                        <div class="select">
+                            <span class="selected" id="selectLanguage">
+                                Choose a language
+                            </span>
+                            <div class="caret"></div>
+                        </div>
+                        <ul class="menu" id="language">
+                            <li data-value="" class="active">Choose a language</li>
+                        </ul>
+                    </div>
+                </div>
+                <h1>Minecraft Enchantment Ordering Tool</h1>
             </div>
-            
-            <h1>Minecraft Enchantment Ordering Tool</h1>
 
-            <p>
+            <p id="paragraph_1">
                 When enchanting items in Minecraft, the order in which you combine armor, weapons and tools with books in your
                 anvil makes a huge difference. Each time you work on an anvil, you increase the <a href="https://minecraft.wiki/w/Anvil_mechanics">work penalty</a> for future workings. Once that
                 penalty gets too high, you simply can't add any more enchantments and the anvil says "Too Expensive!". This tool
                 helps you plan the optimal order of combining and applying books, to give you the cheapest possible cost.
             </p>
-            <p>
+            <p id="paragraph_2">
                 This tool assume your gear and books start with zero "work penalty". That means you have not previously combined
                 the books (e.g. to turn two level 1 books into a single level 2 book) or worked the items or books in an anvil
                 in any way. To create gear with the maximum possible enchantment, you cannot combine lower-level books and must
                 start with high-level books from villager trading.
             </p>
-            <p>
+            <p id="paragraph_3">
                 Allowing incompatible enchantments may be useful for combining protection-type enchantments (1.14 to 1.14.3pre-1)
                 and mending/infinity (1.9 to 1.11.1).
             </p>
@@ -50,12 +56,19 @@
 
             <div id="left">
 
-                <p>
-                    <label for="item"></label>
-                    <select id="item" class="selectItem">
-                        <option value="">Choose an item to enchant</option>
-                    </select>
-                </p>
+                <div class="itemMenu">
+                    <div class="dropdown">
+                        <div class="select">
+                            <span class="selected" id="selectedItem">
+                                Choose an item to enchant
+                            </span>
+                            <div class="caret"></div>
+                        </div>
+                        <ul class="menu" id="item">
+                            <li data-value="" class="active">Choose an item to enchant</li>
+                        </ul>
+                    </div>
+                </div>
 
                 <div id="enchants" style="display: none">
                     <table></table>
