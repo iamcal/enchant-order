@@ -12,6 +12,7 @@ const languages = {
     'en'    : 'English',
 
     // in alphabetical order
+    'id'    : 'Indonesia',
     'de'    : 'Deutsch',
     'es-ES' : 'Español',
     'fr-FR' : 'Français',
@@ -28,7 +29,6 @@ const languages = {
     'zh-CN' : '中文',
     'ja-JP' : '日本語',
     'ko-KR' : '한국어',
-
 };
 
 const languages_cache_key = 6;
