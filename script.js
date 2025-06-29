@@ -12,11 +12,11 @@ const languages = {
     'en'    : 'English',
 
     // in alphabetical order
-    'id'    : 'Indonesia',
     'de'    : 'Deutsch',
     'es-ES' : 'Español',
     'fr-FR' : 'Français',
     'it-IT' : 'Italiano',
+    'id'    : 'Indonesia',
     'nl'    : 'Nederlands',
     'pl-PL' : 'Polski',
     'pt-BR' : 'Português',
