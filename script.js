@@ -16,6 +16,7 @@ const languages = {
     'es-ES' : 'Español',
     'fr-FR' : 'Français',
     'it-IT' : 'Italiano',
+    'hu-HU' : 'Magyar'
     'nl'    : 'Nederlands',
     'pl-PL' : 'Polski',
     'pt-BR' : 'Português',
