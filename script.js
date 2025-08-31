@@ -33,6 +33,15 @@ const languages = {
 
 const languages_cache_key = 6;
 
+const prefers_color_scheme = window.matchMedia("(prefers-color-scheme: dark)");
+if (prefers_color_scheme.matches) {
+    document.documentElement.dataset.theme = 'dark';
+    localStorage.setItem("tswitch-theme", 'dark');
+} else {
+    document.documentElement.dataset.theme = 'light';
+    localStorage.setItem("tswitch-theme", 'light');
+}
+
 window.onload = function() {
 
     worker = new Worker("work.js?6");
