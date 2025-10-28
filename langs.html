@@ -74,10 +74,12 @@ async function loadLangs(){
 
 	var tr = $('<tr>');
 	var cell = $('<th>');
+	cell.addClass('sticky-top');
 	cell.text('ID');
 	tr.append(cell);
 	for (const lang_id in languages){
 		var cell = $('<th>');
+		cell.addClass('sticky-top');
 		cell.text(lang_id + ': ' + languages[lang_id]);
 		tr.append(cell);
 	}
@@ -88,6 +90,7 @@ async function loadLangs(){
 
 		var tr = $('<tr>');
 		var cell = $('<td>');
+		cell.addClass('sticky-left');
 		cell.text(key);
 		tr.append(cell);
 
@@ -182,6 +185,21 @@ function add_row(tb, cells, header){
 
 
 </script>
+<style>
+
+.sticky-top {
+	position: sticky;
+	top: 0;
+	background-color: #eee;
+}
+
+.sticky-left {
+	position: sticky;
+	left: 0;
+	background-color: #eee;
+}
+
+</style>
 </head>
 <body>
 
