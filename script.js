@@ -28,7 +28,7 @@ const languages = {
     'zh-CN' : '中文',
     'ja-JP' : '日本語',
     'ko-KR' : '한국어',
-
+    'ar'    : 'اَلْعَرَبِيَّةُ',
 };
 
 const languages_cache_key = 6;
