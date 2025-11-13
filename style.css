@@ -93,7 +93,7 @@ html[data-theme="wither"] {
   --echlevel-color: var(--table-text);
   --echlevel-bg: var(--table-group1);
   --echlevel-shadow: var(--table-group2);
-  --enchantment-results: #006666;
+  --enchantment-results: #444444;
   --progress-color: #f1a32f;
   --error: #f90601;
   --phone-warn: #e7cc03;
