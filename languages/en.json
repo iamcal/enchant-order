@@ -65,6 +65,7 @@
         "shield":"Shield",
         "crossbow": "Crossbow",
         "brush": "Brush",
+        "spear": "Spear",
 
         "fishing_rod": "Fishing Rod",
         "shears": "Shears",
@@ -117,6 +118,7 @@
         "vanishing_curse": "Curse of Vanishing",
         "density": "Density",
         "breach": "Breach",
-        "wind_burst": "Wind Burst"
+        "wind_burst": "Wind Burst",
+        "lunge": "Lunge"
     }
 }
