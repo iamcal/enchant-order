@@ -65,6 +65,7 @@
         "shield":"Scudo",
         "crossbow": "Balestra",
         "brush": "Spazzola",
+        "spear": "Lancia",
 
         "fishing_rod": "Canna da pesca",
         "shears": "Cesoie",
@@ -95,6 +96,7 @@
         "looting": "Saccheggio",
         "loyalty": "Lealtà",
         "luck_of_the_sea": "Fortuna del mare",
+        "lunge": "Affondo",
         "lure": "Esca",
         "mending": "Ripristino",
         "multishot": "Tiro multiplo",
