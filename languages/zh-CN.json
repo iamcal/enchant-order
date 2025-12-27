@@ -1,8 +1,8 @@
 {
     "h1_title" :"Minecraft附魔排序工具",
-    "paragraph_1" :"在Minecraft中附魔物品时，您将装备、武器和工具与书籍在铁砧上组合的顺序将产生巨大的影响。每次使用铁砧工作，都会增加<a href='https://minecraft.wiki/w/Anvil_mechanics'>工作惩罚</a>以用于未来的工作。一旦这个惩罚变得太高，您就无法再添加更多附魔，铁砧会显示“过于昂贵！”。此工具可帮助您规划最佳的附魔组合和应用顺序的同时以提供最低成本。",
-    "paragraph_2" : "此工具假定您的装备和书籍的“工作惩罚”都从零开始。这意味着您之前没有组合书籍（例如将两本1级书籍合并为1本2级书籍）或以任何方式在铁砧上工作这些物品或书籍。要制作具有尽可能多附魔的装备，您不能组合低级别的书籍，必须从与村民交易获得的更高级别的书籍开始。",
-    "paragraph_3": "允许不兼容的附魔可能对组合保护（1.14至1.14.3pre-1）和修复/无限（1.9至1.11.1）类型的附魔非常有用。",
+    "paragraph_1" :"在Minecraft中附魔物品时，将盔甲、武器和工具与附魔书在铁砧上结合的顺序非常重要。每次使用铁砧，都会增加<a href='https://minecraft.wiki/w/Anvil_mechanics'>累积惩罚</a>。一旦这个惩罚变得太高，您就无法再添加更多附魔，铁砧会显示“过于昂贵！”。此工具可帮助您规划最佳的附魔组合和应用顺序，以实现最低的成本。",
+    "paragraph_2" : "此工具假定您的装备和附魔书的“累积惩罚”都从零开始。这意味着您之前没有合成过附魔书（例如将两本1级附魔书合并为1本2级附魔书），也没有以任何方式在铁砧上操作过这些物品或附魔书。要制作具有尽可能多附魔的装备，您不能组合低级别的附魔书，必须从村民交易中获得更高级别的附魔书。",
+    "paragraph_3": "允许不兼容的附魔可能对组合保护（1.14至1.14.3pre-1）和经验修补/无限（1.9至1.11.1）类型的附魔非常有用。",
 
     "choose_an_item_to_enchant": "选择要附魔的物品",
 
@@ -13,11 +13,11 @@
     "optimize_for": "优化为: ",
 
     "radio_label_optimize_xp": "更少的经验/等级 ",
-    "radio_label_optimize_pwp": "先前的工作惩罚",
+    "radio_label_optimize_pwp": "更少的累积惩罚",
 
 
     "optimal_solution_cumulative_levels": "找到的最佳解决方案（通过累积最低等级）！",
-    "optimal_solution_prior_work": "找到的最佳解决方案（具有较低的先前工作）！",
+    "optimal_solution_prior_work": "找到的最佳解决方案（具有较低的累积惩罚）！",
 
     "total_cost": "总成本: ",
     "completed_in": "完成于 ",
@@ -27,19 +27,19 @@
     "second": " 秒",
     "second_s": " 秒",
     "level": " 等级",
-    "level_s": " 级别",
+    "level_s": " 级",
     "xp": " 经验值",
     "steps": " 步骤:",
     "combine": " 组合",
     "with": "与",
     "cost": "成本: ",
-    "prior_work_penalty":"先前的工作惩罚: ",
+    "prior_work_penalty":"累积惩罚: ",
     "no_solution_found": "未找到解决方案！",
     "button_enchant" : "附魔",
     "button_level": "等级",
     "too_many_enchantments": "附魔过多！",
     "more_than": " 多于 ",
-    "enchantments_are_not_recommended": " 附魔不建议。",
+    "enchantments_are_not_recommended": " 不建议附魔。",
     "please_select_enchantments": " 请选择一些附魔或查看页面底部的替代方案",
     "calculating_solution": "计算解决方案...",
     "note": "注意：显示的两个XP值是一次性保存所有级别/XP与每个附魔步骤之间获得级别/XP之间的差异。",
@@ -56,7 +56,7 @@
 
         "sword": "剑",
         "axe": "斧头",
-        "mace": "椎",
+        "mace": "重锤",
         "trident": "三叉戟",
         "pickaxe": "镐",
         "shovel": "铲",
@@ -70,7 +70,7 @@
         "shears": "剪刀",
         "flint_and_steel" : "打火石",
         "carrot_on_a_stick": "胡萝卜钓竿",
-        "warped_fungus_on_a_stick": "扭曲菌棒",
+        "warped_fungus_on_a_stick": "诡异菌钓竿",
         "pumpkin": "南瓜",
         "book": "书"
     },

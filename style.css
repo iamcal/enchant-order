@@ -13,6 +13,9 @@ body {
   background-color: #353535;
 }
 #theme-switcher-form div:nth-child(3) label {
+  background-color: #111111;
+}
+#theme-switcher-form div:nth-child(4) label {
   background-color: #813151;
 }
 /* Remember these for every theme ;) */
@@ -71,6 +74,26 @@ html[data-theme="crimson"] {
   --echlevel-bg: var(--table-group1);
   --echlevel-shadow: var(--table-group2);
   --enchantment-results: #006666;
+  --progress-color: #f1a32f;
+  --error: #f90601;
+  --phone-warn: #e7cc03;
+  --solution: var(--enchantment-results);
+}
+
+html[data-theme="wither"] {
+  --bg-primary: #111111;
+  --bg-secondary: #222222;
+  --fg-primary: white;
+  --fg-secondary: #eee;
+  --link-primary: #66b3ff;
+  --link-hover: #4d8ac3;
+  --table-text: #DDD;
+  --table-group1: #222222;
+  --table-group2: #333333;
+  --echlevel-color: var(--table-text);
+  --echlevel-bg: var(--table-group1);
+  --echlevel-shadow: var(--table-group2);
+  --enchantment-results: #444444;
   --progress-color: #f1a32f;
   --error: #f90601;
   --phone-warn: #e7cc03;
@@ -296,7 +319,7 @@ a:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 90px; /* Adjust the width as needed */
+  width: 120px; /* Adjust the width as needed */
   margin: auto; /* Center form */
 }
 

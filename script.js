@@ -16,18 +16,34 @@ const languages = {
     'es-ES' : 'Español',
     'fr-FR' : 'Français',
     'it-IT' : 'Italiano',
+    'id'    : 'Indonesia',
+    'hu-HU' : 'Magyar',
     'nl'    : 'Nederlands',
+    'pl-PL' : 'Polski',
     'pt-BR' : 'Português',
+    'vi-VN' : 'Tiếng Việt',
     'tr-TR' : 'Türkçe',
     'be-BY' : 'Беларуская',
     'ru-RU' : 'Русский',
     'ua-UA' : 'Українська',
+    'th-TH' : 'ภาษาไทย',
     'zh-CN' : '中文',
+    'zh-TW' : '繁體中文',
     'ja-JP' : '日本語',
-    'vi-VN' : 'Tiếng Việt',
+    'ko-KR' : '한국어',
+    'ar'    : 'اَلْعَرَبِيَّةُ',
 };
 
 const languages_cache_key = 6;
+
+const prefers_color_scheme = window.matchMedia("(prefers-color-scheme: dark)");
+if (prefers_color_scheme.matches) {
+    document.documentElement.dataset.theme = 'dark';
+    localStorage.setItem("tswitch-theme", 'dark');
+} else {
+    document.documentElement.dataset.theme = 'light';
+    localStorage.setItem("tswitch-theme", 'light');
+}
 
 window.onload = function() {
 
@@ -271,7 +287,7 @@ function displayLevelsText(levels) {
 
 function pluralize(num, key_root) {
 
-    if (languageJson.use_russain_plurals) {
+    if (languageJson.use_russian_plurals) {
       if ((num % 10 === 1) && (num < 10 || num > 15)) {
         return String(num) + languageJson[key_root];
       } else if ((num % 10 === 2 || num % 10 === 3 || num % 10 === 4) && (num < 10 || num > 15)) {

@@ -1,6 +1,6 @@
 {
   "h1_title": "Minecraft Verzauberungs-Tool",
-  "paragraph_1": "Die Reihenfolge macht beim Verzaubern von Gegenständen mit dem Amboss einen großen Unterschied in Minecraft. Jedes Mal, wenn man an einem Amboss arbeitet, werden <a href='https://de.minecraft.wiki/w/Schmieden#Allgemeine_Funktionsweise'>Zusatzkosten</a> fällig. Sobald diese Zusatzkosten zu hoch steigen, kann man keine Verzauberungen mehr hinzufügen, und der Amboss sagt: \"Zu Teuer!\". Dieses Tool hilft dir, die optimale Kombination von Verzauberungen herauszufinden, um Kosten zu sparen.",
+  "paragraph_1": "Beim Verzaubern in Minecraft macht die Reihenfolge, in der Gegenstände im Amboss kombiniert werden, einen großen Unterschied. Jedes Mal, wenn man an einem Amboss arbeitet, werden <a href='https://de.minecraft.wiki/w/Schmieden#Allgemeine_Funktionsweise'>Zusatzkosten</a> fällig. Sobald diese Zusatzkosten zu hoch sind, kann man keine weiteren Verzauberungen mehr hinzufügen und der Amboss sagt: \"Zu Teuer!\". Dieses Tool hilft dir, die optimale Kombination von Verzauberungen herauszufinden, um Kosten zu sparen.",
   "paragraph_2": "Dieses Tool geht von keinen anfänglichen \"Zusatzkosten\" aus. Das bedeutet, dass die verzauberten Bücher oder Gegenstände noch nicht im Amboss bearbeitet (z.B. zwei Level-1-Bücher kombiniert, um ein Level-2-Buch zu bekommen) worden sind. Um Ausrüstung mit maximalen Verzauberungen zu erstellen, musst du hochlevelige Bücher benutzen, die du u.a. durch das Handeln mit Dorfbewohnern bekommen kannst.",
   "paragraph_3": "\"Inkompatible Verzauberungen erlauben\" kann für Kombinationen mit Schutzverzauberungen (1.14 bis 1.14.3pre-1) sowie Reparatur/Unendlichkeit (1.9 bis 1.11.1) nützlich sein.",
 
@@ -15,7 +15,7 @@
   "radio_label_optimize_xp": "Niedrigste XP/Level",
   "radio_label_optimize_pwp": "Niedrigste vorherige Zusatzkosten",
 
-  "optimal_solution_cumulative_levels": "Optimales Ergebnis gefunden (für niedrigste Level)!",
+  "optimal_solution_cumulative_levels": "Optimales Ergebnis gefunden (für niedrigstes Level)!",
   "optimal_solution_prior_work": "Optimales Ergebnis gefunden (für niedrigste vorherige Zusatzkosten)!",
 
   "total_cost": "Gesamtkosten: ",
@@ -48,7 +48,7 @@
   "items": {
     "helmet": "Helm",
     "chestplate": "Brustpanzer",
-    "leggings": "Hosen",
+    "leggings": "Hose",
     "boots": "Stiefel",
     "turtle_shell": "Schildkrötenpanzer",
     "elytra": "Elytra",
