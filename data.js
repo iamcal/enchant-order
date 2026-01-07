@@ -117,7 +117,7 @@ var data = {
         lunge: {
             levelMax: "3",
             weight: "1",
-            incompatible: ["mending"],
+            incompatible: [],
             items: ["spear"]
         },
         lure: {
@@ -129,7 +129,7 @@ var data = {
         mending: {
             levelMax: "1",
             weight: "2",
-            incompatible: ["infinity", "lunge"],
+            incompatible: ["infinity"],
             items: ["helmet", "chestplate", "leggings", "boots", "pickaxe", "shovel", "axe", "sword", "hoe", "brush", "fishing_rod",
                 "bow", "shears", "flint_and_steel", "carrot_on_a_stick", "warped_fungus_on_a_stick", "shield", "elytra", "trident",
                 "turtle_shell", "crossbow", "mace", "spear"
