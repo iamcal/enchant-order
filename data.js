@@ -279,15 +279,17 @@ var data = {
         'sword',
         'axe',
         'mace',
+        'spear',
+
         'trident',
+        'bow',
+        'crossbow',
+
         'pickaxe',
         'shovel',
         'hoe',
-        'bow',
         'shield',
-        'crossbow',
         'brush',
-        'spear',
 
         'fishing_rod',
         'shears',
