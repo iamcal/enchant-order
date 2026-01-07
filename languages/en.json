@@ -65,6 +65,7 @@
         "shield":"Shield",
         "crossbow": "Crossbow",
         "brush": "Brush",
+        "spear": "Spear",
 
         "fishing_rod": "Fishing Rod",
         "shears": "Shears",
@@ -95,6 +96,7 @@
         "looting": "Looting",
         "loyalty": "Loyalty",
         "luck_of_the_sea": "Luck of the Sea",
+        "lunge": "Lunge",
         "lure": "Lure",
         "mending": "Mending",
         "multishot": "Multishot",
