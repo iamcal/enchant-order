@@ -65,6 +65,7 @@
         "shield":"Escudo",
         "crossbow": "Besta",
         "brush": "Pincel",
+        "spear": "Lança",
 
         "fishing_rod": "Vara de pesca",
         "shears": "Tesoura",
@@ -96,6 +97,7 @@
         "loyalty": "Lealdade",
         "luck_of_the_sea": "Sorte do Mar",
         "lure": "Isca",
+        "lunge": "Estocada",
         "mending": "Remendo",
         "multishot": "Tiro Múltiplo",
         "piercing": "Perfuração",
