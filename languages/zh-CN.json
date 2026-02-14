@@ -65,6 +65,7 @@
         "shield":"盾牌",
         "crossbow": "弩",
         "brush": "刷子",
+		"spear": "矛",
 
         "fishing_rod": "钓鱼竿",
         "shears": "剪刀",
@@ -95,6 +96,7 @@
         "looting": "掠夺",
         "loyalty": "忠诚",
         "luck_of_the_sea": "海之眷顾",
+		"lunge": "突进",
         "lure": "钓饵",
         "mending": "经验修补",
         "multishot": "多重射击",
