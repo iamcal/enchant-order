@@ -65,6 +65,7 @@
         "shield": "Шчыт",
         "crossbow": "Самастрэл",
         "brush": "Пэндзаль",
+        "spear": "Дзіда",
 
         "fishing_rod": "Вудачка",
         "shears": "Нажніцы",
@@ -95,6 +96,7 @@
         "looting": "Марадзёрства",
         "loyalty": "Вернасць",
         "luck_of_the_sea": "Марская ўдача",
+        "lunge": "Рывок",
         "lure": "Прынада",
         "mending": "Рамонт",
         "multishot": "Залп",
