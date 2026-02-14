@@ -1,5 +1,7 @@
 {
     "h1_title" :"Công cụ tuỳ chỉnh enchant Minecraft",
+    "summary_1": "About Enchantements in Minecraft",
+    "summary_2": "About this tool",
     "paragraph_1" :"Khi enchant các vật phẩm trong Minecraft, thứ tự bạn kết hợp áo giáp, vũ khí và công cụ với sách enchant trong đe của mình sẽ tạo ra sự khác biệt rất lớn. Mỗi lần bạn làm việc trên đe, bạn sẽ tăng <a href='https://minecraft.wiki/w/Anvil_mechanics'>số kinh nghiệm cần thiết</a> cho các enchant tiếp theo trong tương lai. Một khi số kinh nghiệm đó quá cao, bạn chỉ đơn giản là không thể thêm bất kỳ enchant nào nữa và chiếc đe có dòng chữ \"Quá Đắt!\". Công cụ này giúp bạn lên kế hoạch sắp xếp thứ tự kết hợp và áp dụng sách enchant tối ưu, giúp bạn giảm tối thiểu số kinh nghiệm cần dùng.",
     "paragraph_2" : "Công cụ này giả sử thiết bị và sách enchant của bạn bắt đầu bằng 0 \"số kinh nghiệm cần thiết\". Điều đó có nghĩa là trước đây bạn chưa kết hợp các cuốn sách enchant (ví dụ: biến hai cuốn sách cấp 1 thành một cuốn sách cấp 2) hoặc xử lý các vật phẩm hoặc sách enchant trong một cái đe theo bất kỳ cách nào. Để tạo ra trang bị có sức mê hoặc tối đa, bạn không thể kết hợp sách cấp thấp hơn và phải bắt đầu bằng sách cấp cao từ việc trao đổi với dân làng.",
     "paragraph_3": "Cho phép bùa mê không tương thích có thể hữu ích cho việc kết hợp enchant loại bảo vệ (1.14 đến 1.14.3pre-1) và sửa chữa/vô hạn (1.9 đến 1.11.1).",

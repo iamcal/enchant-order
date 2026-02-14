@@ -758,6 +758,11 @@ function changeLanguageByJson(languageJson){
     const h1Element = document.getElementsByTagName('h1')[0];
     h1Element.textContent = languageJson.h1_title;
 
+    /* summaries */
+    const summaries = document.getElementsByTagName('summary');
+    summaries[0].innerHTML = languageJson.summary_1;
+    summaries[1].innerHTML = languageJson.summary_2;
+
     /* paragraphs */
     const paragraphs = document.getElementsByTagName('p');
     paragraphs[1].innerHTML = languageJson.paragraph_1;
