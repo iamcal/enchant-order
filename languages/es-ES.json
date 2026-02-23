@@ -1,5 +1,7 @@
 {
     "h1_title" :"Herramienta para ordenar encantamientos de Minecraft",
+    "summary_1": "Acerca de los Encantamientos en Minecraft",
+    "summary_2": "Acerca de esta herramienta",
     "paragraph_1" :"Cuando encantas items en Minecraft, el orden en el que combinas armaduras, armas, y herramientas con libros en un yunque puede marcar la diferencia. Cada vez que usas un yunque, aumentas la <a href='https://minecraft.wiki/w/Anvil_mechanics'>penalización de trabajo</a> para futuros usos. Una vez que la penalización es demasiado alta, el yunque no permitirá añadir más encantamientos y mostrará el mensaje \"¡Demasiado caro!\". Esta herramienta te ayudará a elegir el orden óptimo para aplicar y combinar libros. Así podrás conseguir el costo más barato posible.",
     "paragraph_2" : "Esta herramienta asume que tu equipo y libros empiezan con cero de \"penalización de trabajo\". Esto significa que anteriormente no has combinado dos libros (p.ej. convertir dos libros de nivel 1 en un libro de nivel 2), manipulando items o libros de cualquier manera en un yunque. Para crear equipamiento con el máximo nivel posible, no puedes combinar libros de nivel bajo, debes empezar con libros de nivel alto obtenidos a través de comerciar con aldeanos.",
     "paragraph_3": "Permitir encantamientos incompatibles puede ser útil para combinar encantamientos de tipo protección (1.14 a 1.14.3pre-1) y reparación/infinidad (1.9 a 1.11.1).",

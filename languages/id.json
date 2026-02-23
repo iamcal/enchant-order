@@ -1,5 +1,7 @@
 {
     "h1_title" :"Kalkulator Urutan Enchantment Minecraft",
+    "summary_1": "About Enchantements in Minecraft",
+    "summary_2": "About this tool",
     "paragraph_1" :"Ketika meng-enchant item di Minecraft, urutan penggabungan armor, senjata, dan peralatan dengan buku di Anvil-mu membuat perbedaan yang besar. Setiap kali kamu mengerjakan sesuatu di Anvil, kamu menaikan <a href='https://minecraft.wiki/w/Anvil_mechanics'>denda pekerjaan</a> untuk tugas berikutnya di Anvil tersebut. Kalau denda pekerjaan tersebut terlalu tinggi, kamu nggak bakal bisa meng-enchant lagi dan bakalan ada tulisan \"Terlalu Mahal!\" (atau \"Too Expensive!\"). Alat ini akan membantumu untuk merencanakan urutan enchant yang optimal dan paling murah.",
     "paragraph_2" : "Alat ini mengasumsikan bahwa tools dan enchantments mu mulai dengan denda pekerjaan nol. Itu berarti kamu belum pernah menggabungkan beberapa buku (misalnya untuk mengubah dua enchantments level 1 menjadi satu enchantment level 2) atau mengerjakan items/enchantments di Anvil dalam cara apapun. Untuk menciptakan peralatan dengan level maksimal dan semurah mungkin, kamu nggak bisa menggabungkan enchantments level rendah dan harus mulai dengan enchantments level tinggi yang diperoleh dengan bertukar dengan Villager (Orang Desa).",
     "paragraph_3": "Mengizinkan enchantments yang tidak kompatibel mungkin berguna untuk menggabungkan enchantments jenis perlindungan (1.14 sampai 1.14.3pre-1) dan mending/infinity (1.9 sampai 1.11.1).",
