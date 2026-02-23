@@ -1,7 +1,5 @@
 {
     "h1_title" :"Minecraft Bűvölés-Tervező Eszköz",
-    "summary_1": "About Enchantements in Minecraft",
-    "summary_2": "About this tool",
     "paragraph_1" :"A Minecraftban a tárgyak bűvölésekor nagy különbséget jelent, hogy milyen sorrendben kombinálod a páncélokat, fegyvereket és szerszámokat a könyvekkel az üllőn. Minden alkalommal, amikor az üllőn dolgozol, növeled a <a href=»https://minecraft.wiki/w/Anvil_mechanics«>munkaköltséget</a> a jövőbeli munkákhoz. Ha ez a költség túl magas lesz, egyszerűen nem tudsz több varázslatot hozzáadni, és az üllő azt írja ki, hogy \"Túl drága!\". Ez az eszköz segít megtervezni a könyvek kombinálásának és alkalmazásának optimális sorrendjét, hogy a lehető legolcsóbb árból kijöjj.",
     "paragraph_2" : "Ez az eszköz feltételezi, hogy a felszerelésed és a könyveid nem rendelkeznek \"megnövekedett munkaköltséggel\". Ez azt jelenti, hogy korábban nem kombináltad a könyveket (pl. hogy két 1. szintű könyvet egyetlen 2. szintű könyvvé alakíts), és semmilyen módon nem módosítottad a tárgyakat vagy könyveket egy üllőn. A lehető legjobb varázslatokkal rendelkező felszerelés létrehozásához nem kombinálhatsz alacsonyabb szintű könyveket, hanem a falusiakkal való kereskedésből származó magas szintű könyvekkel kell kezdened.",
     "paragraph_3": "Az összeférhetetlen varázslatok engedélyezése hasznos lehet a Védelem típusú varázslatok (1.14 to 1.14.3pre-1) és az Önjavítás/Végtelen (1.9 to 1.11.1) kombinálásához.",

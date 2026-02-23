@@ -1,7 +1,5 @@
 {
   "h1_title": "Narzędzie do określania kolejności zaklinania Minecraft",
-  "summary_1": "About Enchantements in Minecraft",
-  "summary_2": "About this tool",
   "paragraph_1": "Podczas zaklinania przedmiotów w Minecraft kolejność, w jakiej łączysz zbroję, broń i narzędzia z książkami w kowadle, ma ogromne znaczenie. Za każdym razem, gdy pracujesz nad kowadłem, zwiększasz <a href='https://minecraft.wiki/w/Anvil_mechanics'>karę pracy</a> dla przyszłych prac. Gdy kara ta stanie się zbyt wysoka, po prostu nie można dodawać więcej zaklęć, a kowadło mówi \"Zbyt drogie!\". To narzędzie pomaga zaplanować optymalną kolejność łączenia i stosowania zaklętych książek, aby uzyskać możliwie najniższy koszt.",
   "paragraph_2": "Narzędzie to zakłada, że ekwipunek i książki mają zerową \"karę roboczą\". Oznacza to, że książki nie były wcześniej łączone (np. w celu przekształcenia dwóch książek 1 poziomu w jedną książkę 2 poziomu) ani nie obrabiano przedmiotów lub książek w kowadle w żaden sposób. Aby stworzyć przedmiot z maksymalnym możliwym zaklęciem, nie można łączyć książek niższego poziomu i należy zacząć od książek wysokiego poziomu z handlu wieśniakami.",
   "paragraph_3": "Zezwolenie na niekompatybilne zaklęcia może być przydatne do łączenia zaklęć typu ochronnego (od 1.14 do 1.14.3pre-1) i naprawy/nieskończoności (od 1.9 do 1.11.1).",

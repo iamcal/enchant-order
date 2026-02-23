@@ -1,7 +1,5 @@
 {
     "h1_title" :"Minecraft Büyü Sıralama Aracı",
-    "summary_1": "About Enchantements in Minecraft",
-    "summary_2": "About this tool",
     "paragraph_1" :"Minecraftta eşyaları büyülerken, zırh, silah ve aletleri örsünde kitaplarla birleştrime sıranız büyük bir fark yaratıyor. Bir örste işlem yaptığınız her seferde, gelcekteki işlemler için <a href='https://minecraft.wiki/w/Anvil_mechanics'>iş cezasını</a> arttırıyorsunuz. Bu ceza yeteri kadar arttığında, basitçe daha fazla büyü ekleyemezsiniz ve örs size \"Çok Pahalı!\" der. Bu araç, size en ucuz maliyeti sağlamak için kitapları birleştirmenin ve uygulamanın en uygun sırasını planlamanıza yardımcı olur.",
     "paragraph_2" : "Bu araç kitap ve ekipmanlarınızın sıfır \"iş cezası\" ile başladığını varsayar. Bu kitapları daha önce birleştirmediğiniz (Örneğin, iki birinci seviye kitabı bir ikinci seviye kitaba çevirmek) ya da eşyaları ve kitapları örste herhangi bir şekilde işlemediğiniz anlamına gelir. En fazla büyülü ekipmanı yapmak için, düşük seviye kitapları birleştiremezsiniz ve köylü takası ile yüksek seviye kitaplar ile başlamanız gerekir.",
     "paragraph_3": "Uyuşmayan büyülere izin vermek, koruma tipindeki büyüleri ve (1.14'ten 1.14.3pre-1'e kadar) ve tamir/sonsuzluk (1.9'dan 1.11.1'e kadar) büyülerini birleştirmek için yararlı olabilir.",
