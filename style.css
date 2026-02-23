@@ -18,6 +18,21 @@ body {
 #theme-switcher-form div:nth-child(4) label {
   background-color: #813151;
 }
+#theme-switcher-form div:nth-child(5) label {
+  background-color: #795548;
+}
+#theme-switcher-form div:nth-child(6) label {
+  background-color: #673ab7;
+}
+#theme-switcher-form div:nth-child(7) label {
+  background-color: #5ab1a8;
+}
+#theme-switcher-form div:nth-child(8) label {
+  background-color: #ff6b6b;
+}
+#theme-switcher-form div:nth-child(9) label {
+  background-color: #fff9e6;
+}
 /* Remember these for every theme ;) */
 
 html[data-theme="light"] {
@@ -98,6 +113,106 @@ html[data-theme="wither"] {
   --error: #f90601;
   --phone-warn: #e7cc03;
   --solution: var(--enchantment-results);
+}
+
+html[data-theme="dirt"] {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --fg-primary: #f0f0f0;
+  --fg-secondary: #c8c8c8;
+  --link-primary: #8d6e63;
+  --link-hover: #6d4c41;
+  --table-text: #f0f0f0;
+  --table-group1: #4a3a3a;
+  --table-group2: #3a2d2d;
+  --echlevel-color: var(--table-text);
+  --echlevel-bg: var(--table-group1);
+  --echlevel-shadow: var(--table-group2);
+  --enchantment-results: #795548;
+  --progress-color: #607d8b;
+  --error: #d32f2f;
+  --phone-warn: #ffa000;
+  --solution: var(--enchantment-results);
+}
+
+html[data-theme="enderman"] {
+  --bg-primary: #0f0a1a;
+  --bg-secondary: #1a142a;
+  --fg-primary: #e0d8f0;
+  --fg-secondary: #b8b0d8;
+  --link-primary: #9c27b0;
+  --link-hover: #7b1fa2;
+  --table-text: #e0d8f0;
+  --table-group1: #3a2d4a;
+  --table-group2: #2a1d3a;
+  --echlevel-color: var(--table-text);
+  --echlevel-bg: var(--table-group1);
+  --echlevel-shadow: var(--table-group2);
+  --enchantment-results: #673ab7;
+  --progress-color: #3f51b5;
+  --error: #e91e63;
+  --phone-warn: #ffc107;
+  --solution: var(--enchantment-results);
+}
+
+html[data-theme="prismarine"] {
+  --bg-primary: #0a192f;
+  --bg-secondary: #112240;
+  --fg-primary: #e6f1ff;
+  --fg-secondary: #a8b2d1;
+  --link-primary: #00a8e8;
+  --link-hover: #0683b4;
+  --table-text: #e6f1ff;
+  --table-group1: #1b3a5e;
+  --table-group2: #132d4a;
+  --echlevel-color: var(--table-text);
+  --echlevel-bg: var(--table-group1);
+  --echlevel-shadow: var(--table-group2);
+  --enchantment-results: #5ab1a8;
+  --progress-color: #f8961e;
+  --error: #e63946;
+  --phone-warn: #ffd166;
+  --solution: var(--enchantment-results);
+}
+
+html[data-theme="bronze"] {
+  --bg-primary: #2b1a1a;
+  --bg-secondary: #4a2d2d;
+  --fg-primary: #fff0e6;
+  --fg-secondary: #e6c8b0;
+  --link-primary: #ff7e5f;
+  --link-hover: #e66a4d;
+  --table-text: #fff0e6;
+  --table-group1: #6a3d3d;
+  --table-group2: #5a3030;
+  --echlevel-color: var(--table-text);
+  --echlevel-bg: var(--table-group1);
+  --echlevel-shadow: var(--table-group2);
+  --enchantment-results: #e25c5c;
+  --progress-color: #f8961e;
+  --error: #e74c3c;
+  --phone-warn: #f39c12;
+  --solution: var(--enchantment-results);
+}
+
+html[data-theme="sand"] {
+  --bg-primary: #fffcf3;
+  --bg-secondary: #f8f1e4;
+  --fg-primary: #3a2d2a;
+  --fg-secondary: #6b5a56;
+  --link-primary: #3597e7;
+  --link-hover: #226ba7;
+  --table-text: #3a2d2a;
+  --table-group1: #e1ebf3;
+  --table-group2: #d2dee7;
+  --echlevel-color: #ac9531;
+  --echlevel-bg: white;
+  --echlevel-shadow: #d9b3b3;
+  --enchantment-results: #e4faff;
+  --progress-color: #fff3cd;
+  --error: #f8d7da;
+  --phone-warn: #fff9db;
+  --solution: #cff4fc;
 }
 
 /* TODO: fix enchantment results variable name, misnomer */
@@ -336,7 +451,7 @@ summary {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 120px; /* Adjust the width as needed */
+  width: min-content; /* Adjust the width as needed */
   margin: auto; /* Center form */
 }
 
@@ -344,6 +459,7 @@ summary {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 0.2rem;
 }
 
 #theme-switcher-form input[type="radio"] {
