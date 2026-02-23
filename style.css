@@ -144,6 +144,23 @@ a:hover {
   color: var(--link-hover);
 }
 
+a[target="_blank"]::after {
+  content: " ↗";
+}
+
+summary {
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-decoration: underline dotted;
+  margin: 0.5rem 0;
+  color: var(--link-hover);
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer; 
+  }
+}
+
 #enchants {
     width: 400px;
 }
