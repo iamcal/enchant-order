@@ -719,12 +719,34 @@ async function changePageLanguage(language){
     }
 
     languageId = language;
-    languageJson = await loadJsonLanguage(language).then(languageData => { return languageData});
+    if (language == 'en'){
+      languageJson = await loadJsonLanguage(language).then(languageData => { return languageData});
+    }else{
+      var languageJsonEn = await loadJsonLanguage('en').then(languageData => { return languageData});
+      languageJson = await loadJsonLanguage(language).then(languageData => { return languageData});
+      languageJson = mergeKeys(languageJson, languageJsonEn);
+    }
     if (languageJson){
         changeLanguageByJson(languageJson);
         localStorage.setItem("savedlanguage", language);
         // ^ Save language choice to localstorage
     }
+}
+
+function mergeKeys(a, b){
+  var o = {};
+  for (var i in b){
+    if (typeof b[i] === 'object'){
+      o[i] = mergeKeys(a.hasOwnProperty(i) ? a[i] : {}, b[i]);
+    }else{
+      if (a.hasOwnProperty(i)){
+        o[i] = a[i]
+      }else{
+        o[i] = b[i];
+      }
+    }
+  }
+  return o;
 }
 
 function loadJsonLanguage(language) {
