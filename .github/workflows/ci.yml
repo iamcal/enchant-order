@@ -2,6 +2,8 @@ name: CI
 
 on:
   push:
+    branches-ignore:
+      - gh-pages
   pull_request:
 
 env:
@@ -48,22 +50,20 @@ jobs:
 
       - name: Coverage Summary
         run: |
-          if [ -f coverage/coverage-summary.json ]; then
-            echo "## Test Coverage Report" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "| Metric | Coverage |" >> $GITHUB_STEP_SUMMARY
-            echo "|--------|----------|" >> $GITHUB_STEP_SUMMARY
-            STATEMENTS=$(jq -r '.total.statements.pct // "N/A"' coverage/coverage-summary.json)
-            BRANCHES=$(jq -r '.total.branches.pct // "N/A"' coverage/coverage-summary.json)
-            FUNCTIONS=$(jq -r '.total.functions.pct // "N/A"' coverage/coverage-summary.json)
-            LINES=$(jq -r '.total.lines.pct // "N/A"' coverage/coverage-summary.json)
-            echo "| Statements | ${STATEMENTS}% |" >> $GITHUB_STEP_SUMMARY
-            echo "| Branches | ${BRANCHES}% |" >> $GITHUB_STEP_SUMMARY
-            echo "| Functions | ${FUNCTIONS}% |" >> $GITHUB_STEP_SUMMARY
-            echo "| Lines | ${LINES}% |" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "Full report available as artifact: coverage-report" >> $GITHUB_STEP_SUMMARY
-          fi
+          echo "## Test Coverage Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Coverage |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|----------|" >> $GITHUB_STEP_SUMMARY
+          STATEMENTS=$(jq '.total.statements.pct' coverage/coverage-summary.json)
+          BRANCHES=$(jq '.total.branches.pct' coverage/coverage-summary.json)
+          FUNCTIONS=$(jq '.total.functions.pct' coverage/coverage-summary.json)
+          LINES=$(jq '.total.lines.pct' coverage/coverage-summary.json)
+          echo "| Statements | ${STATEMENTS}% |" >> $GITHUB_STEP_SUMMARY
+          echo "| Branches | ${BRANCHES}% |" >> $GITHUB_STEP_SUMMARY
+          echo "| Functions | ${FUNCTIONS}% |" >> $GITHUB_STEP_SUMMARY
+          echo "| Lines | ${LINES}% |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Full report available as artifact: coverage-report" >> $GITHUB_STEP_SUMMARY
 
   build:
     name: Build
