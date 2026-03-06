@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "preview": "vite preview",
-    "deploy": "tsc -b && cross-env BASE=/enchant-order/ vite build && gh-pages -d dist",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "sync:upstream": "node scripts/sync-upstream-langs.mjs"
   },
   "dependencies": {
