@@ -1,24 +1,17 @@
 {
-    "h1_title" :"Công cụ tuỳ chỉnh enchant Minecraft",
-    "paragraph_1" :"Khi enchant các vật phẩm trong Minecraft, thứ tự bạn kết hợp áo giáp, vũ khí và công cụ với sách enchant trong đe của mình sẽ tạo ra sự khác biệt rất lớn. Mỗi lần bạn làm việc trên đe, bạn sẽ tăng <a href='https://minecraft.wiki/w/Anvil_mechanics'>số kinh nghiệm cần thiết</a> cho các enchant tiếp theo trong tương lai. Một khi số kinh nghiệm đó quá cao, bạn chỉ đơn giản là không thể thêm bất kỳ enchant nào nữa và chiếc đe có dòng chữ \"Quá Đắt!\". Công cụ này giúp bạn lên kế hoạch sắp xếp thứ tự kết hợp và áp dụng sách enchant tối ưu, giúp bạn giảm tối thiểu số kinh nghiệm cần dùng.",
-    "paragraph_2" : "Công cụ này giả sử thiết bị và sách enchant của bạn bắt đầu bằng 0 \"số kinh nghiệm cần thiết\". Điều đó có nghĩa là trước đây bạn chưa kết hợp các cuốn sách enchant (ví dụ: biến hai cuốn sách cấp 1 thành một cuốn sách cấp 2) hoặc xử lý các vật phẩm hoặc sách enchant trong một cái đe theo bất kỳ cách nào. Để tạo ra trang bị có sức mê hoặc tối đa, bạn không thể kết hợp sách cấp thấp hơn và phải bắt đầu bằng sách cấp cao từ việc trao đổi với dân làng.",
+    "h1_title": "Công cụ tuỳ chỉnh enchant Minecraft",
+    "paragraph_1": "Khi enchant các vật phẩm trong Minecraft, thứ tự bạn kết hợp áo giáp, vũ khí và công cụ với sách enchant trong đe của mình sẽ tạo ra sự khác biệt rất lớn. Mỗi lần bạn làm việc trên đe, bạn sẽ tăng <a href='https://minecraft.wiki/w/Anvil_mechanics'>số kinh nghiệm cần thiết</a> cho các enchant tiếp theo trong tương lai. Một khi số kinh nghiệm đó quá cao, bạn chỉ đơn giản là không thể thêm bất kỳ enchant nào nữa và chiếc đe có dòng chữ \"Quá Đắt!\". Công cụ này giúp bạn lên kế hoạch sắp xếp thứ tự kết hợp và áp dụng sách enchant tối ưu, giúp bạn giảm tối thiểu số kinh nghiệm cần dùng.",
+    "paragraph_2": "Công cụ này giả sử thiết bị và sách enchant của bạn bắt đầu bằng 0 \"số kinh nghiệm cần thiết\". Điều đó có nghĩa là trước đây bạn chưa kết hợp các cuốn sách enchant (ví dụ: biến hai cuốn sách cấp 1 thành một cuốn sách cấp 2) hoặc xử lý các vật phẩm hoặc sách enchant trong một cái đe theo bất kỳ cách nào. Để tạo ra trang bị có sức mê hoặc tối đa, bạn không thể kết hợp sách cấp thấp hơn và phải bắt đầu bằng sách cấp cao từ việc trao đổi với dân làng.",
     "paragraph_3": "Cho phép bùa mê không tương thích có thể hữu ích cho việc kết hợp enchant loại bảo vệ (1.14 đến 1.14.3pre-1) và sửa chữa/vô hạn (1.9 đến 1.11.1).",
-
     "choose_an_item_to_enchant": "Chọn một vật phẩm để enchant",
-
     "checkbox_label_incompatible": "Cho phép enchant không tương thích",
     "checkbox_label_max_number": "Cho phép hơn 10 enchant",
-
     "calculate": "Tính toán",
     "optimize_for": "Tối ưu hóa cho: ",
-
     "radio_label_optimize_xp": "Ít XP/Kinh nghiệm nhất",
     "radio_label_optimize_pwp": "Số kinh nghiệm cho enchant trước đó ít nhất",
-
-
     "optimal_solution_cumulative_levels": "Đã tìm thấy giải pháp tối ưu (theo mức kinh nghiệm thấp nhất)!",
     "optimal_solution_prior_work": "Đã tìm thấy giải pháp tối ưu (theo số kinh nghiệm cho enchant trước đó thấp nhất)!",
-
     "total_cost": "Tổng chi phí: ",
     "completed_in": "Đã hoàn thành trong ",
     "microseconds": " micro giây",
@@ -33,9 +26,9 @@
     "combine": " Kết hợp",
     "with": "với",
     "cost": "Chi phí: ",
-    "prior_work_penalty":"Kinh nghiệm cần thiết trước đây: ",
+    "prior_work_penalty": "Kinh nghiệm cần thiết trước đây: ",
     "no_solution_found": "Không tìm thấy giải pháp nào!",
-    "button_enchant" : "Enchant",
+    "button_enchant": "Enchant",
     "button_level": "Level",
     "too_many_enchantments": "Quá nhiều enchant!",
     "more_than": " Nhiều hơn ",
@@ -45,15 +38,13 @@
     "note": "Lưu ý: Hai giá trị XP được hiển thị là sự khác biệt giữa việc tích lũy cho tất cả các kinh nghiệm/XP cùng một lúc so với việc kiếm được kinh nghiệm/XP giữa mỗi bước nâng cấp.",
     "light_mode": "Light Mode",
     "dark_mode": "Dark Mode",
-
-    "items":{
+    "items": {
         "helmet": "Nón",
         "chestplate": "Giáp",
         "leggings": "Quần",
-        "boots":"Giày",
+        "boots": "Giày",
         "turtle_shell": "Nón rùa",
-        "elytra" : "Cánh cứng",
-
+        "elytra": "Cánh cứng",
         "sword": "Kiếm",
         "axe": "Rìu",
         "mace": "(Mace)",
@@ -62,19 +53,17 @@
         "shovel": "Xẻng",
         "hoe": "Cuốc",
         "bow": "Cung",
-        "shield":"Khiêng",
+        "shield": "Khiêng",
         "crossbow": "Nỏ",
         "brush": "Bàn chải",
-
         "fishing_rod": "Cần câu",
         "shears": "Kéo",
-        "flint_and_steel" : "Đá lửa",
+        "flint_and_steel": "Đá lửa",
         "carrot_on_a_stick": "Cần câu cà rốt",
         "warped_fungus_on_a_stick": "Cần câu nấm",
         "pumpkin": "Bí ngô",
         "book": "Sách"
     },
-
     "enchants": {
         "protection": "Bảo vệ",
         "aqua_affinity": "Đào nhanh dưới nước",

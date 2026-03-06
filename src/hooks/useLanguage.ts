@@ -1,8 +1,23 @@
-import { useState, useEffect, useCallback } from 'react';
-import type { LangStrings } from '../types/enchant';
-import { LANGUAGES } from '../constants';
+import {useState, useEffect, useCallback} from 'react';
+import type {LangStrings} from '../types/enchant';
+import {LANGUAGES} from '../constants';
 
 const LANG_STORAGE_KEY = 'enchant-order-lang';
+
+function mergeKeys(target: Record<string, unknown>, fallback: Record<string, unknown>): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
+  for (const key in fallback) {
+    if (typeof fallback[key] === 'object' && fallback[key] !== null && !Array.isArray(fallback[key])) {
+      result[key] = mergeKeys(
+        (Object.prototype.hasOwnProperty.call(target, key) ? target[key] : {}) as Record<string, unknown>,
+        fallback[key] as Record<string, unknown>,
+      );
+    } else {
+      result[key] = Object.prototype.hasOwnProperty.call(target, key) ? target[key] : fallback[key];
+    }
+  }
+  return result;
+}
 
 export function useLanguage() {
   const [langId, setLangIdState] = useState<string>(() => {
@@ -20,18 +35,29 @@ export function useLanguage() {
 
   useEffect(() => {
     const base = import.meta.env.BASE_URL;
-    const url = `${base}languages/${langId}.json`;
-    fetch(url)
-      .then((r) => {
-        if (!r.ok) throw new Error(`Failed to load ${url}`);
+
+    const loadJson = (lang: string) =>
+      fetch(`${base}languages/${lang}.json`).then((r) => {
+        if (!r.ok) throw new Error(`Failed to load ${lang}.json`);
         return r.json();
-      })
-      .then((data) => {
-        setError(null);
-        setStrings(data);
-      })
-      .catch((e) => setError(e.message));
+      });
+
+    if (langId === 'en') {
+      loadJson('en')
+        .then((data) => {
+          setError(null);
+          setStrings(data);
+        })
+        .catch((e) => setError(e.message));
+    } else {
+      Promise.all([loadJson(langId), loadJson('en')])
+        .then(([langData, enData]) => {
+          setError(null);
+          setStrings(mergeKeys(langData, enData) as unknown as LangStrings);
+        })
+        .catch((e) => setError(e.message));
+    }
   }, [langId]);
 
-  return { langId, setLangId, strings, error, languages: LANGUAGES };
+  return {langId, setLangId, strings, error, languages: LANGUAGES};
 }

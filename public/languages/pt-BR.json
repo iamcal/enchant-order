@@ -1,24 +1,17 @@
 {
-    "h1_title" :"Ferramenta de Ordenação de Encantamentos do Minecraft",
-    "paragraph_1" :"Quando encantando itens no Minecraft, a ordem em que você combina armaduras, armas e ferramentas com livros na sua bigorna faz uma enorme diferença. Cada vez que você trabalha em uma bigorna, você aumenta a <a href='https://minecraft.wiki/w/Anvil_mechanics'>penalidade de trabalho</a> para trabalhos futuros. Uma vez que essa penalidade se torna muito alta, você simplesmente não pode adicionar mais encantamentos e a bigorna diz \"Muito Caro!\". Esta ferramenta ajuda você a planejar a ordem ótima de combinação e aplicação de livros, para lhe proporcionar o custo mais barato possível.",
-    "paragraph_2" : "Esta ferramenta assume que seus equipamentos e livros começam com uma 'penalidade de trabalho' de zero. Isso significa que você não combinou previamente os livros (por exemplo, para transformar dois livros de nível 1 em um único livro de nível 2) ou trabalhou os itens ou livros em uma bigorna de forma alguma. Para criar equipamentos com o máximo possível de encantamento, você não pode combinar livros de níveis mais baixos e deve começar com livros de nível mais alto obtidos por meio de negociações com aldeões.",
+    "h1_title": "Ferramenta de Ordenação de Encantamentos do Minecraft",
+    "paragraph_1": "Quando encantando itens no Minecraft, a ordem em que você combina armaduras, armas e ferramentas com livros na sua bigorna faz uma enorme diferença. Cada vez que você trabalha em uma bigorna, você aumenta a <a href='https://minecraft.wiki/w/Anvil_mechanics'>penalidade de trabalho</a> para trabalhos futuros. Uma vez que essa penalidade se torna muito alta, você simplesmente não pode adicionar mais encantamentos e a bigorna diz \"Muito Caro!\". Esta ferramenta ajuda você a planejar a ordem ótima de combinação e aplicação de livros, para lhe proporcionar o custo mais barato possível.",
+    "paragraph_2": "Esta ferramenta assume que seus equipamentos e livros começam com uma 'penalidade de trabalho' de zero. Isso significa que você não combinou previamente os livros (por exemplo, para transformar dois livros de nível 1 em um único livro de nível 2) ou trabalhou os itens ou livros em uma bigorna de forma alguma. Para criar equipamentos com o máximo possível de encantamento, você não pode combinar livros de níveis mais baixos e deve começar com livros de nível mais alto obtidos por meio de negociações com aldeões.",
     "paragraph_3": "Permitir encantamentos incompatíveis pode ser útil para combinar encantamentos do tipo proteção (1.14 a 1.14.3pre-1) e remendo/infinidade (1.9 a 1.11.1).",
-
     "choose_an_item_to_enchant": "Escolha um item para encantar",
-
     "checkbox_label_incompatible": "Permitir encantamentos incompatíveis",
     "checkbox_label_max_number": "Permitir mais de 10 encantamentos",
-
     "calculate": "Calcular",
     "optimize_for": "Otimizar para: ",
-
     "radio_label_optimize_xp": "Menos XP/Níveis",
     "radio_label_optimize_pwp": "Penalidades de trabalho anterior",
-
-
     "optimal_solution_cumulative_levels": "Melhor solução encontrada (pelo menor nível cumulativo)!",
     "optimal_solution_prior_work": "Solução ótima encontrada (com menor trabalho prévio)!",
-
     "total_cost": "Custo total: ",
     "completed_in": "Completado em ",
     "microseconds": " microssegundos",
@@ -33,9 +26,9 @@
     "combine": " Combinar",
     "with": "com",
     "cost": "Custo: ",
-    "prior_work_penalty":"Penalidades de trabalho anterior: ",
+    "prior_work_penalty": "Penalidades de trabalho anterior: ",
     "no_solution_found": "Nenhuma solução encontrada!",
-    "button_enchant" : "Encantar",
+    "button_enchant": "Encantar",
     "button_level": "Nível",
     "too_many_enchantments": "Muitos encantamentos!",
     "more_than": " Mais de ",
@@ -45,15 +38,13 @@
     "note": "Nota: Os dois valores de XP mostrados são a diferença entre economizar para todos os níveis/XP de uma só vez, em comparação com ganhar níveis/XP entre cada etapa de encantamento.",
     "light_mode": "Modo Claro",
     "dark_mode": "Modo Escuro",
-
-    "items":{
+    "items": {
         "helmet": "Capacete",
         "chestplate": "Peitoral",
         "leggings": "Calças",
-        "boots":"Botas",
+        "boots": "Botas",
         "turtle_shell": "Casco de tartaruga",
-        "elytra" : "Élitros",
-
+        "elytra": "Élitros",
         "sword": "Espada",
         "axe": "Machado",
         "mace": "Clava",
@@ -62,20 +53,18 @@
         "shovel": "Pá",
         "hoe": "Enxada",
         "bow": "Arco",
-        "shield":"Escudo",
+        "shield": "Escudo",
         "crossbow": "Besta",
         "brush": "Pincel",
         "spear": "Lança",
-
         "fishing_rod": "Vara de pesca",
         "shears": "Tesoura",
-        "flint_and_steel" : "Isqueiro",
+        "flint_and_steel": "Isqueiro",
         "carrot_on_a_stick": "Vara com cenoura",
         "warped_fungus_on_a_stick": "Vara com fungo distorcido",
         "pumpkin": "Abóbora",
         "book": "Livro"
     },
-
     "enchants": {
         "protection": "Proteção",
         "aqua_affinity": "Afinidade Áquatica",
@@ -122,4 +111,3 @@
         "wind_burst": "Rajada de vento"
     }
 }
-

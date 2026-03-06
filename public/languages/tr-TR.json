@@ -1,24 +1,17 @@
 {
-    "h1_title" :"Minecraft Büyü Sıralama Aracı",
-    "paragraph_1" :"Minecraftta eşyaları büyülerken, zırh, silah ve aletleri örsünde kitaplarla birleştrime sıranız büyük bir fark yaratıyor. Bir örste işlem yaptığınız her seferde, gelcekteki işlemler için <a href='https://minecraft.wiki/w/Anvil_mechanics'>iş cezasını</a> arttırıyorsunuz. Bu ceza yeteri kadar arttığında, basitçe daha fazla büyü ekleyemezsiniz ve örs size \"Çok Pahalı!\" der. Bu araç, size en ucuz maliyeti sağlamak için kitapları birleştirmenin ve uygulamanın en uygun sırasını planlamanıza yardımcı olur.",
-    "paragraph_2" : "Bu araç kitap ve ekipmanlarınızın sıfır \"iş cezası\" ile başladığını varsayar. Bu kitapları daha önce birleştirmediğiniz (Örneğin, iki birinci seviye kitabı bir ikinci seviye kitaba çevirmek) ya da eşyaları ve kitapları örste herhangi bir şekilde işlemediğiniz anlamına gelir. En fazla büyülü ekipmanı yapmak için, düşük seviye kitapları birleştiremezsiniz ve köylü takası ile yüksek seviye kitaplar ile başlamanız gerekir.",
+    "h1_title": "Minecraft Büyü Sıralama Aracı",
+    "paragraph_1": "Minecraftta eşyaları büyülerken, zırh, silah ve aletleri örsünde kitaplarla birleştrime sıranız büyük bir fark yaratıyor. Bir örste işlem yaptığınız her seferde, gelcekteki işlemler için <a href='https://minecraft.wiki/w/Anvil_mechanics'>iş cezasını</a> arttırıyorsunuz. Bu ceza yeteri kadar arttığında, basitçe daha fazla büyü ekleyemezsiniz ve örs size \"Çok Pahalı!\" der. Bu araç, size en ucuz maliyeti sağlamak için kitapları birleştirmenin ve uygulamanın en uygun sırasını planlamanıza yardımcı olur.",
+    "paragraph_2": "Bu araç kitap ve ekipmanlarınızın sıfır \"iş cezası\" ile başladığını varsayar. Bu kitapları daha önce birleştirmediğiniz (Örneğin, iki birinci seviye kitabı bir ikinci seviye kitaba çevirmek) ya da eşyaları ve kitapları örste herhangi bir şekilde işlemediğiniz anlamına gelir. En fazla büyülü ekipmanı yapmak için, düşük seviye kitapları birleştiremezsiniz ve köylü takası ile yüksek seviye kitaplar ile başlamanız gerekir.",
     "paragraph_3": "Uyuşmayan büyülere izin vermek, koruma tipindeki büyüleri ve (1.14'ten 1.14.3pre-1'e kadar) ve tamir/sonsuzluk (1.9'dan 1.11.1'e kadar) büyülerini birleştirmek için yararlı olabilir.",
-
     "choose_an_item_to_enchant": "Büyülemek için bir eşya seç",
-
     "checkbox_label_incompatible": "Uyuşmayan büyülere izin ver",
     "checkbox_label_max_number": "10'dan fazla büyüye izin ver",
-
     "calculate": "Hesapla",
     "optimize_for": "... için optimize et.",
-
     "radio_label_optimize_xp": "En az TP/Seviye",
     "radio_label_optimize_pwp": "En az geçmiş iş cezası",
-
-
     "optimal_solution_cumulative_levels": "En uygun sonuç bulundu (en az toplam seviyelere göre)!",
     "optimal_solution_prior_work": "En uygun sonuç bulundu (en az geçmiş iş cezasına göre)!",
-
     "total_cost": "Toplam maliyet: ",
     "completed_in": "... içinde tamamlandı ",
     "microseconds": " mikrosaniye",
@@ -33,9 +26,9 @@
     "combine": " Birleştir",
     "with": "ile",
     "cost": "Maliyet: ",
-    "prior_work_penalty":"Geçmiş iş cezası: ",
+    "prior_work_penalty": "Geçmiş iş cezası: ",
     "no_solution_found": "Hiç çözüm bulunamadı!",
-    "button_enchant" : "Büyü",
+    "button_enchant": "Büyü",
     "button_level": "Seviye",
     "too_many_enchantments": "Çok fazla büyü!",
     "more_than": " den fazla ",
@@ -45,15 +38,13 @@
     "note": "Not: Gösterilen iki TP değeri tüm seviye/TP'yi aynı anda toplamak ile her büyüleme adımı için gereken seviye/TP'yi toplamak arasındaki fark.",
     "light_mode": "Aydınlık Mod",
     "dark_mode": "Karanlık Mod",
-
-    "items":{
+    "items": {
         "helmet": "Kask",
         "chestplate": "Göğüslük",
         "leggings": "Pantolon",
-        "boots":"Bot",
+        "boots": "Bot",
         "turtle_shell": "Kaplumbağa Kabuğu",
-        "elytra" : "Elitra",
-
+        "elytra": "Elitra",
         "sword": "Kılıç",
         "axe": "Balta",
         "mace": "Gürz",
@@ -62,20 +53,18 @@
         "shovel": "Kürek",
         "hoe": "Çapa",
         "bow": "Yay",
-        "shield":"Kalkan",
+        "shield": "Kalkan",
         "crossbow": "Arbalet",
         "brush": "Fırça",
-	"spear": "Mızrak",
-
+        "spear": "Mızrak",
         "fishing_rod": "Olta",
         "shears": "Makas",
-        "flint_and_steel" : "Çakmaktaşı ve Çelik",
+        "flint_and_steel": "Çakmaktaşı ve Çelik",
         "carrot_on_a_stick": "Havuçlu Olta",
         "warped_fungus_on_a_stick": "Çarpık Mantarlı Olta",
         "pumpkin": "Balkabağı",
         "book": "Kitap"
     },
-
     "enchants": {
         "protection": "Koruma",
         "aqua_affinity": "Su Adaptasyonu",
@@ -96,7 +85,7 @@
         "looting": "Ganimet",
         "loyalty": "Sadakat",
         "luck_of_the_sea": "Deniz Şansı",
-	"lunge": "Atılma",
+        "lunge": "Atılma",
         "lure": "Ayartma",
         "mending": "Onarım",
         "multishot": "Çoklu Atış",

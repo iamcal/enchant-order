@@ -1,5 +1,5 @@
-import type { ItemNamespace } from '../types/enchant';
-import type { EnchantSelection } from '../types/enchant';
+import type {ItemNamespace} from '../types/enchant';
+import type {EnchantSelection} from '../types/enchant';
 
 export interface Loadout {
   id: string;
@@ -354,9 +354,36 @@ export const loadoutsByItem: Record<ItemNamespace, Loadout[]> = {
       ],
     },
   ],
-  flint_and_steel: [],
-  carrot_on_a_stick: [],
-  warped_fungus_on_a_stick: [],
+  flint_and_steel: [
+    {
+      id: 'flint-max',
+      name: 'Max',
+      enchants: [
+        ['unbreaking', 3],
+        ['mending', 1],
+      ],
+    },
+  ],
+  carrot_on_a_stick: [
+    {
+      id: 'carrot-max',
+      name: 'Max',
+      enchants: [
+        ['unbreaking', 3],
+        ['mending', 1],
+      ],
+    },
+  ],
+  warped_fungus_on_a_stick: [
+    {
+      id: 'warped-max',
+      name: 'Max',
+      enchants: [
+        ['unbreaking', 3],
+        ['mending', 1],
+      ],
+    },
+  ],
   pumpkin: [],
   book: [],
 };
