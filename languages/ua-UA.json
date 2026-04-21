@@ -70,6 +70,7 @@
         "shield": "Щит",
         "crossbow": "Арбалет",
         "brush": "Щітка",
+        "spear": "Спис",
 
         "fishing_rod": "Вудка",
         "shears": "Ножиці",
@@ -100,6 +101,7 @@
         "looting": "Грабунок",
         "loyalty": "Вірність",
         "luck_of_the_sea": "Морська фортуна",
+        "lunge": "Випад",
         "lure": "Приманка",
         "mending": "Лагодження",
         "multishot": "Мультипостріл",
