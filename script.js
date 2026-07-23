@@ -21,6 +21,7 @@ const languages = {
     'nl'    : 'Nederlands',
     'pl-PL' : 'Polski',
     'pt-BR' : 'Português',
+    'de-CH' : 'Schwiizerdütsch',
     'vi-VN' : 'Tiếng Việt',
     'tr-TR' : 'Türkçe',
     'be-BY' : 'Беларуская',
