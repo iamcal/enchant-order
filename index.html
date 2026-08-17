@@ -6,6 +6,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
         <script src="data.js?11"></script>
         <script src="script.js?18"></script>
+        <script src="dropdown.js?1"></script>
         <link rel="stylesheet" type="text/css" href="style.css?4">
         <script src="https://unpkg.com/@hungrybluedev/theme-switcher@latest/dist/switch.js" type="module" defer></script>
         <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
@@ -18,16 +19,21 @@
         <div class="inner">
             
             <div class="top-container">
-                <p>
-                    <label for="language"></label>
-                    <select id="language" class="selectLanguage">
-                        <option value="">Choose a language</option>
-                    </select>
-                </p>
-                
+                <div class="languageMenu">
+                    <div class="dropdown">
+                        <div class="select">
+                            <span class="selected" id="selectLanguage">
+                                Choose a language
+                            </span>
+                            <div class="caret"></div>
+                        </div>
+                        <ul class="menu" id="language">
+                            <li data-value="" class="active">Choose a language</li>
+                        </ul>
+                    </div>
+                </div>
+                <h1>Minecraft Enchantment Ordering Tool</h1>
             </div>
-            
-            <h1>Minecraft Enchantment Ordering Tool</h1>
 
             <details id="details-enchants" open>
                 <summary>About Enchantment in Minecraft</summary>
@@ -55,12 +61,19 @@
 
             <div id="left">
 
-                <p>
-                    <label for="item"></label>
-                    <select id="item" class="selectItem">
-                        <option value="">Choose an item to enchant</option>
-                    </select>
-                </p>
+                <div class="itemMenu">
+                    <div class="dropdown">
+                        <div class="select">
+                            <span class="selected" id="selectedItem">
+                                Choose an item to enchant
+                            </span>
+                            <div class="caret"></div>
+                        </div>
+                        <ul class="menu" id="item">
+                            <li data-value="" class="active">Choose an item to enchant</li>
+                        </ul>
+                    </div>
+                </div>
 
                 <div id="enchants" style="display: none">
                     <table></table>
