@@ -16,22 +16,35 @@ const languages = {
     'es-ES' : 'Español',
     'fr-FR' : 'Français',
     'it-IT' : 'Italiano',
+    'id'    : 'Indonesia',
+    'hu-HU' : 'Magyar',
     'nl'    : 'Nederlands',
     'pl-PL' : 'Polski',
     'pt-BR' : 'Português',
+    'de-CH' : 'Schwiizerdütsch',
     'vi-VN' : 'Tiếng Việt',
     'tr-TR' : 'Türkçe',
     'be-BY' : 'Беларуская',
     'ru-RU' : 'Русский',
     'ua-UA' : 'Українська',
     'th-TH' : 'ภาษาไทย',
-    'zh-CN' : '中文',
+    'zh-CN' : '简体中文',
+    'zh-TW' : '繁體中文',
     'ja-JP' : '日本語',
     'ko-KR' : '한국어',
-
+    'ar'    : 'اَلْعَرَبِيَّةُ',
 };
 
 const languages_cache_key = 6;
+
+const prefers_color_scheme = window.matchMedia("(prefers-color-scheme: dark)");
+if (prefers_color_scheme.matches) {
+    document.documentElement.dataset.theme = 'dark';
+    localStorage.setItem("tswitch-theme", 'dark');
+} else {
+    document.documentElement.dataset.theme = 'light';
+    localStorage.setItem("tswitch-theme", 'light');
+}
 
 window.onload = function() {
 
@@ -169,15 +182,31 @@ function buildEnchantList(item_namespace_chosen) {
 
     let group_toggle_color = true;
 
+    function getWikiSubdomainLanguage() {
+        const wiki_supported_languages = ["de", "es", "fr", "it", "ja", "ko", "lzh", "nl", "pt", "ru", "th", "uk", "zh"]
+        let wiki_language = "en";
+
+        if(wiki_supported_languages.includes(languageId.slice(0,2))) {
+            wiki_language = languageId.slice(0,2);
+        }
+
+        return wiki_language;
+    }
+
     enchantment_groups.forEach(enchantment_group => {
         enchantment_group.forEach(enchantment_namespace => {
             const enchantment_metadata = enchantments_metadata[enchantment_namespace];
             const enchantment_max_level = enchantment_metadata.levelMax;
             const enchantment_name = languageJson.enchants[enchantment_namespace];
 
+            const safe_namespace = encodeURIComponent(enchantment_name.replaceAll(" ", "_"));
+            const wiki_language = getWikiSubdomainLanguage();
+            const enchantment_wiki_url = `https://${wiki_language}.minecraft.wiki/w/${safe_namespace}`;
+
             const enchantment_row = $("<tr>");
             enchantment_row.addClass(group_toggle_color ? "group1" : "group2");
-            enchantment_row.append($("<td>").append(enchantment_name));
+            const enchantment_cell_content = `<a class="wiki_url" href="${enchantment_wiki_url}">${enchantment_name}</a>`
+            enchantment_row.append($("<td>").html(enchantment_cell_content));
             for (let enchantment_level = 1; enchantment_level <= enchantment_level_maxmax; enchantment_level++) {
                 if (enchantment_max_level >= enchantment_level) {
                     const enchantment_button_data = {
@@ -716,12 +745,34 @@ async function changePageLanguage(language){
     }
 
     languageId = language;
-    languageJson = await loadJsonLanguage(language).then(languageData => { return languageData});
+    if (language == 'en'){
+      languageJson = await loadJsonLanguage(language).then(languageData => { return languageData});
+    }else{
+      var languageJsonEn = await loadJsonLanguage('en').then(languageData => { return languageData});
+      languageJson = await loadJsonLanguage(language).then(languageData => { return languageData});
+      languageJson = mergeKeys(languageJson, languageJsonEn);
+    }
     if (languageJson){
         changeLanguageByJson(languageJson);
         localStorage.setItem("savedlanguage", language);
         // ^ Save language choice to localstorage
     }
+}
+
+function mergeKeys(a, b){
+  var o = {};
+  for (var i in b){
+    if (typeof b[i] === 'object'){
+      o[i] = mergeKeys(a.hasOwnProperty(i) ? a[i] : {}, b[i]);
+    }else{
+      if (a.hasOwnProperty(i)){
+        o[i] = a[i]
+      }else{
+        o[i] = b[i];
+      }
+    }
+  }
+  return o;
 }
 
 function loadJsonLanguage(language) {
@@ -754,6 +805,11 @@ function changeLanguageByJson(languageJson){
 
     const h1Element = document.getElementsByTagName('h1')[0];
     h1Element.textContent = languageJson.h1_title;
+
+    /* summaries */
+    const summaries = document.getElementsByTagName('summary');
+    summaries[0].innerHTML = languageJson.summary_1;
+    summaries[1].innerHTML = languageJson.summary_2;
 
     /* paragraphs */
     document.getElementById("paragraph_1").innerHTML = languageJson.paragraph_1;

@@ -15,7 +15,7 @@ You can add support for new languages by:
 
 * Adding a new JSON file inside `languages/` (see existing files there for hints)
 * Modifying `script.js` to add the language to the supported list
-* Modifying `lang.html` in the same way
-* Opening `lang.html` in the browser to verify if the required strings are all implemented
+* Modifying `langs.html` in the same way
+* Opening `langs.html` in the browser to verify if the required strings are all implemented
 
 Please open a PR with the above changes to have your language merged (or updated).

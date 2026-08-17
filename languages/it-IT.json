@@ -1,5 +1,7 @@
 {
     "h1_title" :"Strumento per ordinare gli incantesimi di Minecraft",
+    "summary_1": "A proposito degli Incantesimi in Minecraft",
+    "summary_2": "A proposito di questo strumento",
     "paragraph_1" :"Quando si incantano oggetti in Minecraft, l'ordine in cui si combinano armature, armi e strumenti con i libri nell'incudine fa una grande differenza. Ogni volta che si lavora su un'incudine, si aumenta la <a href='https://minecraft.wiki/w/Anvil_mechanics'>penalità del lavoro</a> per le lavorazioni future. Quando la penalità diventa troppo alta, semplicemente non si possono aggiungere altri incantamenti e l'incudine dice \"Troppo costoso!\". Questo strumento vi aiuta a pianificare l'ordine ottimale di combinazione e applicazione dei libri, per ottenere il costo più basso possibile.",
     "paragraph_2" : "Questo strumento presuppone che la vostra attrezzatura e i vostri libri inizino con una \"penalità del lavoro\" pari a zero. Ciò significa che non avete precedentemente combinato i libri (ad es. per trasformare due libri di livello 1 in un unico libro di livello 2) o lavorato gli oggetti o i libri in un'incudine in qualsiasi modo. Per creare un equipaggiamento con il livello massimo di incanto, non si possono combinare libri di livello inferiore e si deve iniziare con libri di livello elevato provenienti dal commercio con i villani.",
     "paragraph_3": "Consentire incantesimi incompatibili può essere utile per combinare incantesimi di tipo protettivo (1.14 fino a 1.14.3pre-1) e Ripristino/Infinità (1.9 fino a 1.11.1).",
@@ -65,6 +67,7 @@
         "shield":"Scudo",
         "crossbow": "Balestra",
         "brush": "Spazzola",
+        "spear": "Lancia",
 
         "fishing_rod": "Canna da pesca",
         "shears": "Cesoie",
@@ -95,6 +98,7 @@
         "looting": "Saccheggio",
         "loyalty": "Lealtà",
         "luck_of_the_sea": "Fortuna del mare",
+        "lunge": "Affondo",
         "lure": "Esca",
         "mending": "Ripristino",
         "multishot": "Tiro multiplo",
