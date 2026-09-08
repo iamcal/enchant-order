@@ -456,6 +456,17 @@ summary {
     border-radius: 3px;
 }
 
+.try-new-link {
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    align-self: center;
+}
+
+.try-new-link:hover {
+    text-decoration: underline;
+}
+
 #theme-switcher-form {
   display: flex;
   justify-content: space-between;
