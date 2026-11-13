@@ -193,7 +193,7 @@ var data = {
             levelMax: "1",
             weight: "4",
             incompatible: ["fortune"],
-            items: ["pickaxe", "shovel", "axe", "hoe"]
+            items: ["pickaxe", "shovel", "axe", "hoe", "shears"]
         },
         smite: {
             levelMax: "5",
